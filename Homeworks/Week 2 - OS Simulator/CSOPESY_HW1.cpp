@@ -2,21 +2,17 @@
 //S11 - Cipriaso, James Kielson S.
 
 #include <iostream>
-#include <io.h>
-#include <fcntl.h>
 #include <algorithm>
 #include <stdlib.h>
 using namespace std;
 
 void menu(int mode, string command){
-    _setmode(_fileno(stdout), _O_U16TEXT);
-    wcout << L" ██████╗███████╗ ██████╗ ██████╗ ███████╗███████╗██╗   ██╗\n";
-    wcout << L"██╔════╝██╔════╝██╔═══██╗██╔══██╗██╔════╝██╔════╝╚██╗ ██╔╝\n";
-    wcout << L"██║     ███████╗██║   ██║██████╔╝█████╗  ███████╗ ╚████╔╝ \n";
-    wcout << L"██║     ╚════██║██║   ██║██╔═══╝ ██╔══╝  ╚════██║  ╚██╔╝  \n";
-    wcout << L"╚██████╗███████║╚██████╔╝██║     ███████╗███████║   ██║   \n";
-    wcout << L" ╚═════╝╚══════╝ ╚═════╝ ╚═╝     ╚══════╝╚══════╝   ╚═╝   \n" << endl;
-    _setmode(_fileno(stdout), _O_TEXT);
+    cout << " ██████╗███████╗ ██████╗ ██████╗ ███████╗███████╗██╗   ██╗\n";
+    cout << "██╔════╝██╔════╝██╔═══██╗██╔══██╗██╔════╝██╔════╝╚██╗ ██╔╝\n";
+    cout << "██║     ███████╗██║   ██║██████╔╝█████╗  ███████╗ ╚████╔╝ \n";
+    cout << "██║     ╚════██║██║   ██║██╔═══╝ ██╔══╝  ╚════██║  ╚██╔╝  \n";
+    cout << "╚██████╗███████║╚██████╔╝██║     ███████╗███████║   ██║   \n";
+    cout << " ╚═════╝╚══════╝ ╚═════╝ ╚═╝     ╚══════╝╚══════╝   ╚═╝   \n" << endl;
     cout << "\033[32;1mWelcome to the CSOPESY Terminal!\033[0m" << endl;
     cout << "\033[33mType 'exit' to quit, Type 'clear to clear screen\033[0m" << endl;
     if(mode==1)
