@@ -21,15 +21,27 @@
     <ClCompile Include="Screen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ScreenManager.h">
-      <Filter>Header Files</Filter>
-    </ClCompile>
     <ClCompile Include="ScreenManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MainScreen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CreatedScreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="MainScreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Screen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CreatedScreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

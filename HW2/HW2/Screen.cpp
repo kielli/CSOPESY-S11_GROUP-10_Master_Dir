@@ -1,71 +1,61 @@
 #include "Screen.h"
 #include <iostream>
-#include <chrono>
-#include <iomanip>
-#include <sstream>
 
-using namespace std;
-
-string Screen::getCurrentTime() {
-    auto now = chrono::system_clock::now();
-    time_t currentTime = chrono::system_clock::to_time_t(now);
-    tm localTime;
-    localtime_s(&localTime, &currentTime);
-
-    stringstream ss;
-    ss << put_time(&localTime, "%m/%d/%Y, %I:%M:%S %p");
-    return ss.str();
+void Screen::printAndStore(const std::string& line) {
+    this->contents.push_back(line);
+    std::cout << line << std::endl;
+    this->totalLines++;
+    this->currentLineNumber++;
 }
 
-Screen::Screen(const std::string& name) : name(name), currentLine(0), totalLines(100), running(true) {
-    timestamp = getCurrentTime();
-}
-
-Screen::Screen() : name("Unnamed"), currentLine(0), totalLines(100), running(true) {
-    timestamp = getCurrentTime();
-}
-
-void Screen::displayScreen() const {
-    system("cls"); // Clear the screen
-    cout << "Screen session: " << name << endl;
-    cout << "Current Line: " << currentLine << " / " << totalLines << endl;
-    cout << "Screen Created At: " << timestamp << endl;
-    cout << "\n" << endl;
-    cout << "Type 'exit' to return to the main menu.\n" << endl;
-    for (const auto& content : contents) {
-        cout << content << endl;
+void Screen::StoreAll(const std::vector<std::string>& lines) {
+    for (const auto& line : lines) {
+        this->contents.push_back(line);
+        this->currentLineNumber++;
+        this->totalLines++;
     }
 }
 
-void Screen::updateLine() {
-    if (currentLine < totalLines) {
-        currentLine++;
+void Screen::deleteContent(const std::vector<std::string>& lines) {
+    this->contents.clear();
+}
+
+void Screen::displayHeader() {
+    std::cout << "  ____   ____    ____   _____   _____   ____ __    __\n";
+    std::cout << " / ___] / ___]  / __ \\ |  __ \\ | ____] / ___]\\ \\  / /\n";
+    std::cout << "| |    | (___  | /  \\ || |__) || |___ | (___  \\ \\/ /\n";
+    std::cout << "| |     \\___ \\ | |  | || ____/ | ____] \\___ \\  \\  /\n";
+    std::cout << "| \\___  ____) || \\__/ || |     | |___  ____) | |  |\n";
+    std::cout << " \\____][_____/  \\____/ |_|     |_____][_____/  |__|\n\n";
+    std::cout << "Hello, Welcome to CSOPESY command line!\n";
+    std::cout << "Type 'exit' to quit, 'clear' to clear the screen\n";
+}
+
+void Screen::Store(const std::string& line) {
+    this->contents.push_back(line);
+    this->totalLines++;
+    this->currentLineNumber++;
+}
+
+void Screen::redrawScreen() {
+    for (const auto& line : contents) {
+        std::cout << line << std::endl;
     }
 }
 
-void Screen::addContent(const std::string& content) {
-    if (currentLine < totalLines) {
-        contents.push_back(content); // Add the new content to the screen's contents
-        currentLine++; // Increment the line count
-    }
+int Screen::updateNumberOfLines() const {
+    return this->currentLineNumber;
 }
 
-void Screen::clearContent() {
-    contents.clear(); // Clear the content of the screen
+int Screen::getTotalLines() const {
+    return this->totalLines;
 }
 
-void Screen::stop() {
-    running = false; // Mark the screen as not running
+void Screen::print_process(const std::string& command) {
+    std::cout << command << " command recognized. Doing something.\n";
 }
 
-bool Screen::isRunning() const {
-    return running;
+void Screen::print_error(const std::string& command) {
+    std::cout << "Unknown command: " << command << ".\n";
 }
 
-void Screen::start() {
-    running = true; // Mark the screen as running
-}
-
-std::string Screen::getTimestamp() const {
-    return timestamp;
-}

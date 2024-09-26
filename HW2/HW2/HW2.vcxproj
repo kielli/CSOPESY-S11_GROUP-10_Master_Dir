@@ -129,13 +129,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CreatedScreen.cpp" />
     <ClCompile Include="mainProgram.cpp" />
+    <ClCompile Include="MainScreen.cpp" />
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="ScreenManager.cpp" />
-    <ClCompile Include="ScreenManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CreatedScreen.h" />
+    <ClInclude Include="MainScreen.h" />
     <ClInclude Include="Screen.h" />
+    <ClInclude Include="ScreenManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

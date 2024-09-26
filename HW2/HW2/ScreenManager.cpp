@@ -1,33 +1,64 @@
 #include "ScreenManager.h"
 #include <iostream>
-#include <cstdlib>
 
-using namespace std;
+// constructor for ScreenManager, always adds the main screen at index 0
+ScreenManager::ScreenManager() {
+    // add the main screen at index 0
+    screens.push_back(std::make_unique<MainScreen>(this));
+    currentScreenIndex = 0;  // Set the current screen to the main screen
+}
 
-
-void ScreenManager::createScreen(string name) {
-    if (screens.find(name) == screens.end()) {
-        Screen newConsole(name);
-        screens[name] = newConsole;
-        cout << "Screen session '" << name << "' created." << endl;
+// Create a new named screen
+void ScreenManager::createScreen(const std::string& screenName) {
+    system("cls");
+    if (screenMap.find(screenName) == screenMap.end()) {
+        screens.push_back(std::make_unique<CreatedScreen>(screenName, this));  // pass the ScreenManager pointer to CreatedScreen
+        screenMap[screenName] = screens.size() - 1;  // map screen name to index
+        currentScreenIndex = screens.size() - 1;  // switch to the new screen
     }
     else {
-        cout << "Screen session '" << name << "' already exists." << endl;
+        std::cout << "Screen with name '" << screenName << "' already exists!\n";
     }
 }
 
-void ScreenManager::resumeScreen(string name) {
-    if (screens.find(name) != screens.end()) {
-        cout << "Resuming screen session '" << name << "'." << endl;
+// Resume a created screen by name
+void ScreenManager::resumeScreen(const std::string& screenName) {
+    if (screenMap.find(screenName) != screenMap.end()) {
+        currentScreenIndex = screenMap[screenName];
+        screens[currentScreenIndex]->redrawScreen();  // Redraw the screen when resuming
     }
     else {
-        cout << "No screen session found for '" << name << "'." << endl;
+        std::cout << "No screen with the name '" << screenName << "' found.\n";
     }
 }
 
-Screen* ScreenManager::getScreen(std::string name) {
-    if (screens.find(name) != screens.end()) {
-        return &screens[name]; // Return pointer to the screen
+// Switch back to the main screen
+void ScreenManager::switchToMainScreen() {
+    currentScreenIndex = 0;  // Main screen is always at index 0
+    system("cls");
+    screens[currentScreenIndex]->redrawScreen();
+}
+
+// display the current screen
+void ScreenManager::displayCurrentScreen() {
+    screens[currentScreenIndex]->display();
+}
+
+void ScreenManager::displayHeader() {
+    system("cls");
+    screens[currentScreenIndex]->displayHeader();
+}
+
+// check if the main screen has requested an exit
+bool ScreenManager::isMainScreenExitRequested() {
+    return dynamic_cast<MainScreen*>(screens[0].get())->isExitRequested();
+}
+
+void ScreenManager::handleCurrentCommand(const std::string& command) {
+    screens[currentScreenIndex]->handleCommand(command);
+
+    // if exiting from a created screen, switch to the main screen
+    if (dynamic_cast<CreatedScreen*>(screens[currentScreenIndex].get()) && command == "exit") {
+        switchToMainScreen();
     }
-    return nullptr;
 }
