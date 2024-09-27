@@ -21,8 +21,9 @@ public:
     void resumeScreen(const std::string& screenName);
     void switchToMainScreen();  // switch back to the main screen
     void displayCurrentScreen();  // display the current screen
-    void displayHeader();
+  /*  void displayHeader();*/
     bool isMainScreenExitRequested();
+    void addContent(const std::string& content);
     void handleCurrentCommand(const std::string& command);
 };
 

@@ -10,24 +10,27 @@ CreatedScreen::CreatedScreen(const std::string& name, ScreenManager* manager)
 }
 
 void CreatedScreen::display() { 
+    /*std::cout << "  Process: " << this->getScreenName() << std::endl;
+    std::cout << "  line: " << this->updateNumberOfLines() << " / " << this->getTotalLines() << std::endl;
+    std::cout << "  created at: " << this->creationTimestamp << std::endl;*/
+    system("cls");
+    this->displayHeader();
+    this->redrawScreen();
+}
+
+void CreatedScreen::displayHeader() {
     std::cout << "  Process: " << this->getScreenName() << std::endl;
     std::cout << "  line: " << this->updateNumberOfLines() << " / " << this->getTotalLines() << std::endl;
     std::cout << "  created at: " << this->creationTimestamp << std::endl;
 }
-
-//void CreatedScreen::displayHeader() {
-//    std::cout << "  Process: " << this->getScreenName() << std::endl;
-//    std::cout << "  line: " << this->updateNumberOfLines() << " / " << this->getTotalLines() << std::endl;
-//    std::cout << "  created at: " << this->creationTimestamp << std::endl;
-//}
 
 
 void CreatedScreen::handleCommand(const std::string& command) {
     if (command == "exit") {
         this->currentLineNumber = 1;
         this->deleteContent(this->contents);
-        screenManager->switchToMainScreen();  // Switch to main screen
-        screenManager->displayHeader();
+        screenManager->switchToMainScreen();  // switch to main screen
+        this->displayHeader();
         screenManager->displayCurrentScreen();
     }
     else {

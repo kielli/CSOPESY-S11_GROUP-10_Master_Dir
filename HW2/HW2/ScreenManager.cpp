@@ -44,15 +44,20 @@ void ScreenManager::displayCurrentScreen() {
     screens[currentScreenIndex]->display();
 }
 
-void ScreenManager::displayHeader() {
-    system("cls");
-    screens[currentScreenIndex]->displayHeader();
-}
+//void ScreenManager::displayHeader() {
+//    system("cls");
+//    screens[currentScreenIndex]->displayHeader();
+//}
 
 // check if the main screen has requested an exit
 bool ScreenManager::isMainScreenExitRequested() {
     return dynamic_cast<MainScreen*>(screens[0].get())->isExitRequested();
 }
+
+void ScreenManager::addContent(const std::string& content) { 
+    screens[currentScreenIndex]->Store(content);
+}
+
 
 void ScreenManager::handleCurrentCommand(const std::string& command) {
     screens[currentScreenIndex]->handleCommand(command);

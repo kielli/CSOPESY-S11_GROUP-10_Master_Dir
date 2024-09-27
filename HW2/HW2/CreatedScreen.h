@@ -6,6 +6,7 @@
 #include <string>
 
 class CreatedScreen : public Screen {
+
 private:
     std::string screenName;
     std::string creationTimestamp;
@@ -14,7 +15,7 @@ private:
 public:
     CreatedScreen(const std::string& name, ScreenManager* manager);  // Pass ScreenManager in constructor
     void display() override;
-    /*void displayHeader();*/
+    void displayHeader();
     void handleCommand(const std::string& command) override;
     const std::string& getScreenName() const;
     std::string getTimestamp() const;

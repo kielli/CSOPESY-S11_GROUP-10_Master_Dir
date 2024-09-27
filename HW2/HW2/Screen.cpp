@@ -20,17 +20,6 @@ void Screen::deleteContent(const std::vector<std::string>& lines) {
     this->contents.clear();
 }
 
-void Screen::displayHeader() {
-    std::cout << "  ____   ____    ____   _____   _____   ____ __    __\n";
-    std::cout << " / ___] / ___]  / __ \\ |  __ \\ | ____] / ___]\\ \\  / /\n";
-    std::cout << "| |    | (___  | /  \\ || |__) || |___ | (___  \\ \\/ /\n";
-    std::cout << "| |     \\___ \\ | |  | || ____/ | ____] \\___ \\  \\  /\n";
-    std::cout << "| \\___  ____) || \\__/ || |     | |___  ____) | |  |\n";
-    std::cout << " \\____][_____/  \\____/ |_|     |_____][_____/  |__|\n\n";
-    std::cout << "Hello, Welcome to CSOPESY command line!\n";
-    std::cout << "Type 'exit' to quit, 'clear' to clear the screen\n";
-}
-
 void Screen::Store(const std::string& line) {
     this->contents.push_back(line);
     this->totalLines++;
@@ -52,10 +41,12 @@ int Screen::getTotalLines() const {
 }
 
 void Screen::print_process(const std::string& command) {
-    std::cout << command << " command recognized. Doing something.\n";
+    /*std::cout << command << " command recognized. Doing something.\n";*/
+    this->printAndStore(command + "command recognized. Doing something.");
 }
 
 void Screen::print_error(const std::string& command) {
-    std::cout << "Unknown command: " << command << ".\n";
+    /*std::cout << "Unknown command: " << command << ".\n";*/
+    this->printAndStore("Unknown command: " + command);
 }
 

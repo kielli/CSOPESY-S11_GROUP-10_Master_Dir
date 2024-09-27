@@ -22,6 +22,8 @@ public:
     // displays the main screen
     void display() override;
 
+    void displayHeader();
+
     // handles commands input from the user from main screen
     void handleCommand(const std::string& command) override;
 

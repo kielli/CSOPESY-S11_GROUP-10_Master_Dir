@@ -10,15 +10,18 @@ MainScreen::MainScreen(ScreenManager* manager) : screenManager(manager) {
         iss >> option >> screenName;
 
         if (option == "-s" && !screenName.empty()) {
-            std::cout << "Creating a new screen with name: " << screenName << "\n";
+            /*std::cout << "Creating a new screen with name: " << screenName << "\n";*/
+            this->printAndStore("screen -s" + screenName + "recognized, doing something");
             screenManager->createScreen(screenName);
         }
         else if (option == "-r" && !screenName.empty()) {
-            std::cout << "Resuming screen: " << screenName << "\n";
+            this->printAndStore("screen -r" + screenName + "recognized, doing something");
+            /*std::cout << "Resuming screen: " << screenName << "\n";*/
             screenManager->resumeScreen(screenName);
         }
         else {
-            std::cout << "Invalid command format. Use: screen -s screenname or screen -r screenname\n";
+            /*std::cout << "Invalid command format. Use: screen -s screenname or screen -r screenname\n";*/
+            this->printAndStore("Invalid command format.Use: screen - s screenname or screen - r screenname\n");
         }
         };
 
@@ -30,6 +33,20 @@ MainScreen::MainScreen(ScreenManager* manager) : screenManager(manager) {
 }
 
 void MainScreen::display() {
+    system("cls");
+    this->displayHeader();
+    this->redrawScreen();
+}
+
+void MainScreen::displayHeader() {
+    std::cout << "  ____   ____    ____   _____   _____   ____ __    __\n";
+    std::cout << " / ___] / ___]  / __ \\ |  __ \\ | ____] / ___]\\ \\  / /\n";
+    std::cout << "| |    | (___  | /  \\ || |__) || |___ | (___  \\ \\/ /\n";
+    std::cout << "| |     \\___ \\ | |  | || ____/ | ____] \\___ \\  \\  /\n";
+    std::cout << "| \\___  ____) || \\__/ || |     | |___  ____) | |  |\n";
+    std::cout << " \\____][_____/  \\____/ |_|     |_____][_____/  |__|\n\n";
+    std::cout << "Hello, Welcome to CSOPESY command line!\n";
+    std::cout << "Type 'exit' to quit, 'clear' to clear the screen\n";
 }
 
 void MainScreen::handleCommand(const std::string& command) {
