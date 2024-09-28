@@ -26,7 +26,7 @@ MainScreen::MainScreen(ScreenManager* manager) : screenManager(manager) {
     };
 
     commands["clear"] = [this](const string& args) {
-        // this->deleteContent();
+        this->deleteContent(this->contents);
         this->display();
     };
 
