@@ -21,17 +21,16 @@ void CreatedScreen::displayHeader() {
     cout << "Created at: " << this->creationTimestamp << endl;
 }
 
-
 void CreatedScreen::handleCommand(const string& command) {
     if (command == "exit") {
         this->currentLineNumber = 1;
-        this->deleteContent(this->contents);
-        screenManager->switchToMainScreen();  // switch to main screen
+
+        screenManager->switchToMainScreen();  // Switch to main screen
         this->displayHeader();
         screenManager->displayCurrentScreen();
     }
     else {
-        this->print_error(command);  // handle invalid command
+        this->print_error(command);  // Handle invalid command
     }
 }
 
