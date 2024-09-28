@@ -43,7 +43,7 @@ int Screen::getTotalLines() const {
 }
 
 void Screen::print_process(const string& command) {
-    this->printAndStore(command + "command recognized. Doing something...");
+    this->printAndStore(command + "command recognized. Doing something.");
 }
 
 void Screen::print_error(const string& command) {

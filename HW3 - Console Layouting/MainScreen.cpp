@@ -13,16 +13,32 @@ MainScreen::MainScreen(ScreenManager* manager) : screenManager(manager) {
         iss >> option >> screenName;
 
         if (option == "-s" && !screenName.empty()) {
-            this->printAndStore("screen -s " + screenName + " recognized. Doing something...");
+            // this->printAndStore("screen -s " + screenName + " recognized. Doing something.");
             screenManager->createScreen(screenName);
         }
         else if (option == "-r" && !screenName.empty()) {
-            this->printAndStore("screen -r " + screenName + " recognized, doing something..");
+            // this->printAndStore("screen -r " + screenName + " recognized, doing something.");
             screenManager->resumeScreen(screenName);
         }
         else {
             this->printAndStore("Invalid command format.Use: screen - s screenname or screen - r screenname\n");
         }
+    };
+
+    commands["initialize"] = [this](const string& args) {
+        this->printAndStore("initialize command recognized. Doing something.\n");
+    };
+
+    commands["scheduler-test"] = [this](const string& args) {
+        this->printAndStore("scheduler-test command recognized. Doing something.\n");
+    };
+
+    commands["scheduler-stop"] = [this](const string& args) {
+        this->printAndStore("scheduler-stop command recognized. Doing something.\n");
+    };
+
+    commands["report-util"] = [this](const string& args) {
+        this->printAndStore("report-util command recognized. Doing something.\n");
     };
 
     commands["clear"] = [this](const string& args) {
@@ -66,10 +82,9 @@ void MainScreen::handleCommand(const string& command) {
 
     if (commands.find(cmd) != commands.end()) {
         commands[cmd](args);  // pass the rest of the input as arguments
-       // this->printAndStore(command + " command recognized. Doing something...");
     }
     else {
-        this->printAndStore("Unknown command : " + command);
+        this->printAndStore("Unknown command: " + command);
     }
 }
 
