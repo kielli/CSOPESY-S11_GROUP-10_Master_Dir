@@ -18,10 +18,17 @@ void displayHeader() {
 }
 
 // Moves the cursor position
-void moveXY(int x, int y) {
-    COORD coord = { static_cast<SHORT>(x), static_cast<SHORT>(y) };
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
-}
+void moveXY( short x, short y ) 
+{ 
+    // to get control over the console
+    HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE) ; 
+
+    // declare cursor position as coord structure
+    COORD position = { x, y } ; 
+     
+    // function to give control on cursor position
+    SetConsoleCursorPosition( hStdout, position ) ; 
+}  
 
 void bounceText() {
     const string text = "Hello world in marquee!";
@@ -29,7 +36,7 @@ void bounceText() {
     const int xMinPos = 10; // Minimum X boundary
     const int xMaxPos = 80; // Maximum X boundary
 
-    const int yMinPos = 6;  // Minimum Y boundary
+    const int yMinPos = 8;  // Minimum Y boundary
     const int yMaxPos = 15; // Maximum Y boundary
 
     int currX = xMinPos;                    // Start at minimum X
