@@ -35,7 +35,7 @@ class MarqueeConsole {
     void updateMarqueeCoords() { //Updates the coords of the marquee by checking if it has approached the border of the screen, adjusts the direction if screen is approached
         coordX += borderX ? -1 : 1;
         coordY += borderY ? -1 : 1;
-        if (coordX >= length - marqueeText.size()) borderX = true;
+        if (coordX >= length - marqueeText.size() - 10) borderX = true;
         else if (coordX < 1) borderX = false;
         if (coordY >= width - 1) borderY = true;
         else if (coordY < 3) borderY = false;
