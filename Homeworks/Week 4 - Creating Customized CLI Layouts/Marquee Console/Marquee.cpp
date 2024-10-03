@@ -12,9 +12,9 @@ string storeInput, userInput;
 const int refreshRate = 2000; //Change refresh rate as necessary, higher refresh rate gives slower marquee
 const string marqueeText = "Hello World in marquee!";
 const char *headerText =
-    "*********************************\n"
-    "* Displaying a marquee console! *\n"
-    "*********************************";
+    "**************************************\n"
+    "*    Displaying a marquee console!   *\n"
+    "**************************************";
 const string inputFieldText = "Enter a command for MARQUEE_CONSOLE: ";
 
 //Function for converting vector<char> to string
