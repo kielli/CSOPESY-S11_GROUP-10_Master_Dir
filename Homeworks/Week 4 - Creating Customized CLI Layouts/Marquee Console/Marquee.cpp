@@ -15,7 +15,7 @@ const char *headerText =
     "*********************************\n"
     "* Displaying a marquee console! *\n"
     "*********************************";
-const string inputFieldText = "Enter a command for MARQUEE_COMMAND: ";
+const string inputFieldText = "Enter a command for MARQUEE_CONSOLE: ";
 
 //Function for converting vector<char> to string
 string vectorToString(const vector<char>& a) {
