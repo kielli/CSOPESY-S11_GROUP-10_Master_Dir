@@ -89,6 +89,7 @@ string truncateText(const string& text, size_t maxLength) {
 
 void MainScreen::Print_nvidia_smi_Header() {
     this->deleteContent(this->contents);
+
     vector<string> nvidiaSmiOutput = {
        this->getTimestamp(),
         "+----------------------------------------------------------------------------------------+",
@@ -146,9 +147,7 @@ void MainScreen::Print_nvidia_smi_Header() {
 
     // Redraw the screen with the new content
     this->redrawScreen();
-    
 }
-
 
 void MainScreen::handleCommand(const string& command) {
     istringstream iss(command);
