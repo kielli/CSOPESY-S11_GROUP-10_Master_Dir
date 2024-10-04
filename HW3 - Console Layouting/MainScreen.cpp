@@ -91,51 +91,55 @@ void MainScreen::Print_nvidia_smi_Header() {
     this->deleteContent(this->contents);
     vector<string> nvidiaSmiOutput = {
        this->getTimestamp(),
-        "+------------------------------------------------------------------------------+",
-        "| NVIDIA-SMI 460.32.03    Driver Version: 460.32.03    CUDA Version: 11.2      |",
-        "|-------------------------------+----------------------+-----------------------|",
-        "| GPU  Name        Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |",
-        "| Fan  Temp  Perf  Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |",
-        "|                                |                      |               MIG M. |",
-        "|================================+======================+======================|",
-        "|   0  Tesla T4            Off   | 00000000:00:1E.0 Off |                    0 |",
-        "| N/A   52C    P8    20W /  70W  |    150MiB / 15109MiB |      0%      Default |",
-        "|                                |                      |                  N/A |",
-        "+-------------------------------+----------------------+----------------------+",
+        "+----------------------------------------------------------------------------------------+",
+        "| NVIDIA-SMI 551.86        Driver Version: 551.86   CUDA Version: 12.4                   |",
+        "|-----------------------------------+----------------------+-----------------------------|",
+        "| GPU  Name            Persistence-M       | Bus-Id        Disp.A | Volatile Uncorr. ECC |",
+        "| Fan  Temp  Perf      Pwr:Usage/Cap       |         Memory-Usage | GPU-Util  Compute M. |",
+        "|                                          |                      |               MIG M. |",
+        "|====================================+======================+============================|",
+        "|   0  NVIDIA GeForce GTX 1080       WDDM  | 00000000:26:1E.0  On |                  N/A |",
+        "| N/A   52C    P8    11W / 180W            |     701MiB / 8192MiB |      0%      Default |",
+        "|                                          |                      |                  N/A |",
+        "+------------------------------------------+----------------------+----------------------+",
         "",
-        "+------------------------------------------------------------------------------+",
-        "| Processes:                                                  GPU Memory       |",
-        "|  GPU       PID   Type   Process name                        Usage            |",
-        "|==============================================================================|"
+        "+----------------------------------------------------------------------------------------+",
+        "| Processes:  GI    CI                                                        GPU Memory |",
+        "|  GPU        ID    ID   PID   Type   Process name                            Usage      |",
+        "|========================================================================================|"
     };
 
     // List of dummy processes with truncation
-    vector<tuple<int, int, string, int>> processes = {
-        {0, 1234, "dummy_process_very_long_name_1", 200},
-        {0, 5678, "dummy_process_2", 150},
-        {0, 9012, "dummy_process_name_3_with_long_name", 100},
-        {0, 3456, "dummy_process_4", 250},
-        {0, 7890, "dummy_process_5", 300}
+    vector<tuple<int, string, string, int, string, int>> processes = {
+        {0, "N/A","N/A",1234, "C:\\Users\\CSOPESY\\Documents\\ReportGenerator.exe", 200},
+        {0, "N/A","N/A",5678, "D:\\Applications\\Backup\\AutoBackupService.exe", 150},
+        {0, "N/A","N/A",9012, "C:\\ProgramFiles\\System\\TaskManagerUtility.exe", 100},
+        {0, "N/A","N/A",3456, "D:\\Media\\Streaming\\VideoPlayerService.exe", 250},
+        {0, "N/A","N/A",7890, "C:\\ProgramData\\System\\PerformanceMonitor.exe", 300}
     };
 
     // Add process info to the output vector
     for (const auto& process : processes) {
         int gpu = std::get<0>(process);
-        int pid = std::get<1>(process);
-        string processName = truncateText(std::get<2>(process), 30);  // Truncate long names to 30 chars
-        int memoryUsage = std::get<3>(process);
+        string giid = std::get<1>(process);
+        string ciid = std::get<2>(process);
+        int pid = std::get<3>(process);
+        string processName = truncateText(std::get<4>(process), 35);  // Truncate long names to 35 chars with ... at back
+        int memoryUsage = std::get<5>(process);
 
         // Format the process info as a string and store it
         stringstream ss;
         ss << "| " << setw(4) << gpu
-            << "     " << setw(6) << pid
-            << "     C   "  
+            << "     " << setw(6) << giid
+            << "" << setw(6) << ciid
+            << "" << setw(6) << pid
+            << "  C      "  
             << left << setw(30) << processName  // 
-            << right << setw(9) << memoryUsage << "MiB           |";
+            << right << setw(8) << memoryUsage << "MiB     |";
         nvidiaSmiOutput.push_back(ss.str());
     }
 
-    nvidiaSmiOutput.push_back("+------------------------------------------------------------------------------+");
+    nvidiaSmiOutput.push_back("+----------------------------------------------------------------------------------------+");
 
     // Store all the formatted output in the screen's content
     this->StoreAll(nvidiaSmiOutput);
