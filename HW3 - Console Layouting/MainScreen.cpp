@@ -89,6 +89,7 @@ string truncateText(const string& text, size_t maxLength) {
 
 void MainScreen::Print_nvidia_smi_Header() {
     this->deleteContent(this->contents);
+
     vector<string> nvidiaSmiOutput = {
        this->getTimestamp(),
         "+------------------------------------------------------------------------------+",
@@ -120,10 +121,10 @@ void MainScreen::Print_nvidia_smi_Header() {
 
     // Add process info to the output vector
     for (const auto& process : processes) {
-        int gpu = std::get<0>(process);
-        int pid = std::get<1>(process);
-        string processName = truncateText(std::get<2>(process), 30);  // Truncate long names to 30 chars
-        int memoryUsage = std::get<3>(process);
+        int gpu = get<0>(process);
+        int pid = get<1>(process);
+        string processName = truncateText(get<2>(process), 30);  // Truncate long names to 30 chars
+        int memoryUsage = get<3>(process);
 
         // Format the process info as a string and store it
         stringstream ss;
@@ -142,9 +143,7 @@ void MainScreen::Print_nvidia_smi_Header() {
 
     // Redraw the screen with the new content
     this->redrawScreen();
-    
 }
-
 
 void MainScreen::handleCommand(const string& command) {
     istringstream iss(command);
