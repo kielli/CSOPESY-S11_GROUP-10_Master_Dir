@@ -109,17 +109,17 @@ public:
     }
 };
 
+// Helper function to check if Caps Lock is ON
+bool isCapsLockActive() {
+    return (GetKeyState(VK_CAPITAL) & 0x0001) != 0;
+}
+
 // Acts as the interface for Event Handler
 class IKeyboardEvent {
 public:
     virtual void OnKeyDown(char key) = 0;
     virtual void OnKeyUp(char key) = 0;
 };
-
-// Helper function to check if Caps Lock is ON
-bool isCapsLockActive() {
-    return (GetKeyState(VK_CAPITAL) & 0x0001) != 0;
-}
 
 // Triggers certain actions depending on the button pressed
 class KeyboardEventHandler : public IKeyboardEvent {
