@@ -1,8 +1,10 @@
 #include "ScreenManager.h"
-#include "ScreenManager.cpp"
-#include "Screen.cpp"
-#include "CreatedScreen.cpp"
-#include "MainScreen.cpp"
+
+//for vscode, uncomment
+//#include "ScreenManager.cpp"
+//#include "Screen.cpp"
+//#include "CreatedScreen.cpp"
+//#include "MainScreen.cpp"
 
 #include <iostream>
 #include <string>

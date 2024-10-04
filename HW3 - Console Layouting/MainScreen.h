@@ -26,6 +26,8 @@ class MainScreen : public Screen {
         // displays the main screen
         void display() override;
 
+        void Print_nvidia_smi_Header();
+
         void displayHeader();
 
         // handles commands input from the user from main screen
@@ -36,6 +38,9 @@ class MainScreen : public Screen {
 
         // returns the count of screens
         int countScreens() const;
+        string getTimestamp() const;
 };
 
 #endif
+
+
