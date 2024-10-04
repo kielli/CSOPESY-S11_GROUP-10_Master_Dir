@@ -37,7 +37,7 @@ int getConsoleHeight() {
 
 // Class for Marquee Manager, works by displaying different frames per rotation in while loop
 class MarqueeConsole {
-    int coordX = 0, coordY = 2, length = 150, width = 30; // Change length and width as necessary
+    int coordX = 0, coordY = 2, length = 150, width = getConsoleHeight()-3; // Change length and width as necessary
     bool borderX = false, borderY = false;
 
     // Sets the console cursor to a given row (x) and column (y)
