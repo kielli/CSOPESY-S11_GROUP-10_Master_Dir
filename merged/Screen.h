@@ -64,6 +64,7 @@ class Screen {
         void UpdateMarquee(MarqueeConsole& mconsole, atomic<bool>& running);
         void PollKeyboard(IKeyboardEvent& keyboardEvent, MarqueeConsole& mconsole, std::atomic<bool>& running);
         void createMarquee();
+        void stopMarquee();
 };
 
 #endif

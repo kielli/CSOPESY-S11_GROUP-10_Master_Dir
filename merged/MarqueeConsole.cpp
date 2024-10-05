@@ -23,7 +23,7 @@ void MarqueeConsole::updateMarqueeCoords() {
     coordX += borderX ? -1 : 1;
     coordY += borderY ? -1 : 1;
 
-    if (coordX >= static_cast<int>(length) - static_cast<int>(marqueeText.size()))
+     if (static_cast<std::size_t>(coordX) >= (length - marqueeText.size()))
         borderX = true;
     else if (coordX < 1)
         borderX = false;
@@ -65,6 +65,7 @@ void MarqueeConsole::printStoredInput() {
 void MarqueeConsole::printCommandConfirm() {
     if (!this->keyboardManager.userInput.empty()) {
         int consoleHeight = this->getConsoleHeight();
+
         setCursorPosition(0, consoleHeight - 2); // Set confirmation message just above the input field
         cout << "\nCommand Processed in MARQUEE_CONSOLE: " << this->keyboardManager.userInput;
     }
@@ -74,6 +75,7 @@ void MarqueeConsole::printCommandConfirm() {
 int MarqueeConsole::getConsoleHeight() {
     CONSOLE_SCREEN_BUFFER_INFO csbi;
     GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
+    
     return csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
 }
 

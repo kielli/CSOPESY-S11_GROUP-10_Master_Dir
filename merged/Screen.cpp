@@ -24,10 +24,18 @@ void Screen::createMarquee() {
     marqueeThread = std::thread([this]() {
         this->UpdateMarquee(marqueeConsole, marqueeRunning);
     });
+}
 
-    // Wait for threads to finish
-    keyboardThread.join();
-    marqueeThread.join();
+// Wait for thread to finish
+void Screen::stopMarquee() {
+    marqueeRunning = false;
+
+     if (keyboardThread.joinable()) {
+        keyboardThread.join();
+    }
+    if (marqueeThread.joinable()) {
+        marqueeThread.join();
+    }
 }
 
 void Screen::printAndStore(const string& line) {
