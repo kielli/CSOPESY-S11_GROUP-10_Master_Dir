@@ -8,9 +8,9 @@ using namespace std;
 
 class MarqueeConsole {
 public:
-    int coordX, coordY;
-    bool borderX, borderY;
-    int length, width;
+    int coordX = 0, coordY = 2;
+    int length = 150, width = getConsoleHeight()-3; // Change length and width as necessary
+    bool borderX = false, borderY = false;
 
     string headerText =
                             "*********************************\n"
