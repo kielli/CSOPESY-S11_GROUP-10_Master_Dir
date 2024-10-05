@@ -21,6 +21,7 @@ public:
 
     void OnKeyDown(char key) override;
     void OnKeyUp(char key) override;
+    
     bool isCapsLockActive();
     std::string vectorToString(const std::vector<char>& a);
 };

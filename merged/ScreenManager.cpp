@@ -9,7 +9,7 @@ ScreenManager::ScreenManager() {
 }
 
 // Create a new named screen
-void ScreenManager::createScreen(const std::string& screenName) {
+void ScreenManager::createScreen(const string& screenName) {
     system("cls");
     if (screenMap.find(screenName) == screenMap.end()) {
         screens.push_back(std::make_unique<CreatedScreen>(screenName, this));  // pass the ScreenManager pointer to CreatedScreen
@@ -70,5 +70,5 @@ void ScreenManager::handleCurrentCommand(const string& command) {
 
 void ScreenManager::CreateMarqueeConsole() {
     system("cls");
-    screens[currentScreenIndex]->CreateMarquee();
+    screens[currentScreenIndex]->createMarquee();
 }

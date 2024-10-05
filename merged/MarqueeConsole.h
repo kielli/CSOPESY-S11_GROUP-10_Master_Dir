@@ -4,21 +4,25 @@
 #include <string>
 #include "KeyboardEventHandler.h"
 
+using namespace std;
+
 class MarqueeConsole {
 public:
     int coordX, coordY;
     bool borderX, borderY;
     int length, width;
-    std::string headerText =
-        "*********************************\n"
-        "* Displaying a marquee console! *\n"
-        "*********************************";
-    std::string marqueeText = "Hello World in marquee!";
-    std::string inputFieldText = "Enter a command for MARQUEE_CONSOLE: ";
+
+    string headerText =
+                            "*********************************\n"
+                            "* Displaying a marquee console! *\n"
+                            "*********************************";
+
+    string marqueeText = "Hello World in marquee!";
+    string inputFieldText = "Enter a command for MARQUEE_CONSOLE: ";
+
     KeyboardEventHandler keyboardManager;
 
     void updateConsole();
-    /*void updateMarquee();*/
     void updateMarqueeCoords();
     void printHeader();
     void printMarquee();

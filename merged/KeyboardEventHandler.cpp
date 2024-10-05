@@ -4,8 +4,8 @@
 #include <conio.h>
 #include <atomic>
 #include <thread>
+
 #include "KeyboardEventHandler.h"
-#include "MarqueeConsole.h"
 
 using namespace std;
 

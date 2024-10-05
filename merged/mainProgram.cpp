@@ -1,10 +1,12 @@
 #include "ScreenManager.h"
 
 //for vscode, uncomment
-//#include "ScreenManager.cpp"
-//#include "Screen.cpp"
-//#include "CreatedScreen.cpp"
-//#include "MainScreen.cpp"
+#include "ScreenManager.cpp"
+#include "Screen.cpp"
+#include "CreatedScreen.cpp"
+#include "MainScreen.cpp"
+#include "MarqueeConsole.cpp"
+#include "KeyboardEventHandler.cpp"
 
 #include <iostream>
 #include <string>

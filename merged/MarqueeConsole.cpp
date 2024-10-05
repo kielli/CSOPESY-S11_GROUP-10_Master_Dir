@@ -4,6 +4,7 @@
 #include <iomanip>
 #include <chrono>
 #include <thread>
+
 #include "MarqueeConsole.h"
 
 // Updates the console display
@@ -17,17 +18,12 @@ void MarqueeConsole::updateConsole() {
     printCommandConfirm();
 }
 
-// Updates the marquee display
-//void MarqueeConsole::updateMarquee() {
-//    updateConsole();
-//}
-
 // Updates the coordinates of the marquee
 void MarqueeConsole::updateMarqueeCoords() {
     coordX += borderX ? -1 : 1;
     coordY += borderY ? -1 : 1;
 
-    if (coordX >= length - marqueeText.size())
+    if (coordX >= static_cast<int>(length) - static_cast<int>(marqueeText.size()))
         borderX = true;
     else if (coordX < 1)
         borderX = false;
@@ -45,19 +41,22 @@ void MarqueeConsole::printHeader() {
 // Prints the marquee text
 void MarqueeConsole::printMarquee() {
     setCursorPosition(coordX, coordY);
-    std::cout << std::setfill(' ') << this->marqueeText;
+
+    cout << std::setfill(' ') << this->marqueeText;
 }
 
 // Prints the input field
 void MarqueeConsole::printInputField() {
     int consoleHeight = this->getConsoleHeight();
+
     setCursorPosition(0, consoleHeight - 3); // Adjusted to be 3 lines from the bottom
-    std::cout << this->inputFieldText;
+    cout << this->inputFieldText;
 }
 
 // Prints the stored user input
 void MarqueeConsole::printStoredInput() {
-    std::cout << this->keyboardManager.storeInput;
+    cout << this->keyboardManager.storeInput;
+
     int consoleHeight = this->getConsoleHeight();
     setCursorPosition(inputFieldText.size() + this->keyboardManager.keyInputs.size(), consoleHeight - 3);
 }
@@ -67,7 +66,7 @@ void MarqueeConsole::printCommandConfirm() {
     if (!this->keyboardManager.userInput.empty()) {
         int consoleHeight = this->getConsoleHeight();
         setCursorPosition(0, consoleHeight - 2); // Set confirmation message just above the input field
-        std::cout << "\nCommand Processed in MARQUEE_CONSOLE: " << this->keyboardManager.userInput;
+        cout << "\nCommand Processed in MARQUEE_CONSOLE: " << this->keyboardManager.userInput;
     }
 }
 

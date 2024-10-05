@@ -1,5 +1,6 @@
 #include "MainScreen.h"
 #include "ScreenManager.h"
+
 #include <iostream>
 #include <vector>
 #include <chrono>
@@ -29,50 +30,42 @@ MainScreen::MainScreen(ScreenManager* manager) : screenManager(manager) {
         else {
             this->printAndStore("Invalid command format. Use: screen -s screenname or screen -r screenname\n");
         }
-        };
+    };
 
     commands["initialize"] = [this](const string& args) {
         this->printAndStore("initialize command recognized. Doing something.\n");
-        };
+    };
 
     commands["scheduler-test"] = [this](const string& args) {
         this->printAndStore("scheduler-test command recognized. Doing something.\n");
-        };
+    };
 
     commands["scheduler-stop"] = [this](const string& args) {
         this->printAndStore("scheduler-stop command recognized. Doing something.\n");
-        };
+    };
 
     commands["report-util"] = [this](const string& args) {
         this->printAndStore("report-util command recognized. Doing something.\n");
-        };
+    };
 
     commands["clear"] = [this](const string& args) {
         this->deleteContent(this->contents);
         this->display();
-        };
+    };
 
     commands["exit"] = [this](const string&) {
         cout << "Exiting program...\n";
         isExit = true;
         exit(0);
-        };
+    };
 
     commands["nvidia-smi"] = [this](const string&) {
         this->Print_nvidia_smi_Header();
-        };
-    //commands["marquee"] = [this](const string&) {
-    //        MarqueeConsole marqueeConsole;
-    //        KeyboardEventHandler keyboardEvent;
-    //        atomic<bool> running(true);
-    //    
-    //        // Create threads for polling keyboard and updating marquee
-    //        thread keyboardThread(PollKeyboard, ref(keyboardEvent), ref(marqueeConsole), ref(running));
-    //        thread marqueeThread(MarqueeConsole::UpdateMarquee, ref(marqueeConsole), ref(running));
-    //    
-    //        keyboardThread.join(); // Wait for the keyboard thread to finish
-    //        marqueeThread.join(); // Wait for the marquee thread to finish
-    //    };
+    };
+
+    commands["marquee"] = [this](const string&) {
+        this->createMarquee();
+    };
 }
 
 // Displays the main screen header

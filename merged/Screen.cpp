@@ -1,5 +1,6 @@
 
 #include <iostream>
+
 //#include <WinUser.h>
 #include <windows.h>
 #include <conio.h>
@@ -7,36 +8,27 @@
 #include <iomanip>
 #include <sstream>
 #include <thread>
-#include "KeyboardEventHandler.h"
-#include "MarqueeConsole.h"
 
 #include "Screen.h"
 
 using namespace std;
 
-void Screen::CreateMarquee() {
-    
-    MarqueeConsole MC;
-    KeyboardEventHandler KEH;
-    this->userInput = KEH.userInput;
-    this->keyInputs = KEH.keyInputs;
-    this->storeInput = KEH.storeInput;
-   
-    atomic<bool> running(true); // Flag to manage program termination
+void Screen::createMarquee() {
+    marqueeRunning = true;
 
-  
-  
+    // Start thread
+    keyboardThread = std::thread([this]() {
+        this->PollKeyboard(keyboardEvent, marqueeConsole, marqueeRunning);
+    });
 
-    // Start threads
-    thread keyboardThread(PollKeyboard, ref(KEH), ref(MC), ref(running));
-    thread marqueeThread(UpdateMarquee, ref(MC), ref(running));
+    marqueeThread = std::thread([this]() {
+        this->UpdateMarquee(marqueeConsole, marqueeRunning);
+    });
 
     // Wait for threads to finish
     keyboardThread.join();
     marqueeThread.join();
 }
-
-
 
 void Screen::printAndStore(const string& line) {
     this->contents.push_back(line);
@@ -103,15 +95,3 @@ void Screen::UpdateMarquee(MarqueeConsole& mconsole, atomic<bool>& running) {
         this_thread::sleep_for(chrono::milliseconds(this->refreshRate)); // Set refresh rate for marquee update
     }
 }
-
-//static void PollKeyboard(KeyboardEventHandler& keyboardEvent, MarqueeConsole& mconsole, atomic<bool>& running) {
-//    while (running) {
-//        if (_kbhit()) { // Basically says 'if keyboard button is pressed'
-//            char key = _getch(); // Gets the character from the button pressed
-//            (GetAsyncKeyState(key) & 0x8000 ? keyboardEvent.OnKeyDown(key) : keyboardEvent.OnKeyUp(key)); // Handles Down and Up key states
-//        }
-//
-//        if (keyboardEvent.storeInput == "exit") running = false; // If user inputted exit, stop gracefully
-//        this_thread::sleep_for(chrono::milliseconds(100)); // Add small delay to avoid excessive CPU usage
-//    }
-//}
