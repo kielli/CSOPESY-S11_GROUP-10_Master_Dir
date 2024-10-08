@@ -13,7 +13,7 @@ using namespace std;
 vector<char> keyInputs;
 string storeInput, userInput;
 
-const int refreshRate = 100; // Change refresh rate as necessary, higher refresh rate gives slower marquee
+const int refreshRate = 20; // Change refresh rate as necessary, higher refresh rate gives slower marquee
 
 const string marqueeText = "Hello World in marquee!";
 const char* headerText =
