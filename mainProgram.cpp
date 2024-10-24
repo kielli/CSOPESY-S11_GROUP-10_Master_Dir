@@ -12,13 +12,13 @@
 
 #include <iostream>
 #include <string>
-
+#include <fstream>
 using namespace std;
 
 int main() {
     ScreenManager screenManager;
     string command;
-
+    
     // Main loop to handle user input and display the current screen
     while (!screenManager.isMainScreenExitRequested())
     {

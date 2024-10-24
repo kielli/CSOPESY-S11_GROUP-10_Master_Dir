@@ -54,13 +54,52 @@ bool ScreenManager::isMainScreenExitRequested() {
 void ScreenManager::addContent(const string& content) { 
     screens[currentScreenIndex]->Store(content);
 }
+void ScreenManager::createCores(int cpunum) {
 
+    cpuList.clear();
+
+    for (int i = 0; i < 4; ++i) {
+        cpuList.push_back(CPU_Core(i));
+        cout << "Debugging Core: " << i << endl; // Debugging line
+    }
+}
 void ScreenManager::handleCurrentCommand(const string& command) {
-    screens[currentScreenIndex]->handleCommand(command);
+    if (!initialized) {
+        if (command == "initialize") {
+            initialized = true;
+            ifstream f("config.txt");
+            if (!f.is_open()) {
+                screens[currentScreenIndex]->Store("File not found\n");
+                initialized = false;
+            }
+            else {
+                f >> cpunum >> schedType >> quantum >> batchfreq >> minIn >> maxIn >> delay;
+                createCores(cpunum);
+                screens[currentScreenIndex]->Store("Program initialized \n");
+                cout << "Number of CPUs: " << cpunum << "\n";
+                cout << "Scheduler Type: " << schedType << "\n";
+                cout << "Quantum Cycles: " << quantum << "\n";
+                cout << "Batch Process Frequency: " << batchfreq << "\n";
+                cout << "Minimum Instructions: " << minIn << "\n";
+                cout << "Maximum Instructions: " << maxIn << "\n";
+                cout << "Delays per Execution: " << delay << "\n";
+            }
+        }
+        else if (command == "exit") {
+            screens[currentScreenIndex]->handleCommand(command);
+            switchToMainScreen();
+        }
+        else {
+            screens[currentScreenIndex]->Store ("Program uninitialized \n");
+        }
+    }
+    else {
+        screens[currentScreenIndex]->handleCommand(command);
 
-    // if exiting from a created screen, switch to the main screen
-    if (dynamic_cast<CreatedScreen*>(screens[currentScreenIndex].get()) && command == "exit") {
-        switchToMainScreen();
+        // if exiting from a created screen, switch to the main screen
+        if (dynamic_cast<CreatedScreen*>(screens[currentScreenIndex].get()) && command == "exit") {
+            switchToMainScreen();
+        }
     }
 }
 
