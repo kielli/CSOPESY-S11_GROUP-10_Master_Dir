@@ -38,7 +38,7 @@ void FCFS_Scheduler::coreExecutionLoop(CPU_Core& core) {
 void FCFS_Scheduler::assignProcessToCore(CPU_Core& core) {
     if (!processList.empty()) {
         core.assignProcess(processList.front());
-        cout << "Debugging Line: Assigned " << processList.front().getProcessName() << " to core " << core.getCoreNum() << endl; // Debugging line
+        // cout << "Assigned " << processList.front().getProcessName() << " to core " << core.getCoreNum() << endl; // Debugging line
         popProcess();
     }
 }
@@ -58,7 +58,7 @@ void FCFS_Scheduler::displayProcesses() {
     cout << setfill('-') << setw(50) << "" << endl;
     cout << "Running Processes:\n";
 
-    for (auto& core : cpuList) {
+    for (auto& core : cpuList) {    
         if (core.isCoreWorking()) {
             stringstream ss;
             ss << core.getCpuProcess().getProcessName() << " "
@@ -67,8 +67,6 @@ void FCFS_Scheduler::displayProcesses() {
                 << core.getInstructionCount() << "/" 
                 << core.getCpuProcess().getTotalInstructions();
             cout << ss.str() << endl;
-
-            cout << "Debugging Line: Running Processes.\n"; // Debugging line
         }
     }
 

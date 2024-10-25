@@ -19,7 +19,7 @@ class ScreenManager {
     unordered_map<string, int> screenMap;
     int currentScreenIndex = 0;  // index of the current screen
 
-    // FCFS_Scheduler* schedulerFCFS;
+    FCFS_Scheduler* schedulerFCFS;
 
   public:
       ScreenManager();
@@ -33,7 +33,7 @@ class ScreenManager {
       void addContent(const string& content);
       void handleCurrentCommand(const string& command);
 
-      // FCFS_Scheduler* getScheduler();
+      void getScheduler();
 };
 
 #endif

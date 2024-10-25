@@ -5,9 +5,9 @@
 #include "Screen.cpp"
 #include "CreatedScreen.cpp"
 #include "MainScreen.cpp"
-// #include "FCFS_Scheduler.cpp"
-// #include "CPU_Core.cpp"
-// #include "Process.cpp"
+#include "FCFS_Scheduler.cpp"
+#include "CPU_Core.cpp"
+#include "Process.cpp"
 
 #include <iostream>
 #include <string>

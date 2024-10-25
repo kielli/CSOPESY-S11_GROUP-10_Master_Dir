@@ -6,9 +6,6 @@
 #include <unordered_map>
 
 #include "Screen.h"
-// #include "Process.h"
-// #include "CPU_Core.h"
-// #include "FCFS_Scheduler.h"
 
 using namespace std;
 
@@ -32,6 +29,7 @@ class MainScreen : public Screen {
         // void Print_nvidia_smi_Header();
         
         void readFile();
+        
         void displayHeader();
 
         // handles commands input from the user from main screen

@@ -5,9 +5,9 @@
 #include <vector>
 #include <thread>
 
-// #include "FCFS_Scheduler.h"  
-// #include "Process.h"        
-// #include "CPU_Core.h"       
+#include "FCFS_Scheduler.h"  
+#include "Process.h"        
+#include "CPU_Core.h"       
 
 using namespace std;
 
@@ -19,11 +19,11 @@ class Screen {
         vector<char> keyInputs;
         string storeInput;
 
-        // FCFS_Scheduler FCFSScheduler;
-        // thread schedulerThread;
+        FCFS_Scheduler FCFSScheduler;
+        thread schedulerThread;
 
-        // vector<Process> processList;
-        // vector<CPU_Core> cpuList;
+        vector<Process> processList;
+        vector<CPU_Core> cpuList;
 
     public:
         vector<string> contents;
@@ -59,9 +59,9 @@ class Screen {
         // Prints error message
         void print_error(const string& command);
 
-        // void createProcessesAndCores();
-        // void startSchedulerFCFS(FCFS_Scheduler& scheduler, vector<Process>& processes, vector<CPU_Core>& cores);
-        // void stopSchedulerFCFS();
+        void createProcessesAndCores();
+        void startSchedulerFCFS(FCFS_Scheduler& scheduler, vector<Process>& processes, vector<CPU_Core>& cores);
+        void stopSchedulerFCFS();
 };
 
 #endif

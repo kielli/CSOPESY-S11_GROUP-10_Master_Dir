@@ -7,8 +7,6 @@
 
 #include "Screen.h"
 #include "Process.h"
-#include "CPU_Core.h"
-#include "FCFS_Scheduler.h"
 
 using namespace std;
 

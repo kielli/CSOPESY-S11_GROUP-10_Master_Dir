@@ -19,11 +19,10 @@ class Screen {
         vector<char> keyInputs;
         string storeInput;
 
-        FCFS_Scheduler FCFSScheduler;
         thread schedulerThread;
-
         vector<Process> processList;
         vector<CPU_Core> cpuList;
+        FCFS_Scheduler FCFSScheduler;
 
     public:
         vector<string> contents;

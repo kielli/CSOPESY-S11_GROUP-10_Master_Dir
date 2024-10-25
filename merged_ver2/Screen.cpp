@@ -58,24 +58,22 @@ void Screen::print_error(const string& command) {
 }
 
 void Screen::createProcessesAndCores() {
-    this->processList.clear();
-    this->cpuList.clear();
-
     // Create processes and CPU Cores
     for (int i = 0; i < 10; ++i) {
         processList.push_back(Process("process_" + std::to_string(i), i, 100));
-        cout << "Debugging Created: process_" << i << endl; // Debugging line
+        cout << "Created: process_" << i << endl; // Debugging line
     }
 
     for (int i = 0; i < 4; ++i) {
         cpuList.push_back(CPU_Core(i));
-        cout << "Debugging Core: " << i << endl; // Debugging line
+        cout << "Core: " << i << endl; // Debugging line
     }
 }
 
 void Screen::startSchedulerFCFS(FCFS_Scheduler& scheduler, vector<Process>& processes, vector<CPU_Core>& cores) {
     schedulerThread = thread ([&scheduler, &processes, &cores]() {
         scheduler.runScheduler(processes, cores);
+        cout << "Starting scheduler\n"; // Debugging line
     });
 }
 

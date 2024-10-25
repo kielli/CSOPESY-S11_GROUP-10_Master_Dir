@@ -26,12 +26,15 @@ MainScreen::MainScreen(ScreenManager* manager) : screenManager(manager) {
         else if (option == "-r" && !screenName.empty()) {
             screenManager->resumeScreen(screenName);
         }
-        else if (option == "-ls") {
+        else if (option == "-ls") {            
             // Create processes and CPU cores
             this->createProcessesAndCores();
 
             // Run scheduler
             this->startSchedulerFCFS(FCFSScheduler, processList, cpuList);
+
+            // Optional: Sleep for a specified duration (e.g., 2 seconds)
+            this_thread::sleep_for(std::chrono::seconds(3));
 
             // Display processes
             screenManager->getScheduler()->displayProcesses();

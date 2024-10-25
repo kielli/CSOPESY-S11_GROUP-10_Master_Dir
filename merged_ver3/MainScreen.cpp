@@ -12,13 +12,16 @@
 //#include "../../source/repos/MCO1/MCO1/KeyboardEventHandler.h"
 //#include "../../source/repos/MCO1/MCO1/MarqueeConsole.h"
 
-using namespace std;
-
 // Main screen constructor
 MainScreen::MainScreen(ScreenManager* manager) : screenManager(manager) {
     commands["initialize"] = [this](const string& args) {
         this->printAndStore("Initializing the program...\n");
+
+        // Read config.txt file
         this->readFile();
+        
+        // Create processes and CPU cores
+        this->createProcessesAndCores();
 
         commands["screen"] = [this](const string& args) {
             stringstream iss(args);
@@ -32,24 +35,22 @@ MainScreen::MainScreen(ScreenManager* manager) : screenManager(manager) {
             else if (option == "-r" && !screenName.empty()) {
                 screenManager->resumeScreen(screenName);
             }
-            // else if (option == "-ls") {
-            //     // Create processes and CPU cores
-            //     this->createProcessesAndCores();
-
-            //     // Run scheduler
-            //     this->startSchedulerFCFS(FCFSScheduler, processList, cpuList);
-
-            //     // Display processes
-            //     screenManager->getScheduler()->displayProcesses();
-            // }
             else {
                 this->printAndStore("Invalid command format. Use: screen -s <screenname> or screen -r <screenname>\n");
             }
-        };
 
-        // // commands["nvidia-smi"] = [this](const string&) {
-        // //     this->Print_nvidia_smi_Header();
-        // // };
+            if (option == "-ls") {            
+                // Run scheduler
+                this->startSchedulerFCFS(FCFSScheduler, processList, cpuList);
+
+                this_thread::sleep_for(std::chrono::seconds(4));
+
+                // Display processes
+                screenManager->getScheduler();
+
+                // this->stopSchedulerFCFS();
+            }
+        };
 
         commands["scheduler-test"] = [this](const string& args) {
             this->printAndStore("scheduler-test command recognized. Doing something.\n");
@@ -89,10 +90,10 @@ void MainScreen::displayHeader() {
     cout << "\033[32m" << "Welcome to CSOPESY Emulator!\n\n"; // Green text
 
     cout << "\033[37m" << "Developers:\n";
-    cout << "\t  Cipriaso, James Kielson\n";
-    cout << "\t  Hallar, Francine Marie\n";
-    cout << "\t  Hong, Letty\n";
-    cout << "\t  Pe, Gyan Josh\n";
+    cout << "\t   Cipriaso, James Kielson\n";
+    cout << "\t   Hallar, Francine Marie\n";
+    cout << "\t   Hong, Letty\n";
+    cout << "\t   Pe, Gyan Josh\n";
 
     cout << "\nLast updated:" + this->getTimestamp() + "\n";
 
@@ -115,74 +116,12 @@ string truncateText(const string& text, size_t maxLength) {
     return text;
 }
 
-// void MainScreen::Print_nvidia_smi_Header() {
-//     this->deleteContent(this->contents);
-
-//     vector<string> nvidiaSmiOutput = {
-//        this->getTimestamp(),
-//         "+----------------------------------------------------------------------------------------+",
-//         "| NVIDIA-SMI 551.86        Driver Version: 551.86   CUDA Version: 12.4                   |",
-//         "|-----------------------------------+----------------------+-----------------------------|",
-//         "| GPU  Name            Persistence-M       | Bus-Id        Disp.A | Volatile Uncorr. ECC |",
-//         "| Fan  Temp  Perf      Pwr:Usage/Cap       |         Memory-Usage | GPU-Util  Compute M. |",
-//         "|                                          |                      |               MIG M. |",
-//         "|====================================+======================+============================|",
-//         "|   0  NVIDIA GeForce GTX 1080       WDDM  | 00000000:26:1E.0  On |                  N/A |",
-//         "| N/A   52C    P8    11W / 180W            |     701MiB / 8192MiB |      0%      Default |",
-//         "|                                          |                      |                  N/A |",
-//         "+------------------------------------------+----------------------+----------------------+",
-//         "",
-//         "+----------------------------------------------------------------------------------------+",
-//         "| Processes:  GI    CI                                                        GPU Memory |",
-//         "|  GPU        ID    ID   PID   Type   Process name                            Usage      |",
-//         "|========================================================================================|"
-//     };
-
-//     // List of dummy processes with truncation
-//     vector<tuple<int, string, string, int, string, int>> processes = {
-//         {0, "N/A","N/A",1234, "C:\\Users\\CSOPESY\\Documents\\ReportGenerator.exe", 200},
-//         {0, "N/A","N/A",5678, "D:\\Applications\\Backup\\AutoBackupService.exe", 150},
-//         {0, "N/A","N/A",9012, "C:\\ProgramFiles\\System\\TaskManagerUtility.exe", 100},
-//         {0, "N/A","N/A",3456, "D:\\Media\\Streaming\\VideoPlayerService.exe", 250},
-//         {0, "N/A","N/A",7890, "C:\\ProgramData\\System\\PerformanceMonitor.exe", 300}
-//     };
-
-//     // Add process info to the output vector
-//     for (const auto& process : processes) {
-//         int gpu = std::get<0>(process);
-//         string giid = std::get<1>(process);
-//         string ciid = std::get<2>(process);
-//         int pid = std::get<3>(process);
-//         string processName = truncateText(std::get<4>(process), 35);  // Truncate long names to 35 chars with ... at back
-//         int memoryUsage = std::get<5>(process);
-
-//         // Format the process info as a string and store it
-//         stringstream ss;
-//         ss << "| " << setw(4) << gpu
-//             << "     " << setw(6) << giid
-//             << "" << setw(6) << ciid
-//             << "" << setw(6) << pid
-//             << "  C      "  
-//             << left << setw(30) << processName  // 
-//             << right << setw(8) << memoryUsage << "MiB     |";
-//         nvidiaSmiOutput.push_back(ss.str());
-//     }
-
-//     nvidiaSmiOutput.push_back("+----------------------------------------------------------------------------------------+");
-
-//     // Store all the formatted output in the screen's content
-//     this->StoreAll(nvidiaSmiOutput);
-
-//     // Redraw the screen with the new content
-//     this->redrawScreen();
-// }
-
 void MainScreen::readFile() {
     ifstream inputFile("config.txt");
     string line;
     bool hasContent = false;
 
-    this->printAndStore("Program initialized.");
+    this->printAndStore("Program initialized.\n");
 
     if (!inputFile) {
         this->printAndStore("File 'config.txt' does not exist.\n");

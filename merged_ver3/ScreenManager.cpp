@@ -13,6 +13,7 @@ ScreenManager::ScreenManager() {
 // Create a new named screen
 void ScreenManager::createScreen(const string& screenName) {
     system("cls");
+
     if (screenMap.find(screenName) == screenMap.end()) {
         screens.push_back(std::make_unique<CreatedScreen>(screenName, this));  // pass the ScreenManager pointer to CreatedScreen
         screenMap[screenName] = screens.size() - 1;  // Map screen name to index
@@ -64,6 +65,6 @@ void ScreenManager::handleCurrentCommand(const string& command) {
     }
 }
 
-// FCFS_Scheduler* ScreenManager::getScheduler() {
-//     return schedulerFCFS;
-// }
+void ScreenManager::getScheduler() {
+    return schedulerFCFS->displayProcesses();
+}
