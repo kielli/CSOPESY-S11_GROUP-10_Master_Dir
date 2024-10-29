@@ -1,0 +1,7 @@
+Number of CPUs: 4
+Scheduler: fcfs
+Quantum Cycles: 5
+Batch Process Frequency: 1
+Minimum Instructions: 1000
+Maximum Instructions: 2000
+Delays per Execution: 0
