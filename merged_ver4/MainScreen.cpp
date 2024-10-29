@@ -11,10 +11,19 @@
 // Main screen constructor to initialize the screen manager
 MainScreen::MainScreen(ScreenManager* manager) : screenManager(manager) {
     commandMap["initialize"] = [this](const string& args) {
+        string input;
+
         this->printAndStore("Initializing the program...");
 
         // Read config.txt file
         this->readFile();
+
+        // Create processes and cores
+        this->createProcesses();
+        this->createCores();
+
+        // Run the scheduler
+        screenManager->fcfsRunScheduler(schedulerFCFS, processList, cpuList);
 
         commandMap["screen"] = [this](const string& args) {
             stringstream iss(args);
@@ -28,25 +37,26 @@ MainScreen::MainScreen(ScreenManager* manager) : screenManager(manager) {
             else if (option == "-r" && !screenName.empty()) { // for resuming in created screen
                 screenManager->resumeScreen(screenName);
             }
-            else if(option == "-ls") {
-                string input;
-                string schedulerCommand;
-        
-                // Loop for scheduler commands
-                while (true) {
-                    schedulerCommand = screenManager->commandScheduler(input);
-
-                    if (schedulerCommand == "exit") {
-                        break;
-                    }
-                    else {
-                        cout << "Invalid scheduler command.\n" << endl;
-                    }
-                }
+            else if(option == "-ls") {     
+                this->printAndStore("CPU Utilization: \n");
+                this->printAndStore("Cores used: \n");
+                this->printAndStore("Cores available: \n");
             }
             else {
                 this->printAndStore("Invalid command format. Use: screen -s <screenname> or screen -r <screenname>\n");
             }
+        };  
+
+        commandMap["scheduler-test"] = [this](const string& args) {
+            this->printAndStore("scheduler-test command recognized. Doing something.\n");
+        };
+
+        commandMap["scheduler-stop"] = [this](const string& args) {
+            this->printAndStore("scheduler-stop command recognized. Doing something.\n");
+        };
+
+        commandMap["report-util"] = [this](const string& args) {
+            this->printAndStore("report-util command recognized. Doing something.\n");
         };
 
         // Clears the screen
@@ -60,7 +70,6 @@ MainScreen::MainScreen(ScreenManager* manager) : screenManager(manager) {
     commandMap["exit"] = [this](const string&) {
         cout << "Exiting the program...\n";
         isExit = true;
-
         exit(0);
     };
 }
@@ -135,6 +144,18 @@ void MainScreen::readFile() {
     }
 
     inputFile.close();
+}
+
+void MainScreen::createProcesses() {
+    for (int i = 0; i < 10; ++i) {
+        processList.push_back(Process("process_" + std::to_string(i), i, 100));
+    }
+}
+
+void MainScreen:: createCores() {
+    for (int i = 0; i < 4; ++i) {
+        cpuList.push_back(CPU_Core(i));
+    }
 }
 
 bool MainScreen::isExitRequested() const {

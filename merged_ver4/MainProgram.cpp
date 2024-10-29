@@ -2,6 +2,9 @@
 #include "Screen.cpp"
 #include "MainScreen.cpp"
 #include "CreatedScreen.cpp"
+#include "FCFS_Scheduler.cpp"
+#include "Process.cpp"
+#include "CPU_Core.cpp"
 
 #include <iostream>
 #include <string>
@@ -16,7 +19,7 @@ int main() {
         while (!screenManager.isMainScreenExitRequested())
         {
             screenManager.displayCurrentScreen(); // Display the current screen
-            screenManager.commandInput(command);
+            screenManager.commandInput(command);  // Gets user command input
             screenManager.addContent(command); // Adds content to the list of commands
             screenManager.handleCurrentCommand(command);  // Handles user commands
         }

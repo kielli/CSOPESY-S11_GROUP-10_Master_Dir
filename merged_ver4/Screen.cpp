@@ -59,6 +59,7 @@ void Screen::redrawScreen() {
     }
 }
 
+// Get timestamp
 string Screen::getTimestamp() const {
     auto now = chrono::system_clock::now(); // getting the current time
     time_t currentTime = chrono::system_clock::to_time_t(now); // converting time to time_t (calendar time)

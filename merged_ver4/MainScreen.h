@@ -3,6 +3,9 @@
 
 #include "Screen.h"
 #include "ScreenManager.h"
+#include "Process.h"
+#include "CPU_Core.h"
+#include "FCFS_Scheduler.h"
 
 #include <string>
 #include <functional>
@@ -16,12 +19,13 @@ class MainScreen : public Screen {
     private:
         ScreenManager* screenManager;  // pointer to the screen manager
         bool isExit = false;
-        
-        // command map that stores commands
-        unordered_map<string, function<void(const string&)>> commandMap;
+        unordered_map<string, function<void(const string&)>> commandMap; // command map that stores commands
+
+        vector<Process> processList;
+        vector<CPU_Core> cpuList;
+        FCFS_Scheduler schedulerFCFS;
 
     public:
-        MainScreen();
         MainScreen(ScreenManager* manager);
         
         void displayScreen() override;
@@ -29,9 +33,11 @@ class MainScreen : public Screen {
  
         void displayHeader();
         void readFile();
+        
+        void createProcesses();
+        void createCores();
 
         bool isExitRequested() const;
-        bool isExitScheduler() const;
 };
 
 #endif
