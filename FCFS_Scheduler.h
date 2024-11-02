@@ -16,7 +16,7 @@ class FCFS_Scheduler {
 
             FinishedProcess() : process("", -1, 0), finishTime(std::chrono::system_clock::now()) {}
         };
-
+        int delay, batchFreq;
         vector<Process> processList;
         vector<CPU_Core> cpuList;
         vector<FinishedProcess> finishedProcesses;
@@ -25,6 +25,7 @@ class FCFS_Scheduler {
         bool stopExecution = false;
 
     public:
+        FCFS_Scheduler(int delay);
         void runScheduler(vector<Process>& processes, vector<CPU_Core>& cores);
         void coreExecutionLoop(CPU_Core& core);
         void assignProcessToCore(CPU_Core& core);
@@ -34,6 +35,7 @@ class FCFS_Scheduler {
 
         void stopScheduler();
         bool allCoresIdle() const;
+
 };
 
 #endif

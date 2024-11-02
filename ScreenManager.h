@@ -5,6 +5,7 @@
 #include "MainScreen.h"
 #include "CreatedScreen.h"
 #include "FCFS_Scheduler.h"
+#include "RR_Scheduler.h"
 #include "CPU_Core.h"
 
 #include <vector>
@@ -20,12 +21,17 @@ class ScreenManager {
     unordered_map<string, int> screenMap;
     int currentScreenIndex = 0;  // index of the current screen
     bool initialized = false;
-    FCFS_Scheduler* schedulerFCFS;
-    int cpunum, quantum, batchfreq, minIn, maxIn, delay;
+    int cpunum, quantum=0, batchfreq, minIn, maxIn, delay=0;
     string schedType;
     vector<CPU_Core> cpuList;
+    vector<Process> processList;
+    thread schedulerThreadR;
+    RR_Scheduler rscheduler;
+    /*RR_Scheduler rscheduler = RR_Scheduler(this->quantum, this->delay);
+    FCFS_Scheduler fScheduler = FCFS_Scheduler(this->delay);*/
   public:
       ScreenManager();
+
       void createScreen(const string& screenName);
       void resumeScreen(const string& screenName);
       
@@ -35,8 +41,10 @@ class ScreenManager {
       bool isMainScreenExitRequested();
       void addContent(const string& content);
       void handleCurrentCommand(const string& command);
-      void createCores(int cpunum);
-      FCFS_Scheduler* getScheduler();
+      void createCores();
+      void createProcess();
+      void runScheduler();
+      void PollKeyboard(KeyboardEventHandler KEH);
 };
 
 #endif

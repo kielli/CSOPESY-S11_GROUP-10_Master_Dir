@@ -34,6 +34,11 @@ int Process::getTotalInstructions() {
     return this->totalInstructions;
 }
 
+int Process::getCompletedInstructions() {
+    int completed = this->totalInstructions - this->remainingInstructions;
+    return completed;
+}
+
 int Process::hasFinished() const {
     return this->remainingInstructions == 0;
 }

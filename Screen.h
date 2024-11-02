@@ -6,6 +6,7 @@
 #include <thread>
 
 #include "FCFS_Scheduler.h"  
+#include "RR_Scheduler.h"
 #include "Process.h"        
 #include "CPU_Core.h"       
 #include "KeyboardEventHandler.h"
@@ -21,9 +22,6 @@ class Screen {
 
         vector<char> keyInputs;
         string storeInput, userInput;
-
-        FCFS_Scheduler FCFSScheduler;
-        thread schedulerThread;
 
         vector<Process> processList;
         vector<CPU_Core> cpuList;
@@ -68,10 +66,6 @@ class Screen {
 
         // Prints error message
         void print_error(const string& command);
-
-        void createProcessesAndCores();
-        void startSchedulerFCFS(FCFS_Scheduler& scheduler, vector<Process>& processes, vector<CPU_Core>& cores);
-        void stopSchedulerFCFS();
 
         void UpdateMarquee(MarqueeConsole& mconsole, atomic<bool>& running);
         void PollKeyboard(IKeyboardEvent& keyboardEvent, MarqueeConsole& mconsole, std::atomic<bool>& running);

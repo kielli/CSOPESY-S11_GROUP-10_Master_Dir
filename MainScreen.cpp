@@ -28,13 +28,13 @@ MainScreen::MainScreen(ScreenManager* manager) : screenManager(manager) {
         }
         else if (option == "-ls") {
             // Create processes and CPU cores
-            this->createProcessesAndCores();
+            //this->createProcessesAndCores();
 
             // Run scheduler
-            this->startSchedulerFCFS(FCFSScheduler, processList, cpuList);
+            //this->startSchedulerFCFS(FCFSScheduler, processList, cpuList);
 
             // Display processes
-            screenManager->getScheduler()->displayProcesses();
+            //screenManager->getScheduler()->displayProcesses();
         }
         else {
             this->printAndStore("Invalid command format. Use: screen -s screenname or screen -r screenname\n");

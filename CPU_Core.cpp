@@ -13,7 +13,7 @@ CPU_Core::CPU_Core(int num) : coreNum(num), cpuProcess("null", -1, 0) {}
 
 void CPU_Core::assignProcess(Process& process) {
     cpuProcess = process; 
-    instructionCount = 0;
+    instructionCount = process.getCompletedInstructions();
     isWorking = true;
 }
 

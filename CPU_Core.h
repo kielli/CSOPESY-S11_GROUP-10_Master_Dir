@@ -5,6 +5,7 @@
 #include <string>
 #include <cstdlib>
 #include <fstream>
+#include <mutex>
 #include <ctime>
 
 #include "Process.h"
@@ -23,11 +24,11 @@ class CPU_Core {
 
     public:
         CPU_Core(int num);
-
+        
         void assignProcess(Process& process);
         void runProcess();    
         void discardProcess();
-        
+        mutex mtx;
         int getCoreNum() const;
         Process getCpuProcess() const;
         bool isCoreWorking() const;

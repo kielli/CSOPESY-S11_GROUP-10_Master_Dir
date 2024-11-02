@@ -7,6 +7,8 @@
 
 #include "FCFS_Scheduler.h"
 
+FCFS_Scheduler::FCFS_Scheduler(int delay) : delay(delay){}
+
 void FCFS_Scheduler::runScheduler(vector<Process>& processes, vector<CPU_Core>& cores) {
     processList = processes;
     cpuList = move(cores);

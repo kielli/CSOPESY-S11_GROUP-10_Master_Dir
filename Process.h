@@ -23,6 +23,7 @@ class Process {
         int getProcessId();
         string getProcessName();
         int getTotalInstructions();
+        int getCompletedInstructions();
         int hasFinished() const;
     };
 
