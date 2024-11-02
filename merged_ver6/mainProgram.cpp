@@ -13,7 +13,6 @@
 
 using namespace std;
 
-
 struct Config {
     int numCPU;
     string scheduler;

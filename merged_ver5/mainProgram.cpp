@@ -66,13 +66,13 @@ struct configEntries {
 
 // Maps each config keys to their corresponding setter functions
 const vector<configEntries> configMap = {
-    {"Number of CPUs:", &Config::setNumCPU},
-    {"Scheduler:", &Config::setScheduler},
-    {"Quantum Cycles:", &Config::setQuantumCycles},
-    {"Batch Process Frequency:", &Config::setBatchProcessFreq},
-    {"Minimum Instructions:", &Config::setMinInstructions},
-    {"Maximum Instructions:", &Config::setMaxInstructions},
-    {"Delays per Execution:", &Config::setDelayPerExec}
+    {"num-cpu", &Config::setNumCPU},
+    {"scheduler", &Config::setScheduler},
+    {"quantum-cycles", &Config::setQuantumCycles},
+    {"batch-process-freq", &Config::setBatchProcessFreq},
+    {"min-ins", &Config::setMinInstructions},
+    {"max-ins", &Config::setMaxInstructions},
+    {"delay-per-exec", &Config::setDelayPerExec}
 };
 
 Config readFile() {
@@ -91,8 +91,8 @@ Config readFile() {
         for (const auto& configEntry : configMap) {
             // If the key is a match, it calls the setter function
             if (line.find(configEntry.key) != string::npos) {
-                // Extracts the value after the semicolon ":", then calls the setter function
-                (config.*configEntry.setter)(line.substr(line.find(":") + 1));
+                // Extracts the value after the space " ", then calls the setter function
+                (config.*configEntry.setter)(line.substr(line.find(" ") + 1));
                 break; // Move to the next line after finding a match
             }
         }
