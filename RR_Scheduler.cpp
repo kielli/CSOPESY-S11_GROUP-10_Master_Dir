@@ -17,6 +17,10 @@ RR_Scheduler::RR_Scheduler(int Quantum, int Delay) : quantum(Quantum), delay(Del
 
 void RR_Scheduler::runScheduler(vector<Process>& processes, vector<CPU_Core>& cores) {
     processList = processes;
+    //setup readyQueue
+    for (int i = 0; i < processList.size(); i++) {
+        readyQueue.push(processList[i]);
+    }
     cpuList = move(cores);
     steady_clock::time_point start_time = steady_clock::now();
     
@@ -41,7 +45,7 @@ void RR_Scheduler::coreExecutionLoop(CPU_Core& core) {
         unique_lock<mutex> lock(core.mtx);
         if (stopExecution) break;
         
-        if (!core.isCoreWorking() && !this->processList.empty()) {
+        if (!core.isCoreWorking() && !this->readyQueue.empty()) {
             assignProcessToCore(core);
         }
 
