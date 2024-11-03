@@ -32,7 +32,7 @@ bool ScreenManager::getInitializeState() {
 }
 
 // Create a new named screen
-void ScreenManager::createScreen(const std::string& screenName) {
+void ScreenManager::createScreen(const string& screenName) {
     system("cls");
 
     if (screenMap.find(screenName) == screenMap.end()) {
@@ -137,7 +137,7 @@ void ScreenManager::PollKeyboard(KeyboardEventHandler KEH) {
     string commandInput;
     getline(std::cin, commandInput);
     this->screens[this->currentScreenIndex]->handleCommand(commandInput);
-    std::this_thread::sleep_for(std::chrono::milliseconds(10)); // Adjust polling rate
+    this_thread::sleep_for(chrono::milliseconds(10)); // Adjust polling rate
 }
 
 int ScreenManager::getMinInstructions() {

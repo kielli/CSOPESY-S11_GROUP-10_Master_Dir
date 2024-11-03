@@ -46,6 +46,13 @@ void CreatedScreen::displayProcessSmi() {
 void CreatedScreen::handleCommand(const string& command) {
     if(command == "process -smi") {
         this->displayProcessSmi();
+
+        if (command == "exit") {
+            this->currentLineNumber = 1;
+
+            screenManager->switchToMainScreen();  // Switch to main screen
+            screenManager->displayCurrentScreen();
+        }
     } 
     else if (command == "exit") {
         this->currentLineNumber = 1;
