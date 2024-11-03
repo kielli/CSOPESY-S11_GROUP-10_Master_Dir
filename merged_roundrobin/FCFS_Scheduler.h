@@ -19,9 +19,9 @@ class FCFS_Scheduler {
 
         struct FinishedProcess {
             Process process;
-            std::chrono::system_clock::time_point finishTime;
+            chrono::system_clock::time_point finishTime;
 
-            FinishedProcess() : process("", -1, 0), finishTime(std::chrono::system_clock::now()) {}
+            FinishedProcess() : process("", -1, 0), finishTime(chrono::system_clock::now()) {}
         };
 
         vector<Process> processList;

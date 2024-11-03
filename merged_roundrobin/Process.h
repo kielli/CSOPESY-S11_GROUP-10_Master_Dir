@@ -36,7 +36,7 @@ class Process {
 		int getArrivalT();
 		int getWaitingT();
 		int getTurnAroundT();
-
+		int getRemainingI();
 		void setNumInstructions(int num);
 		void setArrivalT(int arrivalT);
 		void setWaitingT(int waitingT);

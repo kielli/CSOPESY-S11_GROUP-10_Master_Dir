@@ -2,7 +2,7 @@
 
 void CPU::assignProcess(Process& process) {
     cpuProcess = process;
-    instructionCount = 0;
+    instructionCount = process.getTotalInstructions() - process.getRemainingI();
     isWorking = true;
 }
 

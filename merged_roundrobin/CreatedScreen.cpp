@@ -19,17 +19,27 @@ void CreatedScreen::display() {
 }
 
 void CreatedScreen::displayHeader() {
-    cout << "Process: " << this->getScreenName() << endl;
+    cout << "Process: " << this->getPName() << endl;
     cout << "Line: " << this->updateNumberOfLines() << " / " << this->getTotalLines() << std::endl;
     cout << "Created at: " << this->creationTimestamp << endl;
+    cout << "/n";
 }
 
 void CreatedScreen::displayProcessSmi() {
-    cout << "Process: " << this->pName << endl;
-    cout << "ID: " << this->pId << endl;
-    cout << "\n";
-    cout << "Current instruction line: " << this->currentLineNumber << endl;
-    cout << "Lines of code: " << this->getTotalInstructions() << endl;
+    int remainingIns = this->getRemainingI();
+    int totalIns = this->getTotalInstructions();
+    int pId = this->getPID();
+    if (remainingIns != totalIns) {
+        this->printAndStore("\nProcess: " + this->pName);
+        this->printAndStore("ID: " + to_string(pId) + "\n");
+        this->printAndStore("Current instruction line: " + to_string(remainingIns));
+        this->printAndStore("Lines of code: " + to_string(totalIns) + "\n");
+    }
+    else if (remainingIns == totalIns) {
+        this->printAndStore("\nProcess: " + this->pName);
+        this->printAndStore("ID: " + to_string(pId) + "\n");
+        this->printAndStore("Finished!\n");
+    }
 }
 
 void CreatedScreen::handleCommand(const string& command) {
@@ -37,8 +47,10 @@ void CreatedScreen::handleCommand(const string& command) {
         this->currentLineNumber = 1;
 
         screenManager->switchToMainScreen();  // Switch to main screen
-        this->displayHeader();
         screenManager->displayCurrentScreen();
+    }
+    else if (command == "process -smi") {
+        this->displayProcessSmi();
     }
     else {
         this->print_error(command);  // Handle invalid command
