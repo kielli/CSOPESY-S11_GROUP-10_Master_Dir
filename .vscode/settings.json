@@ -65,6 +65,8 @@
         "xloctime": "cpp",
         "xmemory": "cpp",
         "xtr1common": "cpp",
-        "xutility": "cpp"
+        "xutility": "cpp",
+        "random": "cpp",
+        "regex": "cpp"
     }
 }

@@ -36,34 +36,6 @@ vector<Processs>& RR_Scheduler::getProcessList() {
     return this->processList;
 }
 
-//void RR_Scheduler::coreExecutionLoop(CPU& core) {
-//    while (!stopExecution) {
-//        if (!core.isCoreWorking() && !processList.empty()) {
-//            assignProcessToCore(core);
-//        }
-//        if (core.isCoreWorking()) {
-//            int timeElapsed = 0;
-//
-//            while (timeElapsed < quantum && core.isCoreWorking() && !stopExecution) {
-//                core.runProcess();
-//                timeElapsed += delayPerExec;
-//
-//                if (core.getInstructionCount() == core.getCpuProcess().getTotalInstructions()) {
-//                    core.discardProcess(); // Process finished
-//                    break;
-//                }
-//                std::this_thread::sleep_for(std::chrono::milliseconds(delayPerExec));
-//            }
-//
-//            if (core.isCoreWorking()) {
-//                std::lock_guard<std::mutex> lock(processListMutex);
-//                processList.push_back(core.getCpuProcess()); // Requeue the process if not finished
-//                core.discardProcess(); // Clear the core
-//            }
-//        }
-//    }
-//}
-
 void RR_Scheduler::assignProcessToCore(CPU& core) {
     std::lock_guard<std::mutex> lock(processListMutex);
     if (!processList.empty()) {
@@ -113,118 +85,6 @@ vector<CPU>& RR_Scheduler::get_cpuList()
     return this->cpuList;
 }
 
-
-
-//void RR_Scheduler::coreExecutionLoop(CPU& core) {
-//    while (!stopExecution) {
-//        if (!core.isCoreWorking() && !processList.empty()) {
-//            assignProcessToCore(core);
-//        }
-//
-//        if (core.isCoreWorking()) {
-//           /* Processs* currentProcess = &core.getCpuProcess();*/
-//            // Execute the current process for a time quantum
-//            int startInstructionCount = 0/*core.getInstructionCount()*/;
-//            int maxInstructions = /*startInstructionCount + */quantum;
-//           /* if (currentProcess != nullptr) {*/
-//            for (/*core.getInstructionCount() -*/ startInstructionCount = 0; startInstructionCount < quantum - delayPerExec && !core.getCpuProcess().hasFinished(); startInstructionCount++) {
-//                    core.runRRProcess();
-//                    std::this_thread::sleep_for(std::chrono::milliseconds(delayPerExec));  // Simulate delay per execution
-//                   /* startInstructionCount++;*/
-//                }
-//
-//                // Check if process finished within the quantum
-//                if (core.getCpuProcess().hasFinished()) {
-//                    FinishedProcess finishedProcess;
-//                    finishedProcess.process = core.getCpuProcess();
-//                    finishedProcess.finishTime = std::chrono::system_clock::now();
-//                    finishedProcesses.push_back(finishedProcess);
-//                    core.discardProcess();
-//                }
-//                else {
-//                    // If process has not finished, rotate it to the back of the list
-//                    /*std::lock_guard<std::mutex> lock(processListMutex);*/
-//                   /* processList.push_back(core.getCpuProcess());
-//                    core.discardProcess();*/
-//                    rotateProcessList();
-//                }
-//            }
-//        }
-//    }
-//}
-
-//void RR_Scheduler::coreExecutionLoop(CPU& core) {
-//    while (!stopExecution) {
-//        // Assign process to the core if it's not currently working and there are processes in the queue
-//        if (!core.isCoreWorking() && !processList.empty()) {
-//            assignProcessToCore(core);
-//        }
-//
-//        // If the core is currently working, execute the process
-//        if (core.isCoreWorking()) {
-//            int timeElapsed = 0; // Track the time elapsed during execution
-//            // Calculate the end time based on quantum
-//            auto startTime = std::chrono::steady_clock::now();
-//
-//            // Run the process until either the quantum time expires or the process finishes
-//            while (timeElapsed < quantum && !core.getCpuProcess().hasFinished() && !stopExecution) {
-//                core.runRProcess(quantum); // Execute the current process for a single instruction
-//                std::this_thread::sleep_for(std::chrono::milliseconds(delayPerExec)); // Simulate delay
-//                timeElapsed += delayPerExec; // Increment timeElapsed by delayPerExec
-//            }
-//
-//            // After the loop, check if the process has finished
-//            if (core.getCpuProcess().hasFinished()) {
-//                FinishedProcess finishedProcess;
-//                finishedProcess.process = core.getCpuProcess();
-//                finishedProcess.finishTime = std::chrono::system_clock::now();
-//                finishedProcesses.push_back(finishedProcess);
-//                core.discardProcess(); // Clear the finished process
-//            }
-//            else {
-//                // If the process did not finish, requeue it
-//                //std::lock_guard<std::mutex> lock(processListMutex);
-//                //processList.push_back(core.getCpuProcess()); // Requeue the process
-//                //core.discardProcess(); // Clear the core for the next process
-//                rotateProcessList();
-//            }
-//        }
-//    }
-//}
-
-////this works
-//void RR_Scheduler::coreExecutionLoop(CPU& core) {
-//    while (!stopExecution) {
-//        // Assign a process to the core if it's not currently working and there are processes in the queue
-//        if (!core.isCoreWorking() && !processList.empty()) {
-//            assignProcessToCore(core);
-//        }
-//
-//        // If the core is currently working, execute the process
-//        if (core.isCoreWorking()) {
-//            // Execute the current process for up to the quantum instructions
-//            int instructionsToExecute = std::min(quantum, core.getCpuProcess().getRemainingI());
-//            core.runRProcess(instructionsToExecute); // Execute the specified number of instructions
-//            std::this_thread::sleep_for(std::chrono::seconds(delayPerExec));
-//            // Check if the process finished
-//            if (core.getCpuProcess().hasFinished()) {
-//                FinishedProcess finishedProcess;
-//                finishedProcess.process = core.getCpuProcess();
-//                finishedProcess.finishTime = std::chrono::system_clock::now();
-//                finishedProcesses.push_back(finishedProcess);
-//                core.discardProcess(); // Clear the finished process
-//            }
-//            else {
-//                // If the process did not finish, requeue it
-//                std::lock_guard<std::mutex> lock(processListMutex);
-//                processList.push_back(core.getCpuProcess()); // Requeue the process
-//                core.discardProcess(); // Clear the core for the next process
-//                /*rotateProcessList();*/
-//            }
-//        }
-//    }
-//}
-
 void RR_Scheduler::coreExecutionLoop(CPU& core) {
     while (!stopExecution) {
         // Assign a process to the core if it's not currently working and there are processes in the queue
@@ -271,8 +131,6 @@ void RR_Scheduler::coreExecutionLoop(CPU& core) {
         }
     }
 }
-
-
 
 void RR_Scheduler::rotateProcessList() {
     std::lock_guard<std::mutex> lock(processListMutex);

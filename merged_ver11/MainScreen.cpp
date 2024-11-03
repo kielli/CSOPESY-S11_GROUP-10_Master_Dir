@@ -114,7 +114,6 @@ int MainScreen::countScreens() const {
     return screenCount;
 }
 
-
 void MainScreen::runSchedulerTest() {
     /*int counter = 0;*/
     int counter = screenManager->getTotalProcess();
