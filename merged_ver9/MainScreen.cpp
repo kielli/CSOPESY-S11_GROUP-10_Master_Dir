@@ -9,7 +9,6 @@
 #include <random>
 #include <cstdlib>   // for rand() and srand()
 #include <ctime> 
-#include <fstream>
 
 // Main screen constructor
 MainScreen::MainScreen(ScreenManager* manager) : screenManager(manager) {
@@ -17,55 +16,49 @@ MainScreen::MainScreen(ScreenManager* manager) : screenManager(manager) {
     this->pId = this->screenManager->getTotalProcess();
 
     commands["screen"] = [this](const string& args)
-    {
-        stringstream iss(args);
-        string option, screenName;
+        {
+            stringstream iss(args);
+            string option, screenName;
 
-        iss >> option >> screenName;
+            iss >> option >> screenName;
 
-        if (option == "-s" && !screenName.empty()) {
-            // this->printAndStore("screen -s " + screenName + " recognized. Doing something.");
-            screenManager->createScreen(screenName);
-        }
-        else if (option == "-r" && !screenName.empty()) {
-            // this->printAndStore("screen -r " + screenName + " recognized, doing something.");
-            screenManager->resumeScreen(screenName);
-        }
-        else {
-            this->printAndStore("Invalid command format.Use: screen - s screenname or screen - r screenname\n");
-        }
-    };
+            if (option == "-s" && !screenName.empty()) {
+                screenManager->createScreen(screenName);
+            }
+            else if (option == "-r" && !screenName.empty()) {
+                screenManager->resumeScreen(screenName);
+            }
+            else {
+                this->printAndStore("Invalid command format.Use: screen - s screenname or screen - r screenname\n");
+            }
+        };
 
     commands["scheduler"] = [this](const string& args)
-    {
-        stringstream iss(args);
-        string option;
-        iss >> option;
+        {
+            stringstream iss(args);
+            string option;
+            iss >> option;
 
-        if (option == "-test" ) {
-            this->printAndStore("scheduler -test command recognized. Doing something.");
-            this->runSchedulerTest();
-        }
-        else if (option == "-stop") {
-            schedulerStop = true;
-            this->printAndStore("scheduler -stop command recognized, doing something.");
-        }
-    };
-
-    /* commands["report-util"] = [this](const string& args) {
-        this->printAndStore("report-util command recognized. Doing something.\n");
-    }; */
+            if (option == "-test") {
+                this->printAndStore("scheduler -test command recognized. Doing something.");
+                this->runSchedulerTest();
+            }
+            else if (option == "-stop") {
+                schedulerStop = true;
+                this->printAndStore("scheduler -stop command recognized, doing something.");
+            }
+        };
 
     commands["clear"] = [this](const string& args) {
         this->deleteContent(this->contents);
         this->display();
-    };
+        };
 
     commands["exit"] = [this](const string&) {
         cout << "Exiting program...\n";
         isExit = true;
         exit(0);
-    };
+        };
 }
 
 // Displays the main screen header
@@ -132,14 +125,15 @@ void MainScreen::runSchedulerTest() {
             continue;
         }
 
-        if (cpuCycleCounter % screenManager->getbatchProcessFreq() == 0) {
-            string pname = "process" + std::to_string(counter);
+        if (cpuCycleCounter % 4/*screenManager->getbatchProcessFreq()*/ == 0) {
+            string pname = "process" + to_string(counter);
             srand(static_cast<unsigned>(time(0) + 39 % 4));
-            int instructionCount = screenManager->getMinInstructions() + rand() % (screenManager->getMaxInstructions() - screenManager->getMinInstructions() + 1);
+            int instructionCount = screenManager->getMinInstructions() + rand() % (/*screenManager->getMaxInstructions() - screenManager->getMinInstructions()*/ 100 - 200 + 1);
 
             screenManager->createDummyScreen(pname, instructionCount);
             counter++;
         }
+        this_thread::sleep_for(std::chrono::milliseconds(50));
+        cpuCycleCounter++;
     }
-    cpuCycleCounter++;
 }

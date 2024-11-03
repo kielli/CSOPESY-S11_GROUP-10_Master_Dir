@@ -1,5 +1,8 @@
 #include "Process.h"
 
+#include <chrono>
+#include <iomanip>
+
 Process::Process() { }
 
 string Process::executeInstruction() {

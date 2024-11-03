@@ -11,39 +11,42 @@
 using namespace std;
 
 class Process {
-	protected:
-		int arrivalT=0;
-		int burstT=0;
-		int waitingT=0;
-		int turnAroundT = 0;
-		int pId;
-		int numInstructions = 0;
-		int remainingI = 0;
+protected:
+	string pName = "";
+	int pId;
+	int numInstructions = 0;
+	int remainingI = 0;
 
-		string pName = "";
+	int arrivalT = 0;
+	int burstT = 0;
+	int waitingT = 0;
+	int turnAroundT = 0;
 
-	public:
-		Process();
-		virtual ~Process() {}
-		Process(const string& pName, int processId, int numInstructions)
-			: pName(pName), pId(processId), numInstructions(numInstructions), remainingI(numInstructions) {}
+public:
+	Process();
+	virtual ~Process() {}
 
-		string execute();
-		string executeInstruction();
-		string getPName();
+	Process(const string& pName, int processId, int numInstructions)
+		: pName(pName), pId(processId), numInstructions(numInstructions), remainingI(numInstructions) {}
 
-		int getPID();
-		int getTotalInstructions();
-		int getArrivalT();
-		int getWaitingT();
-		int getTurnAroundT();
+	string execute();
+	string executeInstruction();
+	string getPName();
+	string getTimestamp() const;
 
-		void setNumInstructions(int num);
-		void setArrivalT(int arrivalT);
-		void setWaitingT(int waitingT);
-		void setTurnAroundT(int turnAroundT);
+	int getPID();
+	int getTotalInstructions();
+	int getArrivalT();
+	int getWaitingT();
+	int getTurnAroundT();
+	int getRemainingI();
 
-		int hasFinished() const;
+	void setNumInstructions(int num);
+	void setArrivalT(int arrivalT);
+	void setWaitingT(int waitingT);
+	void setTurnAroundT(int turnAroundT);
+
+	int hasFinished() const;
 };
 
 #endif
