@@ -10,7 +10,7 @@
 #include "FCFS_Scheduler.cpp"
 
 // for visual studion uncomment
-//  #include "ScreenManager.h"
+// #include "ScreenManager.h"
 
 #include <iostream>
 #include <sstream>
@@ -109,7 +109,7 @@ Config readFile() {
 
 string printConfig(const Config& config) {
     stringstream ss;
-    ss << "\nCONFIGURATION:\n";
+    ss << "\nLIST OF CONFIGURATION\n";
     ss << "Number of CPU: " << config.numCPU
         << "\nScheduler: " << config.scheduler
         << "\nQuantum cycles: " << config.quantumCycles
@@ -168,7 +168,7 @@ int main() {
 
                 thread schedulerThread([&schedulerMain, &processList, &cpuList]() {
                     schedulerMain.runScheduler(processList, cpuList);
-                });
+                    });
 
                 while (true) {
                     cout << "\nEnter Command: ";
@@ -181,15 +181,22 @@ int main() {
                         screenManager.handleCurrentCommand("scheduler -stop");
                     }
                     else if (command == "report -util") {
-                        cout << "report -util recognized. Creating log report...\n";
+                        ofstream reportfile;
+                        streambuf* cout_buffer = cout.rdbuf(); // save the current buffer
 
-                        ofstream outfile("csopesy-log.txt");
-                        if (!outfile) {
+                        if (!reportfile) {
                             cerr << "Unable to open file." << endl;
                             return 1;
                         }
 
-                        outfile.close();
+                        reportfile.open("csopesy-log.txt"); // will create the file or overwrite
+                        cout.rdbuf(reportfile.rdbuf()); // redirect cout to the output file 
+
+                        schedulerMain.displayProcesses(); // function that displays the output to save
+
+                        cout.rdbuf(cout_buffer); // restore the original buffer
+                        reportfile.close();
+
                         cout << "Report generated at csopesy-log.txt.\n";
                     }
                     else if (command == "exit") {

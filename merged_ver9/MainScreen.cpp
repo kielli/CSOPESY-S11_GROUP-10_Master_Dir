@@ -52,9 +52,9 @@ MainScreen::MainScreen(ScreenManager* manager) : screenManager(manager) {
         }
     };
 
-    commands["report-util"] = [this](const string& args) {
+    /* commands["report-util"] = [this](const string& args) {
         this->printAndStore("report-util command recognized. Doing something.\n");
-    };
+    }; */
 
     commands["clear"] = [this](const string& args) {
         this->deleteContent(this->contents);
