@@ -13,8 +13,6 @@ RR_Scheduler::RR_Scheduler(int Quantum){
     this->quantum = Quantum;
 }
 
-
-
 void RR_Scheduler::runScheduler(vector<Process>& processes, vector<CPU>& cores) {
     processList = processes;
     //store into readyQueue
@@ -42,7 +40,7 @@ void RR_Scheduler::runScheduler(vector<Process>& processes, vector<CPU>& cores) 
 
 void RR_Scheduler::coreExecutionLoop(CPU& core) {
     while (!stopExecution) {
-        //unique_lock<mutex> lock(core.mtx);
+        
         if (stopExecution) break;
         
         if (!core.isCoreWorking() && !this->readyQueue.empty()) {
@@ -72,7 +70,7 @@ void RR_Scheduler::coreExecutionLoop(CPU& core) {
             readyQueue.push(core.getCpuProcess());
             core.discardProcess();
         }
-        //lock.unlock();
+        
 
     }
     
