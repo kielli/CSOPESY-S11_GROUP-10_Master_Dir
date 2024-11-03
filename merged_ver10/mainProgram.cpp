@@ -124,7 +124,7 @@ string printConfig(const Config& config) {
 int main() {
     ScreenManager screenManager;
     string command;
-    
+
     auto& schedulerMain = screenManager.getScheduler();
     auto& processList = screenManager.getScheduler().getProcessList();
     auto& cpuList = schedulerMain.get_cpuList();
@@ -159,17 +159,19 @@ int main() {
             screenManager.addContent(command); // Adds content to the list of commands
             screenManager.handleCurrentCommand(command);  // Handles user commands
 
-            if (command == "scheduler -test") {
-                for (Process process : processList) {
-                    string name = process.getPName();
-                    int id = process.getPID();
-                    int num = process.getTotalInstructions();
-                    cout << name << " " << id << " " << num << "\n";
-                }
+            if (command == "scheduler -test")
+            {
+                // For debugging
+                // for (Process process : processList) {
+                //     string name = process.getPName();
+                //     int id = process.getPID();
+                //     int num = process.getTotalInstructions();
+                //     cout << name << " " << id << " " << num << "\n";
+                // }
 
                 thread schedulerThread([&schedulerMain, &processList, &cpuList]() {
                     schedulerMain.runScheduler(processList, cpuList);
-                    });
+                });
 
                 while (true) {
                     cout << "\nEnter Command: ";

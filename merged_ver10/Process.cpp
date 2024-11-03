@@ -16,6 +16,20 @@ string Process::executeInstruction() {
 	}
 }
 
+string Process::getTimestamp() const {
+    auto now = chrono::system_clock::now();
+    time_t currentTime = chrono::system_clock::to_time_t(now);
+    tm localTime; //tm structure to hold the local time
+
+    // use localtime_s for thread safety
+    localtime_s(&localTime, &currentTime);
+
+    stringstream ss;
+    ss << put_time(&localTime, "%m/%d/%Y, %I:%M:%S %p");
+
+    return ss.str();
+}
+
 string Process::getPName() {
 	return this->pName;
 }

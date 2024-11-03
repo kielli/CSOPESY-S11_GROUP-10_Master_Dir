@@ -16,8 +16,8 @@ class CreatedScreen : public Screen {
         bool finished = false;
 
     public:
-        CreatedScreen(const std::string& name, ScreenManager* manager, int numInstruction);
-        CreatedScreen(const std::string& name, ScreenManager* manager, int pId, int numInstruction): Screen(name, pId, numInstruction){}
+        CreatedScreen(const string& name, ScreenManager* manager, int numInstruction);
+        CreatedScreen(const string& name, ScreenManager* manager, int pId, int numInstruction): Screen(name, pId, numInstruction) {}
     
         void display() override;
         void displayHeader();

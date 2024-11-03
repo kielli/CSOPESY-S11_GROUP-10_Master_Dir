@@ -23,15 +23,10 @@ MainScreen::MainScreen(ScreenManager* manager) : screenManager(manager) {
         iss >> option >> screenName;
 
         if (option == "-s" && !screenName.empty()) {
-            // this->printAndStore("screen -s " + screenName + " recognized. Doing something.");
             screenManager->createScreen(screenName);
         }
         else if (option == "-r" && !screenName.empty()) {
-            // this->printAndStore("screen -r " + screenName + " recognized, doing something.");
             screenManager->resumeScreen(screenName);
-        }
-        else if (option == "-ls") {
-                this->printAndStore("screen -ls command recognized, doing something.");
         }
         else {
             this->printAndStore("Invalid command format.Use: screen - s screenname or screen - r screenname\n");
@@ -53,10 +48,6 @@ MainScreen::MainScreen(ScreenManager* manager) : screenManager(manager) {
             this->printAndStore("scheduler -stop command recognized, doing something.");
         }
     };
-
-    // commands["report-util"] = [this](const string& args) {
-    //     this->printAndStore("report-util command recognized. Doing something.\n");
-    // };
 
     commands["clear"] = [this](const string& args) {
         this->deleteContent(this->contents);
@@ -134,14 +125,15 @@ void MainScreen::runSchedulerTest() {
             continue;
         }
 
-        if (cpuCycleCounter % screenManager->getbatchProcessFreq() == 0) {
-            string pname = "process" + std::to_string(counter);
+        if (cpuCycleCounter % 4/*screenManager->getbatchProcessFreq()*/ == 0) {
+            string pname = "process" + to_string(counter);
             srand(static_cast<unsigned>(time(0) + 39 % 4));
-            int instructionCount = screenManager->getMinInstructions() + rand() % (screenManager->getMaxInstructions() - screenManager->getMinInstructions() + 1);
+            int instructionCount = screenManager->getMinInstructions() + rand() % (/*screenManager->getMaxInstructions() - screenManager->getMinInstructions()*/ 100 - 200 + 1);
 
             screenManager->createDummyScreen(pname, instructionCount);
             counter++;
         }
-    }
-    cpuCycleCounter++;
+        this_thread::sleep_for(std::chrono::milliseconds(50));
+        cpuCycleCounter++;
+    }    
 }

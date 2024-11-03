@@ -13,23 +13,26 @@ using namespace std;
 class Process {
 	protected:
 		string pName = "";
-		int arrivalT=0;
-		int burstT=0;
-		int waitingT=0;
-		int turnAroundT = 0;
 		int pId;
 		int numInstructions = 0;
 		int remainingI = 0;
 
+		int arrivalT = 0;
+		int burstT = 0;
+		int waitingT = 0;
+		int turnAroundT = 0;
+	
 	public:
 		Process();
 		virtual ~Process() {}
+
 		Process(const string& pName, int processId, int numInstructions)
 			: pName(pName), pId(processId), numInstructions(numInstructions), remainingI(numInstructions) {}
 
 		string execute();
 		string executeInstruction();
 		string getPName();
+		string getTimestamp() const;
 
 		int getPID();
 		int getTotalInstructions();

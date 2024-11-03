@@ -40,8 +40,6 @@ class Screen : public Process {
         void print_process(const string& command);
         void print_error(const string& command);
 
-        string getTimestamp() const;
-
         bool getRunningStatus();
         bool getActiveStatus();
 

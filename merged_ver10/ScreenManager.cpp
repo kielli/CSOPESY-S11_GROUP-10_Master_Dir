@@ -50,13 +50,13 @@ void ScreenManager::createDummyScreen(const string& screenName, const int instru
     int ptrNumber = this->getTotalProcess();
 
     if (screenMap.find(screenName) == screenMap.end()) {
-        screens.push_back(make_unique<CreatedScreen>(screenName, this, ptrNumber ,instructionCount));  // pass the ScreenManager pointer to CreatedScreen
+        screens.push_back(make_unique<CreatedScreen>(screenName, this, ptrNumber, instructionCount));  // pass the ScreenManager pointer to CreatedScreen
         screenMap[screenName] = screens.size() - 1;  // map screen name to index
 
         this->fscheduler.getProcessList().push_back(*screens.back());
       
         // for debugging
-        cout << "Dummy process '" << screenName << "' created with " << instructionCount << " instructions.\n";
+        cout << screenName << "' created with " << instructionCount << " instructions.\n";
     }
     else {
         cout << "Screen with name '" << screenName << "' already exists!\n";
@@ -81,6 +81,7 @@ void ScreenManager::switchToMainScreen() {
     screens[currentScreenIndex]->setActiveStatusOff();
     currentScreenIndex = 0;  // Main screen is always at index 0
     screens[0]->setActiveStatusOn();
+
     system("cls");
     screens[currentScreenIndex]->redrawScreen();
 }

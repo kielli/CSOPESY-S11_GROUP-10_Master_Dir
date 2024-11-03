@@ -6,8 +6,8 @@
 #include <sstream>
 
 // Updated constructor to accept a ScreenManager pointer
-CreatedScreen::CreatedScreen(const std::string& name, ScreenManager* manager, int numInstruction)
-    : screenName(name), creationTimestamp(getTimestamp()), screenManager(manager) {
+CreatedScreen::CreatedScreen(const string& name, ScreenManager* manager, int numInstruction)
+    : screenName(name), creationTimestamp(this->getTimestamp()), screenManager(manager) {
     this->pName = this->screenName;
     this->numInstructions = numInstruction;
 }
@@ -21,7 +21,7 @@ void CreatedScreen::display() {
 void CreatedScreen::displayHeader() {
     cout << "Process: " << this->getPName() << endl;
     cout << "Line: " << this->updateNumberOfLines() << " / " << this->getTotalLines() << std::endl;
-    cout << "Created at: " << this->creationTimestamp << endl;
+    cout << "Created at: " << this->getTimestamp() << endl;
     cout << "\n";
 }
 
@@ -35,7 +35,8 @@ void CreatedScreen::displayProcessSmi() {
         this->printAndStore("ID: " + to_string(pId) + "\n");
         this->printAndStore("Current instruction line: " + to_string(remainingIns));
         this->printAndStore("Lines of code: " + to_string(totalIns) + "\n");
-    } else if (remainingIns == totalIns) {
+    }
+    else if (remainingIns == totalIns) {
         this->printAndStore("\nProcess: " + this->pName);
         this->printAndStore("ID: " + to_string(pId) + "\n");
         this->printAndStore("Finished!\n");
