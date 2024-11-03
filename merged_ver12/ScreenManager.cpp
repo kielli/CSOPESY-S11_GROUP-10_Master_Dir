@@ -41,6 +41,11 @@ void ScreenManager::createScreen(const string& screenName) {
         currentScreenIndex = screens.size() - 1;  // switch to the new screen
         screens[0]->setActiveStatusOff();
         screens[currentScreenIndex]->setActiveStatusOn();
+
+        if(this->scheduler == "\"fcfs\"")
+            this->fscheduler.getProcessList().push_back(*screens.back());
+        else if(this->scheduler == "\"rr\"")
+            this->rrScheduler.getProcessList().push_back(*screens.back());
     }
     else {
         cout << "Screen with name '" << screenName << "' already exists!\n";
