@@ -1,17 +1,17 @@
 //for vscode, uncomment
-//#include "ScreenManager.cpp"
-//#include "Screen.cpp"
-//#include "CreatedScreen.cpp"
-//#include "MainScreen.cpp"
-//#include "KeyboardEventHandler.cpp"
-//#include "Process.cpp"
-//#include "Instruction.cpp"
-//#include "CPU.cpp"
-//#include "FCFS_Scheduler.cpp"
-//#include "RR_Scheduler.cpp"
+#include "ScreenManager.cpp"
+#include "Screen.cpp"
+#include "CreatedScreen.cpp"
+#include "MainScreen.cpp"
+#include "KeyboardEventHandler.cpp"
+#include "Process.cpp"
+#include "Instruction.cpp"
+#include "CPU.cpp"
+#include "FCFS_Scheduler.cpp"
+#include "RR_Scheduler.cpp"
 
 // for visual studion uncomment
- #include "ScreenManager.h"
+//   #include "ScreenManager.h"
 
 #include <iostream>
 #include <sstream>

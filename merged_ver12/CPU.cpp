@@ -68,7 +68,7 @@ void CPU::runRRProcess() {
         return;
     }
 
-    outFile << "Process Name: " << cpuProcess.getPName() << "\nLogs:\n\n";
+    outFile << "\nProcess Name: " << cpuProcess.getPName() << "\nLogs:\n\n";
 
     if (!cpuProcess.hasFinished() && cpuProcess.getPID() != -1) {
         auto now = chrono::system_clock::now();
