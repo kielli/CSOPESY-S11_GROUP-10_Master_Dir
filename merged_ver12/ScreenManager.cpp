@@ -34,9 +34,10 @@ bool ScreenManager::getInitializeState() {
 // Create a new named screen
 void ScreenManager::createScreen(const string& screenName) {
     system("cls");
+    int ptrNumber = this->getTotalProcess();
 
     if (screenMap.find(screenName) == screenMap.end()) {
-        screens.push_back(make_unique<CreatedScreen>(screenName, this, 0));  // pass the ScreenManager pointer to CreatedScreen
+        screens.push_back(make_unique<CreatedScreen>(screenName, this, ptrNumber, this->getMaxInstructions()));  // pass the ScreenManager pointer to CreatedScreen
         screenMap[screenName] = screens.size() - 1;  // map screen name to index
         currentScreenIndex = screens.size() - 1;  // switch to the new screen
         screens[0]->setActiveStatusOff();
