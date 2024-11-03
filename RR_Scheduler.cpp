@@ -56,7 +56,7 @@ void RR_Scheduler::coreExecutionLoop(CPU_Core& core) {
   
                 core.runProcess();
 
-                if (core.getInstructionCount() == core.getCpuProcess().getTotalInstructions()) {
+                if (core.getCpuProcess().getCompletedInstructions() == core.getCpuProcess().getTotalInstructions()) {
                     FinishedProcess finishedProcess;
                     finishedProcess.process = core.getCpuProcess();
                     finishedProcess.finishTime = chrono::system_clock::now();
