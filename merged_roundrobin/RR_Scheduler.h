@@ -33,7 +33,7 @@ private:
     vector<FinishedProcess> finishedProcesses;
     vector<thread> coreThreads;
     queue<Process> readyQueue;
-    bool stopExecution = false;
+    atomic <bool> stopExecution = false;
     vector<Process> processQueue;
     
 public:
