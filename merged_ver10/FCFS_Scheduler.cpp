@@ -59,6 +59,7 @@ void FCFS_Scheduler::displayProcesses() {
     tm local_time;
 
     localtime_s(&local_time, &now_time);
+    
     cout << setfill('-') << setw(50) << "" << endl;
     cout << "Running Processes:\n";
     for (auto& core : cpuList) {

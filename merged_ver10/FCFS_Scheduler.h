@@ -19,16 +19,16 @@ class FCFS_Scheduler {
 
         struct FinishedProcess {
             Process process;
-            std::chrono::system_clock::time_point finishTime;
+            chrono::system_clock::time_point finishTime;
 
-            FinishedProcess() : process("", -1, 0), finishTime(std::chrono::system_clock::now()) {}
+            FinishedProcess() : process("", -1, 0), finishTime(chrono::system_clock::now()) {}
         };
 
         vector<Process> processList;
         vector<CPU> cpuList;
-   
         vector<FinishedProcess> finishedProcesses;
         vector<thread> coreThreads;
+
         bool stopExecution = false;
 
     public:
@@ -41,6 +41,7 @@ class FCFS_Scheduler {
         void popProcess();
         void displayProcesses();
         void stopScheduler();
+        
         bool allCoresIdle() const;
 
         vector<CPU>& get_cpuList();

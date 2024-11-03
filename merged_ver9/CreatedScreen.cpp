@@ -22,22 +22,27 @@ void CreatedScreen::displayHeader() {
     cout << "Process: " << this->getScreenName() << endl;
     cout << "Line: " << this->updateNumberOfLines() << " / " << this->getTotalLines() << std::endl;
     cout << "Created at: " << this->creationTimestamp << endl;
+    cout << "\n";
 }
 
 void CreatedScreen::displayProcessSmi() {
-    cout << "Process: " << this->pName << endl;
-    cout << "ID: " << this->pId << endl;
-    cout << "\n";
-    cout << "Current instruction line: " << this->currentLineNumber << endl;
-    cout << "Lines of code: " << this->getTotalInstructions() << endl;
+    this->printAndStore("\nProcess: " + this->pName + "\n");
+    this->printAndStore("ID: " + this->pId);
+    // this->printAndStore("\n\n");
+    // this->printAndStore("Current instruction line: ");
+    // this->printAndStore("\n");
+    // this->printAndStore("Lines of code: " + this->getTotalInstructions());
+    // this->printAndStore("\n");
 }
 
 void CreatedScreen::handleCommand(const string& command) {
-    if (command == "exit") {
+    if (command == "process -smi") {
+        this->displayProcessSmi();
+    }
+    else if (command == "exit") {
         this->currentLineNumber = 1;
 
         screenManager->switchToMainScreen();  // Switch to main screen
-        this->displayHeader();
         screenManager->displayCurrentScreen();
     }
     else {

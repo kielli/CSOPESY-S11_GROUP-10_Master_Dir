@@ -35,7 +35,7 @@ void ScreenManager::createScreen(const std::string& screenName) {
     system("cls");
 
     if (screenMap.find(screenName) == screenMap.end()) {
-        screens.push_back(std::make_unique<CreatedScreen>(screenName, this, 0));  // pass the ScreenManager pointer to CreatedScreen
+        screens.push_back(make_unique<CreatedScreen>(screenName, this, 0));  // pass the ScreenManager pointer to CreatedScreen
         screenMap[screenName] = screens.size() - 1;  // map screen name to index
         currentScreenIndex = screens.size() - 1;  // switch to the new screen
         screens[0]->setActiveStatusOff();
@@ -55,6 +55,7 @@ void ScreenManager::createDummyScreen(const string& screenName, const int instru
 
         this->fscheduler.getProcessList().push_back(*screens.back());
       
+        // for debugging
         cout << "Dummy process '" << screenName << "' created with " << instructionCount << " instructions.\n";
     }
     else {

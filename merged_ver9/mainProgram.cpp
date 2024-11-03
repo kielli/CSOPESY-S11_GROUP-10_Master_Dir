@@ -10,7 +10,7 @@
 //#include "FCFS_Scheduler.cpp"
 
 // for visual studion uncomment
-  #include "ScreenManager.h"
+ #include "ScreenManager.h"
 
 #include <iostream>
 #include <sstream>
@@ -109,7 +109,7 @@ Config readFile() {
 
 string printConfig(const Config& config) {
     stringstream ss;
-    ss << "\nCONFIGURATION:\n";
+    ss << "\nLIST OF CONFIGURATION\n";
     ss << "Number of CPU: " << config.numCPU
         << "\nScheduler: " << config.scheduler
         << "\nQuantum cycles: " << config.quantumCycles

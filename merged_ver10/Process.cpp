@@ -24,6 +24,10 @@ int Process::getPID() {
 	return this->pId;
 }
 
+int Process::getRemainingI() {
+	return this->remainingI;
+}
+
 int Process::getTotalInstructions() {
 	return this->numInstructions;
 }

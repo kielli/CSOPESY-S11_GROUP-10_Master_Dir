@@ -124,6 +124,7 @@ string printConfig(const Config& config) {
 int main() {
     ScreenManager screenManager;
     string command;
+    
     auto& schedulerMain = screenManager.getScheduler();
     auto& processList = screenManager.getScheduler().getProcessList();
     auto& cpuList = schedulerMain.get_cpuList();
