@@ -253,12 +253,6 @@ int main() {
                         schedulerThreadRR.join();
                     }
                 }
-                else {
-                    screenManager.handleCurrentCommand(command);
-                }
-            }
-            else {
-                screenManager.handleCurrentCommand(command);
             }
         }
     }

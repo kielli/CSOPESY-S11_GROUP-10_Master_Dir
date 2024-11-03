@@ -15,8 +15,7 @@ MainScreen::MainScreen(ScreenManager* manager) : screenManager(manager) {
     this->pName = "main";
     this->pId = this->screenManager->getTotalProcess();
 
-    commands["screen"] = [this](const string& args)
-    {
+    commands["screen"] = [this](const string& args) {
         stringstream iss(args);
         string option, screenName;
 
@@ -33,8 +32,7 @@ MainScreen::MainScreen(ScreenManager* manager) : screenManager(manager) {
         }
     };
 
-    commands["scheduler"] = [this](const string& args)
-    {
+    commands["scheduler"] = [this](const string& args) {
         stringstream iss(args);
         string option;
         iss >> option;
