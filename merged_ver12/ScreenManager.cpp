@@ -69,7 +69,7 @@ void ScreenManager::createDummyScreen(const string& screenName, const int instru
             this->rrScheduler.getProcessList().push_back(*screens.back());
       
         // for debugging
-        cout << screenName << "' created with " << instructionCount << " instructions." << " [SCREEN INDEX] " << this->currentScreenIndex << "\n";
+        cout << screenName << "' created with " << instructionCount << " instructions." << "\n";
     }
     else {
         cout << "Screen with name '" << screenName << "' already exists!\n";

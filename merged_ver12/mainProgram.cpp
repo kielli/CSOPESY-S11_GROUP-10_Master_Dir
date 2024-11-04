@@ -153,105 +153,156 @@ int main() {
             screenManager.initialize(config.numCPU, config.scheduler, config.quantumCycles, config.batchProcessFreq, config.minInstructions, config.maxInstructions, config.delayPerExec);
             screenManager.addContent(printConfig(config));
         }
-        else if (screenManager.getInitializeState() == true) {
+        else if (screenManager.getInitializeState() == true)
+        {
             screenManager.addContent(command); // Adds content to the list of commands
             screenManager.handleCurrentCommand(command);  // Handles user commands
 
-            if (command == "scheduler -test")
+            if(config.scheduler == "\"fcfs\"")
             {
-                if(config.scheduler == "\"fcfs\"")
-                {
-                    auto& schedulerFCFS = screenManager.getScheduler();
-                    auto& processList = screenManager.getScheduler().getProcessList();
-                    auto & cpuList = schedulerFCFS.get_cpuList();
+                auto& schedulerFCFS = screenManager.getScheduler();
+                auto& processList = screenManager.getScheduler().getProcessList();
+                auto & cpuList = schedulerFCFS.get_cpuList();
 
-                    thread schedulerThreadFCFS([&schedulerFCFS, &processList, &cpuList]() {
-                        schedulerFCFS.runScheduler(processList, cpuList);
-                    });
+                thread schedulerThreadFCFS([&schedulerFCFS, &processList, &cpuList]() {
+                    schedulerFCFS.runScheduler(processList, cpuList);
+                });
 
-                    while (true) {
-                        cout << "\nEnter Command: ";
-                        getline(cin, command);
+                while (true) {
+                    cout << "\nEnter Command: ";
+                    getline(cin, command);
 
-                        if (command == "screen -ls") {
-                            schedulerFCFS.displayProcesses();
-                        }
-                        else if (command == "scheduler -stop") {
-                            screenManager.handleCurrentCommand("scheduler -stop");
-                        }
-                        else if (command == "report -util") {
-                            ofstream reportfile;
-                            streambuf* cout_buffer = cout.rdbuf(); // save the current buffer
+                    if (command.find("screen -s") == 0)
+                    {
+                        screenManager.handleCurrentCommand(command);
+                        continue;
+                    } 
 
-                            if (!reportfile) {
-                                cerr << "Unable to open file." << endl;
-                                return 1;
-                            }
+                    if (command.find("screen -r") == 0)
+                    {
+                        screenManager.handleCurrentCommand(command);
+                        continue;
+                    } 
 
-                            reportfile.open("csopesy-log.txt"); // will create the file or overwrite
-                            cout.rdbuf(reportfile.rdbuf()); // redirect cout to the output file 
-                            schedulerFCFS.displayProcesses(); // function that displays the output to save
-                            cout.rdbuf(cout_buffer); // restore the original buffer
-                            reportfile.close();
-
-                            cout << "Report generated at csopesy-log.txt.\n";
-                        }                        
-                        else {
-                            screenManager.handleCurrentCommand(command);
-                            break;
-                        }
+                    if (command == "scheduler -test") {
+                        screenManager.handleCurrentCommand(command);
+                    }
+                    
+                    if (command == "scheduler -stop") {
+                        screenManager.handleCurrentCommand("scheduler -stop");
                     }
 
-                    if (schedulerThreadFCFS.joinable()) {
-                        schedulerThreadFCFS.join();
+                    if (command == "screen -ls") {
+                        schedulerFCFS.displayProcesses();
+                    }
+                    
+                    if (command == "report -util")
+                    {
+                        ofstream reportfile;
+                        streambuf* cout_buffer = cout.rdbuf(); // save the current buffer
+
+                        if (!reportfile) {
+                            cerr << "Unable to open file." << endl;
+                            return 1;
+                        }
+
+                        reportfile.open("csopesy-log.txt"); // will create the file or overwrite
+                        cout.rdbuf(reportfile.rdbuf()); // redirect cout to the output file 
+                        schedulerFCFS.displayProcesses(); // function that displays the output to save
+                        cout.rdbuf(cout_buffer); // restore the original buffer
+                        reportfile.close();
+
+                        cout << "Report generated at csopesy-log.txt.\n";
+                    }     
+
+                    if (command == "clear") {
+                        screenManager.handleCurrentCommand("clear");
+                    }
+
+                    if (command == "exit") {
+                        screenManager.handleCurrentCommand("exit");
                     }
                 }
-                else if(config.scheduler == "\"rr\"")
+
+                if (schedulerThreadFCFS.joinable()) {
+                    schedulerThreadFCFS.join();
+                }
+            }
+            else if(config.scheduler == "\"rr\"")
+            {
+                auto& schedulerRR = screenManager.getRRscheduler();
+                auto& processList = screenManager.getRRscheduler().getProcessList();
+                auto& cpuList = schedulerRR.get_cpuList();
+
+                thread schedulerThreadRR([&schedulerRR, &processList, &cpuList]() {
+                    schedulerRR.runScheduler(processList, cpuList);
+                });
+
+                while (true)
                 {
-                    auto& schedulerRR = screenManager.getRRscheduler();
-                    auto& processList = screenManager.getRRscheduler().getProcessList();
-                    auto& cpuList = schedulerRR.get_cpuList();
+                    cout << "\nEnter Command: ";
+                    getline(cin, command);
 
-                    thread schedulerThreadRR([&schedulerRR, &processList, &cpuList]() {
-                        schedulerRR.runScheduler(processList, cpuList);
-                    });
+                    if (command.find("screen -s") == 0)
+                    {
+                        screenManager.handleCurrentCommand(command);
+                        continue;
+                    } 
 
-                    while (true) {
-                        cout << "\nEnter Command: ";
-                        getline(cin, command);
+                    if (command.find("screen -r") == 0)
+                    {
+                        screenManager.handleCurrentCommand(command);
+                        continue;
+                    } 
 
-                        if (command == "screen -ls") {
-                            schedulerRR.displayProcesses();
-                        }
-                        else if (command == "scheduler -stop") {
-                            screenManager.handleCurrentCommand("scheduler -stop");
-                        }
-                        else if (command == "report -util") {
-                            ofstream reportfile;
-                            streambuf* cout_buffer = cout.rdbuf(); // save the current buffer
-
-                            if (!reportfile) {
-                                cerr << "Unable to open file." << endl;
-                                return 1;
-                            }
-
-                            reportfile.open("csopesy-log.txt"); // will create the file or overwrite
-                            cout.rdbuf(reportfile.rdbuf()); // redirect cout to the output file 
-                            schedulerRR.displayProcesses(); // function that displays the output to save
-                            cout.rdbuf(cout_buffer); // restore the original buffer
-                            reportfile.close();
-
-                            cout << "Report generated at csopesy-log.txt.\n";
-                        }
-                        else {
-                            screenManager.handleCurrentCommand(command);
-                            continue;
-                        }
+                    if (command == "scheduler -test") {
+                        screenManager.handleCurrentCommand(command);
+                        continue;
+                    }
+                    
+                    if (command == "scheduler -stop") {
+                        screenManager.handleCurrentCommand("scheduler -stop");
+                        continue;
                     }
 
-                    if (schedulerThreadRR.joinable()) {
-                        schedulerThreadRR.join();
+                    if (command == "screen -ls") {
+                        schedulerRR.displayProcesses();
+                        continue;
                     }
+                    
+                    if (command == "report -util")
+                    {
+                        ofstream reportfile;
+                        streambuf* cout_buffer = cout.rdbuf(); // save the current buffer
+
+                        if (!reportfile) {
+                            cerr << "Unable to open file." << endl;
+                            return 1;
+                        }
+
+                        reportfile.open("csopesy-log.txt"); // will create the file or overwrite
+                        cout.rdbuf(reportfile.rdbuf()); // redirect cout to the output file 
+                        schedulerRR.displayProcesses(); // function that displays the output to save
+                        cout.rdbuf(cout_buffer); // restore the original buffer
+                        reportfile.close();
+
+                        cout << "Report generated at csopesy-log.txt.\n";
+                        continue;
+                    }
+                    
+                    if (command == "clear") {
+                        screenManager.handleCurrentCommand("clear");
+                        continue;
+                    }
+
+                    if(command == "exit") {
+                        screenManager.handleCurrentCommand("exit");
+                        continue;
+                    }
+                }
+
+                if (schedulerThreadRR.joinable()) {
+                    schedulerThreadRR.join();
                 }
             }
         }

@@ -27,6 +27,9 @@ MainScreen::MainScreen(ScreenManager* manager) : screenManager(manager) {
         else if (option == "-r" && !screenName.empty()) {
             screenManager->resumeScreen(screenName);
         }
+        else {
+            this->print_error(option);
+        }
     };
 
     commands["scheduler"] = [this](const string& args) {

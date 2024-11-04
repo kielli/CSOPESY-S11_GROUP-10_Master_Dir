@@ -75,6 +75,7 @@ class ScreenManager {
         int getMinInstructions();
         int getMaxInstructions();
         int getCurrentScreenIndex();
+        Screen getCurrentScreen();
 };
 
 #endif
