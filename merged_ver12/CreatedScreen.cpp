@@ -6,11 +6,21 @@
 #include <sstream>
 
 // Updated constructor to accept a ScreenManager pointer
-CreatedScreen::CreatedScreen(const string& name, ScreenManager* manager, int numInstruction)
-            : screenName(name), creationTimestamp(this->getTimestamp()), screenManager(manager) {
-    this->pName = this->screenName;
-    this->numInstructions = numInstruction;
-}
+//CreatedScreen::CreatedScreen(const string& name, ScreenManager* manager, int PID, int numInstruction)
+//            : screenName(name), pid(PID), creationTimestamp(this->getTimestamp()), screenManager(manager) {
+//    this->pName = this->screenName;
+//    this->numInstructions = numInstruction;
+//    this->pid = PID; 
+//}
+
+//CreatedScreen::CreatedScreen(const string& name, ScreenManager* manager, int PID, int numInstruction)
+//    : Screen(name, PID, numInstruction), // Base class constructor
+//    screenName(name),                  // Initialize member variable
+//    pid(PID),                          // Initialize member variable
+//    creationTimestamp(this->getTimestamp()), // Initialize member variable
+//    screenManager(manager) {           // Initialize member variable
+//    this->pName = this->screenName; // Assuming pName is a member of CreatedScreen
+//}
 
 void CreatedScreen::display() {
     system("cls");
