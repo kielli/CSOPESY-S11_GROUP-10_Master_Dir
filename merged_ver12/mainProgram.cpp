@@ -195,7 +195,7 @@ int main() {
                             reportfile.close();
 
                             cout << "Report generated at csopesy-log.txt.\n";
-                        }
+                        }                        
                         else {
                             screenManager.handleCurrentCommand(command);
                             break;
@@ -245,7 +245,7 @@ int main() {
                         }
                         else {
                             screenManager.handleCurrentCommand(command);
-                            break;
+                            continue;
                         }
                     }
 

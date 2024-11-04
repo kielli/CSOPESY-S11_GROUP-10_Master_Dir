@@ -16,10 +16,7 @@ class CreatedScreen : public Screen {
         ScreenManager* screenManager;  // Pointer to ScreenManager for switching screens
         bool finished = false;
 
-    public:
-       /* CreatedScreen(const string& name, ScreenManager* manager, int numInstruction);*/
-        /*CreatedScreen(const string& name, ScreenManager* manager, int pId, int numInstruction);*/
-    
+    public:    
         CreatedScreen(const string& name, ScreenManager* manager, int PID, int numInstruction)
             : Screen(name, PID, numInstruction), // Base class constructor
             screenName(name),                  // Initialize member variable
@@ -28,6 +25,7 @@ class CreatedScreen : public Screen {
             screenManager(manager) {           // Initialize member variable
             this->pName = this->screenName; // Assuming pName is a member of CreatedScreen
         }
+        
         void display() override;
         void displayHeader();
         void handleCommand(const string& command) override;
