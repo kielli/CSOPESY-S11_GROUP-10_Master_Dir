@@ -10,8 +10,8 @@
 #include "FCFS_Scheduler.cpp"
 #include "RR_Scheduler.cpp"
 
-// for visual studion uncomment
-//   #include "ScreenManager.h"
+// for visual studio uncomment
+// #include "ScreenManager.h"
 
 #include <iostream>
 #include <sstream>

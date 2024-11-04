@@ -38,8 +38,10 @@ void ScreenManager::createScreen(const string& screenName) {
 
     if (screenMap.find(screenName) == screenMap.end()) {
         screens.push_back(make_unique<CreatedScreen>(screenName, this, ptrNumber, this->getMaxInstructions()));  // pass the ScreenManager pointer to CreatedScreen
+        
         screenMap[screenName] = screens.size() - 1;  // map screen name to index
-        currentScreenIndex = screens.size() - 1;  // switch to the new screen
+        currentScreenIndex = screenMap[screenName]; // switch to new screen
+        
         screens[0]->setActiveStatusOff();
         screens[currentScreenIndex]->setActiveStatusOn();
 
@@ -58,6 +60,7 @@ void ScreenManager::createDummyScreen(const string& screenName, const int instru
 
     if (screenMap.find(screenName) == screenMap.end()) {
         screens.push_back(make_unique<CreatedScreen>(screenName, this, ptrNumber, instructionCount));  // pass the ScreenManager pointer to CreatedScreen
+        
         screenMap[screenName] = screens.size() - 1;  // map screen name to index
 
         if(this->scheduler == "\"fcfs\"")
@@ -66,7 +69,7 @@ void ScreenManager::createDummyScreen(const string& screenName, const int instru
             this->rrScheduler.getProcessList().push_back(*screens.back());
       
         // for debugging
-        cout << screenName << "' created with " << instructionCount << " instructions.\n";
+        cout << screenName << "' created with " << instructionCount << " instructions." << " [SCREEN INDEX] " << this->currentScreenIndex << "\n";
     }
     else {
         cout << "Screen with name '" << screenName << "' already exists!\n";
@@ -101,7 +104,7 @@ void ScreenManager::displayCurrentScreen() {
     screens[currentScreenIndex]->display();
 }
 
-// check if the main screen has requested an exit
+// Check if the main screen has requested an exit
 bool ScreenManager::isMainScreenExitRequested() {
     return dynamic_cast<MainScreen*>(screens[0].get())->isExitRequested();
 }
@@ -119,6 +122,17 @@ void ScreenManager::handleCurrentCommand(const string& command) {
     }
 }
 
+void ScreenManager::PollKeyboard(KeyboardEventHandler KEH) {
+    string commandInput;
+    getline(cin, commandInput);
+    this->screens[this->currentScreenIndex]->handleCommand(commandInput);
+    this_thread::sleep_for(chrono::milliseconds(10)); // Adjust polling rate
+}
+
+KeyboardEventHandler ScreenManager::getKEH() {
+    return this->KEH;
+}
+
 int ScreenManager::getTotalProcess() {
     return this->screens.size();
 }
@@ -127,23 +141,8 @@ int ScreenManager::getCpuCounterCycle() {
     return this->cpuCycleCounter;
 }
 
-void ScreenManager::setCpuCounterCycle(int cpuCycle) {
-    this->cpuCycleCounter = cpuCycle;
-}
-
 int ScreenManager::getbatchProcessFreq() {
     return this->batchProcessFreq;
-}
-
-KeyboardEventHandler ScreenManager::getKEH() {
-    return this->KEH;
-}
-
-void ScreenManager::PollKeyboard(KeyboardEventHandler KEH) {
-    string commandInput;
-    getline(std::cin, commandInput);
-    this->screens[this->currentScreenIndex]->handleCommand(commandInput);
-    this_thread::sleep_for(chrono::milliseconds(10)); // Adjust polling rate
 }
 
 int ScreenManager::getMinInstructions() {
@@ -152,6 +151,10 @@ int ScreenManager::getMinInstructions() {
 
 int ScreenManager::getMaxInstructions() {
     return this->maxInstructions;
+}
+
+int ScreenManager::getCurrentScreenIndex() {
+    return this->currentScreenIndex;
 }
 
 vector<CPU>& ScreenManager::get_cpuList() {
@@ -164,4 +167,8 @@ FCFS_Scheduler& ScreenManager::getScheduler() {
 
 RR_Scheduler& ScreenManager::getRRscheduler() {
     return this->rrScheduler;
+}
+
+void ScreenManager::setCpuCounterCycle(int cpuCycle) {
+    this->cpuCycleCounter = cpuCycle;
 }

@@ -7,7 +7,7 @@
 
 // Updated constructor to accept a ScreenManager pointer
 CreatedScreen::CreatedScreen(const string& name, ScreenManager* manager, int numInstruction)
-    : screenName(name), creationTimestamp(this->getTimestamp()), screenManager(manager) {
+            : screenName(name), creationTimestamp(this->getTimestamp()), screenManager(manager) {
     this->pName = this->screenName;
     this->numInstructions = numInstruction;
 }
@@ -22,6 +22,7 @@ void CreatedScreen::displayHeader() {
     cout << "Process: " << this->getPName() << endl;
     cout << "Line: " << this->updateNumberOfLines() << " / " << this->getTotalLines() << std::endl;
     cout << "Created at: " << this->getTimestamp() << endl;
+    cout << "Curren screen index: " << to_string(screenManager->getCurrentScreenIndex()) << endl;
     cout << "\n";
 }
 

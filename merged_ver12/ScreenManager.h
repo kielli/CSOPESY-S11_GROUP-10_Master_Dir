@@ -53,7 +53,7 @@ class ScreenManager {
         bool getInitializeState();
 
         void createScreen(const string& screenName);
-        void createDummyScreen(const std::string& screenName, const int instructionCount);
+        void createDummyScreen(const string& screenName, const int instructionCount);
        
         void resumeScreen(const string& screenName);
         void switchToMainScreen();  
@@ -74,6 +74,7 @@ class ScreenManager {
 
         int getMinInstructions();
         int getMaxInstructions();
+        int getCurrentScreenIndex();
 };
 
 #endif

@@ -14,14 +14,6 @@ void Screen::printAndStore(const string& line) {
     this->currentLineNumber++;
 }
 
-void Screen::StoreAll(const vector<string>& lines) {
-    for (const auto& line : lines) {
-        this->contents.push_back(line);
-        this->currentLineNumber++;
-        this->totalLines++;
-    }
-}
-
 void Screen::deleteContent(const vector<string>& lines) {
     this->contents.clear();
 }
@@ -54,16 +46,8 @@ void Screen::print_error(const string& command) {
     this->printAndStore("Unknown command: " + command);
 }
 
-bool Screen::getRunningStatus() {
-    return this->isRunning;
-}
-
 bool Screen::getActiveStatus() {
     return this->isActive;
-}
-
-void Screen::setRunningStatusOff() {
-    this->isRunning = false;
 }
 
 void Screen::setActiveStatusOn() {
