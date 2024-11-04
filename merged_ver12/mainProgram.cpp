@@ -186,14 +186,17 @@ int main() {
 
                     if (command == "scheduler -test") {
                         screenManager.handleCurrentCommand(command);
+                        continue;
                     }
                     
                     if (command == "scheduler -stop") {
                         screenManager.handleCurrentCommand("scheduler -stop");
+                        continue;
                     }
 
                     if (command == "screen -ls") {
                         schedulerFCFS.displayProcesses();
+                        continue;
                     }
                     
                     if (command == "report -util")
@@ -213,14 +216,22 @@ int main() {
                         reportfile.close();
 
                         cout << "Report generated at csopesy-log.txt.\n";
+                        continue;
                     }     
 
                     if (command == "clear") {
                         screenManager.handleCurrentCommand("clear");
+                        continue;
                     }
 
                     if (command == "exit") {
                         screenManager.handleCurrentCommand("exit");
+                        continue;
+                    }
+
+                    else {
+                        screenManager.handleCurrentCommand(command);
+                        continue;
                     }
                 }
 
@@ -297,6 +308,11 @@ int main() {
 
                     if(command == "exit") {
                         screenManager.handleCurrentCommand("exit");
+                        continue;
+                    }
+
+                    else {
+                        screenManager.handleCurrentCommand(command);
                         continue;
                     }
                 }
