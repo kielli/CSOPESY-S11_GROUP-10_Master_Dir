@@ -17,3 +17,6 @@ How to run:
 - You may stop the creation of processes by using 'scheduler -stop'
 - To check the progress of the scheduler, you may check it by typing 'screen -ls'
 - After testing, you may exit both the program and a generated screen by typing 'exit'
+
+Notes:
+- a delay was implemented in the creation of dummy processes for readability purposes
