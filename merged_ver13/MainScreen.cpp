@@ -104,7 +104,7 @@ void MainScreen::handleCommand(const string& command) {
     }
     else {
         this->print_error(command);
-    }
+    } 
 }
 
 bool MainScreen::isExitRequested() const {

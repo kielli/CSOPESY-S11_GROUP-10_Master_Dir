@@ -56,10 +56,10 @@ int main() {
 
             if(screenManager.getScheduler() == "\"fcfs\"")
             {
+                schedulerManager.setScheduler("fcfs");
+
                 auto& processList = schedulerManager.getProcessList();
                 auto& cpuList = schedulerManager.get_cpuList();
-
-                schedulerManager.setScheduler("fcfs");
 
                 // Start the scheduler thread, correctly capturing schedulerManager and passing the processList and cpuList
                 schedulerThread = thread([&schedulerManager, &processList, &cpuList]() {
@@ -99,10 +99,10 @@ int main() {
             }
             else if(screenManager.getScheduler() == "\"rr\"")
             {
+                schedulerManager.setScheduler("rr");
+
                 auto& processList = schedulerManager.getProcessList();
                 auto& cpuList = schedulerManager.get_cpuList();
-
-                schedulerManager.setScheduler("rr");
 
                 // Start the scheduler thread, correctly capturing schedulerManager and passing the processList and cpuList
                 schedulerThread = thread([&schedulerManager, &processList, &cpuList]() {

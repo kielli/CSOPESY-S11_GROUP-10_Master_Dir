@@ -120,14 +120,13 @@ void ScreenManager::createDummyScreen(const string& screenName, const int instru
 
     if (screenMap.find(screenName) == screenMap.end()) {
         screens.push_back(make_unique<CreatedScreen>(screenName, this, ptrNumber, instructionCount));  // pass the ScreenManager pointer to CreatedScreen
-        
         screenMap[screenName] = screens.size() - 1;  // map screen name to index
 
-        if(this->scheduler == "\"fcfs\"")
+        if(this->getScheduler() == "\"fcfs\"")
             this->fscheduler.getProcessList().push_back(*screens.back());
-        else if(this->scheduler == "\"rr\"")
+        else if(this->getScheduler() == "\"rr\"")
             this->rrScheduler.getProcessList().push_back(*screens.back());
-      
+    
         // for debugging
         cout << screenName << "' created with " << instructionCount << " instructions." << "\n";
     }
