@@ -116,22 +116,22 @@ int main() {
                     cout << "\n";
                         
                     if(command == "scheduler -test") {
-                        screenManager.handleCurrentCommand("scheduler");
+                        screenManager.handleCurrentCommand(command);
                         continue;
                     }
 
                     if(command == "screen -s") {
-                        screenManager.handleCurrentCommand("screen");
+                        screenManager.handleCurrentCommand(command);
                         continue;
                     }
 
                     if(command == "screen -r") {
-                        screenManager.handleCurrentCommand("screen");
+                        screenManager.handleCurrentCommand(command);
                         continue;
                     }
 
                     if(command == "scheduler -stop") {
-                        screenManager.handleCurrentCommand("scheduler");
+                        screenManager.handleCurrentCommand(command);
                         continue;
                     }
 
