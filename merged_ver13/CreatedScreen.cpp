@@ -5,12 +5,6 @@
 #include <iomanip>
 #include <sstream>
 
-void CreatedScreen::display() {
-    system("cls");
-    this->displayHeader();
-    this->redrawScreen();
-}
-
 void CreatedScreen::displayHeader() {
     cout << "Process: " << this->getPName() << endl;
     cout << "Line: " << this->updateNumberOfLines() << " / " << this->getTotalLines() << std::endl;
@@ -35,22 +29,4 @@ void CreatedScreen::displayProcessSmi() {
         this->printAndStore("ID: " + to_string(pId) + "\n");
         this->printAndStore("Finished!\n");
     }
-}
-
-void CreatedScreen::handleCommand(const string& command) {
-    if(command == "process -smi") {
-        this->displayProcessSmi();
-    } 
-    else if (command == "exit") {
-        this->currentLineNumber = 1;
-
-        screenManager->switchToMainScreen();  // Switch to main screen
-        screenManager->displayCurrentScreen();
-    } else {
-        this->print_error(command);  // Handle invalid command
-    }
-}
-
-const string& CreatedScreen::getScreenName() const {
-    return screenName;
 }
