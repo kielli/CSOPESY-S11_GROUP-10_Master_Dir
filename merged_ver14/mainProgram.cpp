@@ -27,44 +27,36 @@ int main()
     string command;
 	thread schedulerThread;
 
-    while (!screenManager.isMainScreenExitRequested())  // Check if exit is requested
+    while (screenManager.getInitializedState() == false) {
+        screenManager.displayCurrentScreen();
+        screenManager.initializeCommand();
+    }
+
+    while (!screenManager.isMainScreenExitRequested()) 
     {
         screenManager.displayCurrentScreen();
+
+        auto& scheduler = screenManager.getScheduler();
+        auto& processList = screenManager.getScheduler().getProcessList();
+        auto& cpuList = scheduler.get_cpuList();
+
+        schedulerThread = thread([&scheduler, &processList, &cpuList]() {
+            scheduler.runScheduler(processList, cpuList);
+        });
+
 
         cout << "\033[37m" << "\nEnter a command: "; // white text
         getline(cin, command); // User input
         cout << "\n";
         cout.flush(); 
 
-        if(command != "initialize" && screenManager.getInitializedState() == false)
-        {
-			if(command == "exit") {
-                screenManager.handleCurrentCommand(command);
-			}
-			else{
-                screenManager.invalidCommand(command);
-                screenManager.addContent("'initialize' the program first.\n");
-			}
-        }
-        else if(command == "initialize" && screenManager.getInitializedState() == false) {
-            screenManager.initializeCommand();
-        }
-        else if(screenManager.getInitializedState() == true){
-            screenManager.handleCurrentCommand(command);
-        }
+        screenManager.handleCurrentCommand(command);
 
-        // auto& scheduler = screenManager.getScheduler();
-        // auto& processList = screenManager.getScheduler().getProcessList();
-        // auto& cpuList = scheduler.get_cpuList();
-
-       	// schedulerThread = thread ([&scheduler, &processList, &cpuList]() {
-        //     scheduler.runScheduler(processList, cpuList);
-        // });
-
-        // if (schedulerThread.joinable()) {
-        //     schedulerThread.join();
-        // }
+        if (schedulerThread.joinable()) {
+            schedulerThread.join();
+        }
     }
+
     cout << "Exiting the program." << endl; 
     
     return 0;

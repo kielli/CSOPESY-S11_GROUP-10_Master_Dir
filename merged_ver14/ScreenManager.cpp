@@ -14,6 +14,15 @@ ScreenManager::ScreenManager() {
     currentScreenIndex = 0; 
 }
 
+void ScreenManager::initializeScheduler(){
+    if (this->scheduler == "\"fcfs\"") {
+        schedulerMain = new FCFS_Scheduler(numCPU, cpuCycleCounter, delayPerExec, quantumCycles);
+    }
+    else if (this->scheduler == "\"rr\"") {
+        schedulerMain = new RR_Scheduler(numCPU, cpuCycleCounter, delayPerExec, quantumCycles);
+    }
+}
+
 // Define static map of config keys and their setter functions
 vector<ScreenManager::configEntries> ScreenManager::configMap() {
     return {
@@ -51,20 +60,6 @@ void ScreenManager::readFile(const string& fileName) {
 
     inputFile.close();
 }
-
-// Converts the configuration into a human-readable string
-// void ScreenManager::printConfig() const {
-//     cout << "\nLIST OF CONFIGURATION\n";
-
-//     cout << "Number of CPU: " << configData.numCPU;
-//     cout << "\nScheduler: " << configData.scheduler;
-//     cout << "\nQuantum cycles: " << configData.quantumCycles;
-//     cout << "\nBatch process frequency: " << configData.batchProcessFreq;
-//     cout << "\nMin instructions: " << configData.minInstructions;
-//     cout << "\nMax instructions: " << configData.maxInstructions;
-//     cout << "\nDelay per execution: " << configData.delayPerExec;
-//     cout << "\n=====================================================";
-// }
 
 // Converts the configuration into a human-readable string
 string ScreenManager::printConfig() const {
@@ -183,26 +178,23 @@ void ScreenManager::initializeConfigEntries() {
 
 void ScreenManager::initializeCommand()
 {
-    this->initializeConfigEntries();
-    this->initializedState = true;
+    string commandInput;
+    cout << "Enter command: ";
+    getline(cin, commandInput);
 
-    if (this->scheduler == "\"fcfs\"") {
-        FCFS_Scheduler fcfsSched(this->numCPU, this->cpuCycleCounter, this->delayPerExec, this->quantumCycles);
-        this->schedulerMain = &fcfsSched;
-        
-        // debugging line
-        this->addContent("Set to FCFS Scheduler\n");
+    if (commandInput == "initialize") {
+        this->initializeConfigEntries();
+        this->initializedState = true;
+        this->initializeScheduler();
     }
-    else if(this->scheduler == "\"rr\"") {
-        RR_Scheduler rrSched(this->numCPU, this->cpuCycleCounter, this->delayPerExec, this->quantumCycles);
-        this->schedulerMain = &rrSched;
-
-        // debugging line
-        this->addContent("Set to RR Scheduler");
+    else if (commandInput == "exit") {
+        addContent("Exiting program...\n");
+        exit(0);
     }
-
-    // debugging line
-    this->addContent("Initialized state: " + to_string(this->getInitializedState()));
+    else {
+        this->invalidCommand(commandInput);
+        this->addContent("'initialize' the program first.\n");
+    }
 }
 
 void ScreenManager::invalidCommand(const string& command) {
@@ -213,7 +205,7 @@ void ScreenManager::handleCurrentCommand(const string& command)
 {    
     if(command.find("screen") == 0)
     {
-        if(screens[0])
+        if(currentScreenIndex == 0)
         {
             stringstream iss(command.substr(6));
             string option, screenName;

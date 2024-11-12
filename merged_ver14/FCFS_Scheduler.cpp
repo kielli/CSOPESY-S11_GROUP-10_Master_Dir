@@ -5,6 +5,9 @@
 #include <iostream>   
 #include <sstream> 
 #include <iomanip>
+#include <ctime>
+#include <vector>
+#include <string>
 
 void FCFS_Scheduler::runScheduler(vector<Process>& processes, vector<CPU>& cores) {
     this->processList = processes;
@@ -32,17 +35,6 @@ void FCFS_Scheduler::coreExecutionLoop(CPU& core) {
             }
         }
     }
-}
-
-void FCFS_Scheduler::assignProcessToCore(CPU& core) {
-    if (!this->processList.empty()) {
-        core.assignProcess(this->processList.front());
-        popProcess();
-    }
-}
-
-void FCFS_Scheduler::popProcess() {
-    processList.erase(processList.begin());
 }
 
 void FCFS_Scheduler::displayProcesses() {
@@ -79,6 +71,7 @@ void FCFS_Scheduler::displayProcesses() {
     for (auto& core : cpuList) {
         if (core.isCoreWorking()) {
             stringstream ss;
+    
             ss << core.getCpuProcess().getPName() << " "
                 << "(" << put_time(&local_time, "%m/%d/%Y %I:%M:%S %p") << ") "
                 << "Core: " << core.getCoreNum() << " "
@@ -104,36 +97,4 @@ void FCFS_Scheduler::displayProcesses() {
         cout << ss.str() << endl;
     }
     cout << setfill('-') << setw(50) << "\n" << endl;
-}
-
-vector<CPU>& FCFS_Scheduler::get_cpuList() {
-    return this->cpuList;
-}
-
-vector<Process>& FCFS_Scheduler::getProcessList() {
-    return this->processList;
-}
-
-void FCFS_Scheduler::stopScheduler() {
-    stopExecution = true;
-
-    for (auto& t : this->coreThreads) {
-        if (t.joinable()) {
-            t.join();
-        }
-    }
-}
-
-bool FCFS_Scheduler::allCoresIdle() const {
-    for (const auto& core : this->cpuList) {
-        if (core.isCoreWorking()) {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-vector<FCFS_Scheduler::FinishedProcess> FCFS_Scheduler::get_finishedProcess() {
-    return this->finishedProcesses;
 }

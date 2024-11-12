@@ -38,7 +38,7 @@ class ScreenManager {
         size_t memPerFrame = 0;
         size_t memPerProc = 0;  
 
-        Scheduler* schedulerMain = nullptr;
+        Scheduler* schedulerMain;
 
         // Struct that holds the configuration settings
         struct configs {
@@ -64,13 +64,11 @@ class ScreenManager {
 
         static vector<configEntries> configMap(); // Static function to map config keys to setter functions
 
-        vector<CPU>& get_cpuList();
-        vector<Process>& getProcessList();
-        vector<Screen>& getScreens();
         Scheduler& getScheduler();
+
+        void initializeScheduler();
         
         void readFile(const string& fileName);
-        // void printConfig() const;
         string printConfig() const;
 
         void initializeCommand();

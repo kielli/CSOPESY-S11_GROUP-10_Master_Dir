@@ -14,32 +14,6 @@ void RR_Scheduler::runScheduler(vector<Process>& processes, vector<CPU>& cores) 
     }
 }
 
-vector<RR_Scheduler::FinishedProcess> RR_Scheduler::get_finishedProcess() {
-    return this->finishedProcesses;
-}
-
-vector<Process>& RR_Scheduler::getProcessList() {
-    return this->processList;
-}
-
-void RR_Scheduler::assignProcessToCore(CPU& core) {
-    lock_guard<mutex> lock(processListMutex);
-
-    if (!processList.empty()) {
-        core.assignProcess(processList.front());
-        processList.erase(processList.begin());
-    }
-}
-
-void RR_Scheduler::stopScheduler() {
-    stopExecution = true;
-    for (auto& t : coreThreads) {
-        if (t.joinable()) {
-            t.join();
-        }
-    }
-}
-
 void RR_Scheduler::displayProcesses() {
     auto now = chrono::system_clock::now();
     time_t now_time = chrono::system_clock::to_time_t(now);
@@ -101,10 +75,6 @@ void RR_Scheduler::displayProcesses() {
     cout << setfill('-') << setw(50) << "\n" << std::endl;
 }
 
-vector<CPU>& RR_Scheduler::get_cpuList() {
-    return this->cpuList;
-}
-
 void RR_Scheduler::coreExecutionLoop(CPU& core) {
     while (!stopExecution) {
         // Assign a process to the core if it's not currently working and there are processes in the queue
@@ -149,15 +119,5 @@ void RR_Scheduler::coreExecutionLoop(CPU& core) {
                 core.discardProcess(); // Clear the core for the next process
             }
         }
-    }
-}
-
-void RR_Scheduler::rotateProcessList() {
-    lock_guard<mutex> lock(processListMutex);
-    
-    if (!processList.empty()) {
-        Process& frontProcess = processList.front();
-        processList.erase(processList.begin());
-        processList.push_back(frontProcess);
     }
 }

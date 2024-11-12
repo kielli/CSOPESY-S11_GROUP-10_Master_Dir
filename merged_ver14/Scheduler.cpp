@@ -1,14 +1,14 @@
 #include "Scheduler.h"
 
 void Scheduler::assignProcessToCore(CPU& core) {
-	if (!this->processList->empty()) {
-		core.assignProcess(this->processList->front());
+	if (!this->processList.empty()) {
+		core.assignProcess(this->processList.front());
 		popProcess();
 	}
 }
 
 void Scheduler::popProcess() {
-	processList->erase(processList->begin());
+	processList.erase(processList.begin());
 }
 
 void Scheduler::stopScheduler() {
@@ -36,7 +36,7 @@ vector<CPU>& Scheduler::get_cpuList() {
 }
 
 vector<Process>& Scheduler::getProcessList() {
-	return *processList;
+	return this->processList;
 }
 
 vector<Scheduler::FinishedProcess> Scheduler::get_finishedProcess() {

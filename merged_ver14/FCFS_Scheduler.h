@@ -13,49 +13,15 @@
 using namespace std;
 
 class FCFS_Scheduler : public Scheduler {
-    private:
-        int cpuNum;
-        int cpuCycle;
-        int delayPerExec;
-
-        struct FinishedProcess {
-            Process process;
-            chrono::system_clock::time_point finishTime;
-
-            FinishedProcess() : process("", -1, 0, 0), finishTime(chrono::system_clock::now()) {}
-        };
-
-        vector<Process> processList;
-        vector<CPU> cpuList;
-        vector<FinishedProcess> finishedProcesses;
-        vector<thread> coreThreads;
-
-        bool stopExecution = false;
-
     public:
-        // FCFS_Scheduler();
-        // FCFS_Scheduler(int cpuNum, int cpuCycle, int delayPerExec);
+     ~FCFS_Scheduler() {}
 
-         ~FCFS_Scheduler() {}
-         
-        FCFS_Scheduler(int cpuNum, int cpuCycle, int delayPerExec, int quantum) 
-            : Scheduler(cpuNum, cpuCycle, delayPerExec, quantum)  {}
-
-        void runScheduler(vector<Process>& processes, vector<CPU>& cores) override;
-        void stopScheduler() override;
-
-        void coreExecutionLoop(CPU& core);
-        void assignProcessToCore(CPU& core) override;
+    FCFS_Scheduler(int cpuNum, int cpuCycle, int delayPerExec, int quantum)
+        : Scheduler(cpuNum, cpuCycle, delayPerExec, quantum) {}
         
-        void popProcess();
-        void displayProcesses() override;
-        
-        bool allCoresIdle() const;
-
-        vector<CPU>& get_cpuList() override;
-        vector<Process>& getProcessList() override;
-
-        vector<FCFS_Scheduler::FinishedProcess> get_finishedProcess();
+    void runScheduler(vector<Process>& processes, vector<CPU>& cores) override;
+    void coreExecutionLoop(CPU& core) override;
+    void displayProcesses() override;
 };
 
 #endif
