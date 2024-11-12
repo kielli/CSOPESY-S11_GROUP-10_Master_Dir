@@ -31,7 +31,7 @@ void MainScreen::displayHeader() {
     cout << "\t   Hong, Letty\n";
     cout << "\t   Pe, Gyan Josh\n";
 
-    cout << "\nLast updated: \n"; // TODO: include time stamp here
+    cout << "\nLast updated: " + getTimestamp() + "\n"; // TODO: include time stamp here
     cout << "\n------------------------------------------------------------\n";
     cout << "\033[33m" << "Type 'exit' to quit, 'clear' to clear the screen, 'initialize' to start program\n"; // Yellow text
     cout << "\033[37m" << "\n"; // Reset to white text

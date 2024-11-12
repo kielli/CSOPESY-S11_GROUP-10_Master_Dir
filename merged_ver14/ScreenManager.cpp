@@ -53,37 +53,56 @@ void ScreenManager::readFile(const string& fileName) {
 }
 
 // Converts the configuration into a human-readable string
-void ScreenManager::printConfig() const {
-    cout << "\nLIST OF CONFIGURATION\n";
+// void ScreenManager::printConfig() const {
+//     cout << "\nLIST OF CONFIGURATION\n";
 
-    cout << "Number of CPU: " << configData.numCPU;
-    cout << "\nScheduler: " << configData.scheduler;
-    cout << "\nQuantum cycles: " << configData.quantumCycles;
-    cout << "\nBatch process frequency: " << configData.batchProcessFreq;
-    cout << "\nMin instructions: " << configData.minInstructions;
-    cout << "\nMax instructions: " << configData.maxInstructions;
-    cout << "\nDelay per execution: " << configData.delayPerExec;
-    cout << "\n=====================================================";
+//     cout << "Number of CPU: " << configData.numCPU;
+//     cout << "\nScheduler: " << configData.scheduler;
+//     cout << "\nQuantum cycles: " << configData.quantumCycles;
+//     cout << "\nBatch process frequency: " << configData.batchProcessFreq;
+//     cout << "\nMin instructions: " << configData.minInstructions;
+//     cout << "\nMax instructions: " << configData.maxInstructions;
+//     cout << "\nDelay per execution: " << configData.delayPerExec;
+//     cout << "\n=====================================================";
+// }
+
+// Converts the configuration into a human-readable string
+string ScreenManager::printConfig() const {
+    stringstream ss;
+
+    ss << "\nLIST OF CONFIGURATION\n";
+    ss << "Number of CPU: " << configData.numCPU
+        << "\nScheduler: " << configData.scheduler
+        << "\nQuantum cycles: " << configData.quantumCycles
+        << "\nBatch process frequency: " << configData.batchProcessFreq
+        << "\nMin instructions: " << configData.minInstructions
+        << "\nMax instructions: " << configData.maxInstructions
+        << "\nDelay per execution: " << configData.delayPerExec
+        << "\n=====================================================" << endl;
+
+    return ss.str();
 }
 
 // Create a new named screen
 void ScreenManager::createScreen(const string& screenName,  int instructionCount = 0)
 {
     system("cls");
-    int ptrNumber = this->getTotalProcess();
+    int newPID = this->getTotalProcess();
 
     if (screenMap.find(screenName) == screenMap.end()) {
         // pass the ScreenManager pointer to CreatedScreen
-        screens.push_back(make_unique<CreatedScreen>(screenName, this, ptrNumber, this->getMaxInstructions(), this->memPerProc));
+        screens.push_back(make_unique<CreatedScreen>(screenName, this, newPID, instructionCount, this->memPerProc));
         
         screenMap[screenName] = screens.size() - 1;  // map screen name to index
         currentScreenIndex = screenMap[screenName]; // switch to new screen
+
         screens[0]->setActiveStatusOff();
         screens[currentScreenIndex]->setActiveStatusOn();
 
-        this->schedulerMain->getProcessList().push_back(*screens.back());
+        //this->schedulerMain->getProcessList().push_back(*screens.back());
 
-         cout << screenName << "' created with " << instructionCount  << " instructions." << "\n";
+        // debugging line
+        cout << screenName << "' created with " << instructionCount  << " instructions." << "\n";
     }
     else {
         cout << "Screen with name '" << screenName << "' already exists!\n";
@@ -142,6 +161,10 @@ bool ScreenManager::getInitializedState() {
     return this->initializedState;
 }
 
+void ScreenManager::addContent(const string& content) {
+    screens[currentScreenIndex]->Store(content);
+}
+
 void ScreenManager::initializeConfigEntries() {
     this->readFile("config.txt");
 
@@ -155,7 +178,7 @@ void ScreenManager::initializeConfigEntries() {
     this->maxInstructions = configData.maxInstructions;
     this->delayPerExec = configData.delayPerExec;
 
-    this->printConfig();
+    this->addContent(this->printConfig());
 }
 
 void ScreenManager::initializeCommand()
@@ -168,52 +191,58 @@ void ScreenManager::initializeCommand()
         this->schedulerMain = &fcfsSched;
         
         // debugging line
-        cout << "\nSet to FCFS Scheduler.\n";
+        this->addContent("Set to FCFS Scheduler\n");
     }
     else if(this->scheduler == "\"rr\"") {
         RR_Scheduler rrSched(this->numCPU, this->cpuCycleCounter, this->delayPerExec, this->quantumCycles);
         this->schedulerMain = &rrSched;
 
         // debugging line
-        cout << "\nSet to RR Scheduler.\n";
+        this->addContent("Set to RR Scheduler");
     }
 
     // debugging line
-    cout << "Initialized state: " << this->getInitializedState() << endl;
+    this->addContent("Initialized state: " + to_string(this->getInitializedState()));
+}
+
+void ScreenManager::invalidCommand(const string& command) {
+    screens[currentScreenIndex]->print_error(command);
 }
 
 void ScreenManager::handleCurrentCommand(const string& command)
-{
-    if (command.find("screen") == 0)
+{    
+    if(command.find("screen") == 0)
     {
-        if (currentScreenIndex == 0)
+        if(screens[0])
         {
-            stringstream iss;
+            stringstream iss(command.substr(6));
             string option, screenName;
             iss >> option >> screenName;
 
             if (option == "-s" && !screenName.empty()) {
+                screens[currentScreenIndex]->printAndStore("\nsreen -s " + screenName + " command recognized. Doing something.");
                 this->createScreen(screenName);
             }
             else if (option == "-r" && !screenName.empty()) {
+                screens[currentScreenIndex]->printAndStore("\nsreen -r " + screenName + " command recognized. Doing something.");
                 this->resumeScreen(screenName);
             }
             else if (option == "-ls") {
                 this->schedulerMain->displayProcesses();
             }
             else {
-                cout << "Invalid command.\n";
+                this->invalidCommand(command);
             }
         }
         else {
-            cout << "Invalid command.\n";
+             this->invalidCommand(command);
         }
     }
-    else if (command.find("scheduler") == 0 )
+    else if (command.find("scheduler") == 0)
     {
         if (currentScreenIndex == 0) 
         {
-            stringstream iss;
+            stringstream iss(command.substr(9));
             string option;
             iss >> option;
 
@@ -243,28 +272,30 @@ void ScreenManager::handleCurrentCommand(const string& command)
                 }
             }
             else if (option == "-stop") {
-                screens[currentScreenIndex]->printAndStore("scheduler -test command recognized. Doing something.");
+                screens[currentScreenIndex]->printAndStore("scheduler -stop command recognized. Doing something.");
                 schedulerStop = true;
             }
             else {
-                cout << "Invalid command.\n";
+                this->invalidCommand(command);
             }
         }
         else {
-            cout << "Invalid command.\n";
+            this->invalidCommand(command);
         }
     }
-    else if (command == "clear") {
+    else if (command == "clear")
+    {
         if (currentScreenIndex == 0) {
             screens[0]->deleteContent();
             screens[0]->display();
         }
         else {
-            cout << "Invalid command.\n";
+            this->invalidCommand(command);
         }
         
     }
-    else if (command == "exit") {
+    else if (command == "exit")
+    {
         if (this->currentScreenIndex != 0)
         {
             this->switchToMainScreen();
@@ -276,16 +307,17 @@ void ScreenManager::handleCurrentCommand(const string& command)
             }
         }
         else {
-            cout << "Exiting program...\n";
+            cout << "Exiting the program...\n";
             exit(0);
         }
     }
-    else if (command == "process -smi") {
+    else if (command == "process -smi")
+    {
         if (this->currentScreenIndex != 0) {
             this->screens[currentScreenIndex]->displayProcessSmi();
         }
         else {
-            cout << "Invalid command.\n";
+            this->invalidCommand(command);
         }
     }
     else if (command == "report -util") {
@@ -308,11 +340,11 @@ void ScreenManager::handleCurrentCommand(const string& command)
             cout << "Report generated at csopesy-log.txt.\n";
         }
         else {
-            cout << "Invalid command.\n";
+            this->invalidCommand(command);
         }
     }
     else {
-        cout << "Invalid command.\n";
+        this->invalidCommand(command);
     }
 }
 

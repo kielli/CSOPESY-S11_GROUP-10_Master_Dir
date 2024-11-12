@@ -70,9 +70,12 @@ class ScreenManager {
         Scheduler& getScheduler();
         
         void readFile(const string& fileName);
-        void printConfig() const;
+        // void printConfig() const;
+        string printConfig() const;
 
         void initializeCommand();
+        void invalidCommand(const string& command);
+
         void initializeConfigEntries();
 
         void createScreen(const string& screenName, int instructionCount);
@@ -81,6 +84,7 @@ class ScreenManager {
 
         void switchToMainScreen();  
         void displayCurrentScreen();
+        void addContent(const string& content);
 
         bool isMainScreenExitRequested();
         bool getInitializedState();

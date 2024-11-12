@@ -36,7 +36,7 @@ int main() {
         screenManager.displayCurrentScreen();
 
         cout << "\033[37m" << "\nEnter a command: "; // white text
-        getline(std::cin, command); // User input
+        getline(cin, command); // User input
         cout << "\n";
         cout.flush();
 
