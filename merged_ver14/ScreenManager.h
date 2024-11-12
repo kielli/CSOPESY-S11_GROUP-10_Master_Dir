@@ -4,7 +4,6 @@
 #include "Screen.h"
 #include "MainScreen.h"
 #include "CreatedScreen.h"
-#include "Scheduler.h"
 #include "CPU.h"
 #include "FCFS_Scheduler.h"
 #include "RR_Scheduler.h"
@@ -38,8 +37,6 @@ class ScreenManager {
         size_t memPerFrame = 0;
         size_t memPerProc = 0;  
 
-        Scheduler* schedulerMain;
-
         // Struct that holds the configuration settings
         struct configs {
             int numCPU;
@@ -53,6 +50,9 @@ class ScreenManager {
 
         configs configData;  // Holds the configuration values
 
+        FCFS_Scheduler fcfsScheduler = FCFS_Scheduler(this->numCPU, this->cpuCycleCounter, this->delayPerExec);
+        RR_Scheduler rrScheduler;
+
     public:
         ScreenManager();
 
@@ -64,15 +64,17 @@ class ScreenManager {
 
         static vector<configEntries> configMap(); // Static function to map config keys to setter functions
 
-        Scheduler& getScheduler();
-
-        void initializeScheduler();
+        FCFS_Scheduler& getFCFSScheduler();
+        RR_Scheduler& getRRscheduler();
         
         void readFile(const string& fileName);
         string printConfig() const;
 
         void initializeCommand();
         void invalidCommand(const string& command);
+
+        void runSchedulerTest();
+        void initializeScheduler();
 
         void initializeConfigEntries();
 

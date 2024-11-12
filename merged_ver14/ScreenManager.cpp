@@ -12,15 +12,19 @@
 ScreenManager::ScreenManager() {
     screens.push_back(make_unique<MainScreen>(this));
     currentScreenIndex = 0; 
+
+    for (int i = 0; i < this->numCPU; i++) {
+        this->fcfsScheduler.get_cpuList().push_back(CPU(i));
+        this->rrScheduler.get_cpuList().push_back(CPU(i));
+    }
 }
 
-void ScreenManager::initializeScheduler(){
-    if (this->scheduler == "\"fcfs\"") {
-        schedulerMain = new FCFS_Scheduler(numCPU, cpuCycleCounter, delayPerExec, quantumCycles);
-    }
-    else if (this->scheduler == "\"rr\"") {
-        schedulerMain = new RR_Scheduler(numCPU, cpuCycleCounter, delayPerExec, quantumCycles);
-    }
+FCFS_Scheduler& ScreenManager::getFCFSScheduler() {
+    return this->fcfsScheduler;
+}
+
+RR_Scheduler& ScreenManager::getRRscheduler() {
+    return this->rrScheduler;
 }
 
 // Define static map of config keys and their setter functions
@@ -94,7 +98,10 @@ void ScreenManager::createScreen(const string& screenName,  int instructionCount
         screens[0]->setActiveStatusOff();
         screens[currentScreenIndex]->setActiveStatusOn();
 
-        //this->schedulerMain->getProcessList().push_back(*screens.back());
+        if(this->scheduler == "\"fcfs\"")
+            this->fcfsScheduler.getProcessList().push_back(*screens.back());
+        else if(this->scheduler == "\"rr\"")
+            this->rrScheduler.getProcessList().push_back(*screens.back());
 
         // debugging line
         cout << screenName << "' created with " << instructionCount  << " instructions." << "\n";
@@ -112,7 +119,10 @@ void ScreenManager::createDummyScreen(const string& screenName, const int instru
         screens.push_back(make_unique<CreatedScreen>(screenName, this, newPID, instructionCount, this->memPerProc)); 
         screenMap[screenName] = screens.size() - 1;  // map screen name to index
 
-        this->schedulerMain->getProcessList().push_back(*screens.back());
+        if(this->scheduler == "\"fcfs\"")
+            this->fcfsScheduler.getProcessList().push_back(*screens.back());
+        else if(this->scheduler == "\"rr\"")
+            this->rrScheduler.getProcessList().push_back(*screens.back());
         
         cout << screenName << "' created with " << instructionCount << " instructions." << "\n";
     }
@@ -179,13 +189,12 @@ void ScreenManager::initializeConfigEntries() {
 void ScreenManager::initializeCommand()
 {
     string commandInput;
-    cout << "Enter command: ";
+    cout << "Enter a command: ";
     getline(cin, commandInput);
 
     if (commandInput == "initialize") {
         this->initializeConfigEntries();
         this->initializedState = true;
-        this->initializeScheduler();
     }
     else if (commandInput == "exit") {
         addContent("Exiting program...\n");
@@ -220,7 +229,14 @@ void ScreenManager::handleCurrentCommand(const string& command)
                 this->resumeScreen(screenName);
             }
             else if (option == "-ls") {
-                this->schedulerMain->displayProcesses();
+                if(this->scheduler == "\"fcfs\"") {
+                    this->addContent("\n[DEBUG] Displaying FCFS Processes.");
+                    this->addContent(this->fcfsScheduler.displayProcesses());
+                }
+                else if(this->scheduler == "\"rr\"") {
+                    this->addContent("\n[DEBUG] Displaying RR Processes.");
+                    this->addContent(this->rrScheduler.displayProcesses());
+                }
             }
             else {
                 this->invalidCommand(command);
@@ -238,30 +254,9 @@ void ScreenManager::handleCurrentCommand(const string& command)
             string option;
             iss >> option;
 
-            if (option == "-test")
-            {
+            if (option == "-test") {
                 screens[currentScreenIndex]->printAndStore("scheduler -test command recognized. Doing something.");
-
-                random_device rd;
-                mt19937 gen(rd());
-                uniform_int_distribution<> dis(this->minInstructions, this->maxInstructions);
-
-                int cycleCounter = 0;
-
-                while (schedulerStop == false) {
-                    if (_kbhit()) {
-                        this->PollKeyboard();
-                        this_thread::sleep_for(std::chrono::milliseconds(10));
-                        continue;
-                    }
-
-                    if (cycleCounter % this->batchProcessFreq == 0) {
-                        string pname = "process" + to_string(this->screens.size() - 1);
-                        int randomNum = dis(gen);
-                        this->createDummyScreen(pname, randomNum);
-                    }
-                    cpuCycleCounter++;
-                }
+                this->runSchedulerTest();
             }
             else if (option == "-stop") {
                 screens[currentScreenIndex]->printAndStore("scheduler -stop command recognized. Doing something.");
@@ -270,6 +265,43 @@ void ScreenManager::handleCurrentCommand(const string& command)
             else {
                 this->invalidCommand(command);
             }
+        }
+        else {
+            this->invalidCommand(command);
+        }
+    }
+    else if (command == "process -smi")
+    {
+        if (this->currentScreenIndex != 0) {
+            this->screens[currentScreenIndex]->displayProcessSmi();
+        }
+        else {
+            this->invalidCommand(command);
+        }
+    }
+    else if (command == "report -util")
+    {
+        if (this->currentScreenIndex == 0)
+        {
+            ofstream reportfile;
+
+            reportfile.open("csopesy-log.txt");
+            if (!reportfile.is_open()) {
+                cerr << "Unable to open file." << endl;
+            }
+
+            streambuf* cout_buffer = cout.rdbuf(); 
+            cout.rdbuf(reportfile.rdbuf());
+
+           if(this->scheduler == "\"fcfs\"")
+                this->addContent(this->fcfsScheduler.displayProcesses());
+            else if(this->scheduler == "\"rr\"")
+                this->addContent(this->rrScheduler.displayProcesses());
+
+            cout.rdbuf(cout_buffer); 
+            reportfile.close();
+
+            cout << "Report generated at csopesy-log.txt.\n";
         }
         else {
             this->invalidCommand(command);
@@ -303,41 +335,35 @@ void ScreenManager::handleCurrentCommand(const string& command)
             exit(0);
         }
     }
-    else if (command == "process -smi")
-    {
-        if (this->currentScreenIndex != 0) {
-            this->screens[currentScreenIndex]->displayProcessSmi();
-        }
-        else {
-            this->invalidCommand(command);
-        }
-    }
-    else if (command == "report -util") {
-        if (this->currentScreenIndex == 0)
-        {
-            ofstream reportfile;
-
-            reportfile.open("csopesy-log.txt");
-            if (!reportfile.is_open()) {
-                cerr << "Unable to open file." << endl;
-            }
-
-            streambuf* cout_buffer = cout.rdbuf(); 
-            cout.rdbuf(reportfile.rdbuf());
-            this->schedulerMain->displayProcesses();
-
-            cout.rdbuf(cout_buffer); 
-            reportfile.close();
-
-            cout << "Report generated at csopesy-log.txt.\n";
-        }
-        else {
-            this->invalidCommand(command);
-        }
-    }
     else {
         this->invalidCommand(command);
     }
+}
+
+void ScreenManager::runSchedulerTest()
+{
+    int counter = this->getTotalProcess();
+    int cpuCycleCounter = 0;
+
+    while (schedulerStop == false)
+    {
+        if (_kbhit()) {
+            this->PollKeyboard();
+            this_thread::sleep_for(std::chrono::milliseconds(10));
+            continue;
+        }
+
+        if (cpuCycleCounter % 4 == 0) {
+            string pname = "process" + to_string(counter);
+            srand(static_cast<unsigned>(time(0) + 39 % 4));
+            int instructionCount = this->getMinInstructions() + rand() % (/*screenManager->getMaxInstructions() - screenManager->getMinInstructions()*/ 100 - 200 + 1);
+
+            this->createDummyScreen(pname, instructionCount);
+            counter++;
+        }
+        this_thread::sleep_for(std::chrono::milliseconds(50));
+        cpuCycleCounter++;
+    }    
 }
 
 void ScreenManager::PollKeyboard() {
@@ -390,10 +416,6 @@ int ScreenManager::getCpuCounterCycle() {
 
 int ScreenManager::getCurrentScreenIndex() {
     return this->currentScreenIndex;
-}
-
-Scheduler& ScreenManager::getScheduler() {
-    return *schedulerMain;
 }
 
 // Setter functions for each config value

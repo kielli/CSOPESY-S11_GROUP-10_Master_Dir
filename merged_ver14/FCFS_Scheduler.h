@@ -3,7 +3,6 @@
 
 #include "Process.h"
 #include "CPU.h"
-#include "Scheduler.h"
 
 #include <thread>     
 #include <chrono>     
@@ -12,16 +11,42 @@
 
 using namespace std;
 
-class FCFS_Scheduler : public Scheduler {
-    public:
-     ~FCFS_Scheduler() {}
+class FCFS_Scheduler {
+    private:
+        int cpuNum;
+        int cpuCycle;
+        int delayPerExec;
 
-    FCFS_Scheduler(int cpuNum, int cpuCycle, int delayPerExec, int quantum)
-        : Scheduler(cpuNum, cpuCycle, delayPerExec, quantum) {}
+        struct FinishedProcess {
+            Process process;
+            chrono::system_clock::time_point finishTime;
+
+            FinishedProcess() : process("", -1, 0, 0), finishTime(chrono::system_clock::now()) {}
+        };
+
+        vector<Process> processList;
+        vector<CPU> cpuList;
+        vector<FinishedProcess> finishedProcesses;
+        vector<thread> coreThreads;
+
+        bool stopExecution = false;
+
+    public:
+        FCFS_Scheduler();
+        FCFS_Scheduler(int cpuNum, int cpuCycle, int delayPerExec);
+
+        void runScheduler(vector<Process>& processes, vector<CPU>& cores);
+        void coreExecutionLoop(CPU& core);
+        void assignProcessToCore(CPU& core);
+        void popProcess();
+        string displayProcesses();
+        void stopScheduler();
         
-    void runScheduler(vector<Process>& processes, vector<CPU>& cores) override;
-    void coreExecutionLoop(CPU& core) override;
-    void displayProcesses() override;
+        bool allCoresIdle() const;
+
+        vector<CPU>& get_cpuList();
+        vector<Process>& getProcessList();
+        vector<FCFS_Scheduler::FinishedProcess> get_finishedProcess();
 };
 
 #endif

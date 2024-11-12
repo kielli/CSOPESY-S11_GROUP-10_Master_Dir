@@ -1,15 +1,14 @@
-#include "ScreenManager.cpp"
-#include "Screen.cpp"
-#include "CreatedScreen.cpp"
-#include "MainScreen.cpp"
-#include "Process.cpp"
-#include "CPU.cpp"
-#include "FCFS_Scheduler.cpp"
-#include "RR_Scheduler.cpp"
-#include "Scheduler.cpp"
+//#include "ScreenManager.cpp"
+//#include "Screen.cpp"
+//#include "CreatedScreen.cpp"
+//#include "MainScreen.cpp"
+//#include "Process.cpp"
+//#include "CPU.cpp"
+//#include "FCFS_Scheduler.cpp"
+//#include "RR_Scheduler.cpp"
 
 // for visual studio uncomment
-// #include "ScreenManager.h"
+#include "ScreenManager.h"
 
 #include <iostream>
 #include <sstream>
@@ -25,7 +24,7 @@ int main()
 {
 	ScreenManager screenManager;
     string command;
-	thread schedulerThread;
+	thread schedulerThreadFCFS,  schedulerThreadRR;
 
     while (screenManager.getInitializedState() == false) {
         screenManager.displayCurrentScreen();
@@ -36,14 +35,27 @@ int main()
     {
         screenManager.displayCurrentScreen();
 
-        auto& scheduler = screenManager.getScheduler();
-        auto& processList = screenManager.getScheduler().getProcessList();
-        auto& cpuList = scheduler.get_cpuList();
+        if(screenManager.getSchedulerType() == "\"fcfs\"")
+        {
+            auto& schedulerFCFS = screenManager.getFCFSScheduler();
+            auto& processList = screenManager.getFCFSScheduler().getProcessList();
+            auto & cpuList = schedulerFCFS.get_cpuList();
 
-        schedulerThread = thread([&scheduler, &processList, &cpuList]() {
-            scheduler.runScheduler(processList, cpuList);
-        });
+            schedulerThreadFCFS = thread ([&schedulerFCFS, &processList, &cpuList]() {
+                schedulerFCFS.runScheduler(processList, cpuList);
+            });
 
+        }
+        else if(screenManager.getSchedulerType() == "\"rr\"")
+        {
+            auto& schedulerRR = screenManager.getRRscheduler();
+            auto& processList = screenManager.getRRscheduler().getProcessList();
+            auto& cpuList = schedulerRR.get_cpuList();
+
+            schedulerThreadRR = thread ([&schedulerRR, &processList, &cpuList]() {
+                schedulerRR.runScheduler(processList, cpuList);
+            });
+        }
 
         cout << "\033[37m" << "\nEnter a command: "; // white text
         getline(cin, command); // User input
@@ -52,8 +64,15 @@ int main()
 
         screenManager.handleCurrentCommand(command);
 
-        if (schedulerThread.joinable()) {
-            schedulerThread.join();
+        if(screenManager.getSchedulerType() == "\"fcfs\"") {
+           if (schedulerThreadFCFS.joinable()) {
+                schedulerThreadFCFS.join();
+            }
+        }
+        else if(screenManager.getSchedulerType() == "\"rr\"") {
+            if (schedulerThreadRR.joinable()) {
+                schedulerThreadRR.join();
+            }
         }
     }
 

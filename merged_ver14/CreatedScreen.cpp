@@ -18,15 +18,17 @@ void CreatedScreen::displayProcessSmi() {
     int totalIns = this->getTotalInstructions();
     int pId = this->getPID();
 
-    if(remainingIns != totalIns) {
+    if(remainingIns != 0) {
         this->printAndStore("\nProcess: " + this->pName);
         this->printAndStore("ID: " + to_string(pId) + "\n");
         this->printAndStore("Current instruction line: " + to_string(remainingIns));
         this->printAndStore("Lines of code: " + to_string(totalIns) + "\n");
     }
-    else if (remainingIns == totalIns) {
+    else if (remainingIns == 0) {
         this->printAndStore("\nProcess: " + this->pName);
         this->printAndStore("ID: " + to_string(pId) + "\n");
+        this->printAndStore("Current instruction line: " + to_string(remainingIns));
+        this->printAndStore("Lines of code: " + to_string(totalIns) + "\n");
         this->printAndStore("Finished!\n");
     }
 }

@@ -1,6 +1,8 @@
 #ifndef MAINSCREEN_H
 #define MAINSCREEN_H
 
+#include "Screen.h"
+
 #include <unordered_map>
 #include <functional>
 #include <string>

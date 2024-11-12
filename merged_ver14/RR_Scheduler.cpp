@@ -5,16 +5,59 @@
 #include <sstream>
 #include <ctime>
 
-void RR_Scheduler::runScheduler(vector<Process>& processes, vector<CPU>& cores) {
+RR_Scheduler::RR_Scheduler() {
+    this->quantum = 10;
+    this->delayPerExec = 4;
+    this->cpuCycle = 64;
+    this->cpuNum = 4;
+}
+
+RR_Scheduler::RR_Scheduler(int cpuNum, int cpuCycle, int delayPerExec, int quantum)
+    : cpuNum(cpuNum), cpuCycle(cpuCycle), delayPerExec(delayPerExec), quantum(quantum) {
+    this->quantum = quantum;
+    this->delayPerExec = delayPerExec;
+    this->cpuCycle = cpuCycle;
+    this->cpuNum = cpuNum;
+}
+
+void RR_Scheduler::runScheduler(std::vector<Process>& processes, std::vector<CPU>& cores) {
     processList = processes;
     cpuList = std::move(cores);
 
     for (auto& core : cpuList) {
-        coreThreads.emplace_back(&RR_Scheduler::coreExecutionLoop, this, ref(core));
+        coreThreads.emplace_back(&RR_Scheduler::coreExecutionLoop, this, std::ref(core));
     }
 }
 
-void RR_Scheduler::displayProcesses() {
+vector<RR_Scheduler::FinishedProcess> RR_Scheduler::get_finishedProcess() {
+    return this->finishedProcesses;
+}
+
+vector<Process>& RR_Scheduler::getProcessList() {
+    return this->processList;
+}
+
+void RR_Scheduler::assignProcessToCore(CPU& core) {
+    lock_guard<mutex> lock(processListMutex);
+
+    if (!processList.empty()) {
+        core.assignProcess(processList.front());
+        processList.erase(processList.begin());
+    }
+}
+
+void RR_Scheduler::stopScheduler() {
+    stopExecution = true;
+    for (auto& t : coreThreads) {
+        if (t.joinable()) {
+            t.join();
+        }
+    }
+}
+
+string RR_Scheduler::displayProcesses() {
+    stringstream output; 
+    
     auto now = chrono::system_clock::now();
     time_t now_time = chrono::system_clock::to_time_t(now);
     tm local_time;
@@ -25,39 +68,41 @@ void RR_Scheduler::displayProcesses() {
 
     localtime_s(&local_time, &now_time);
 
-    // Count used cores
+    // Count of used cores
     for (const auto& core : cpuList) {
         if (core.isCoreWorking()) {
             usedCores++;
         }
     }
 
-    // Calculate CPU Utilization
+    // CPU Utilization calculation
     if (totalCores > 0)
         cpuUtilization = (usedCores * 100) / totalCores;
     else
         cpuUtilization = 0;
 
-    cout << "\nCPU Utilization: " << cpuUtilization << "%\n";
-    cout << "Cores used: " << usedCores << "\n";
-    cout << "Cores available: " << (totalCores - usedCores) << "\n\n";
+    output << "\nCPU Utilization: " << cpuUtilization << "%\n";
+    output << "Cores used: " << usedCores << "\n";
+    output << "Cores available: " << (totalCores - usedCores) << "\n\n";
 
-    cout << setfill('-') << setw(50) << "" << endl;
-    cout << "Running Processes:\n";
+    output << setfill('-') << setw(50) << "" << endl;
+
+    output << "Running Processes:\n";
     for (auto& core : cpuList) {
         if (core.isCoreWorking()) {
             stringstream ss;
-            
+
             ss << core.getCpuProcess().getPName() << " "
                << "(" << put_time(&local_time, "%m/%d/%Y %I:%M:%S %p") << ") "
                << "Core: " << core.getCoreNum() << " "
                << core.getCpuProcess().getTotalInstructions() - core.getCpuProcess().getRemainingI() << "/"
                << core.getCpuProcess().getTotalInstructions();
-            cout << ss.str() << std::endl;
+            output << ss.str() << endl;
         }
     }
 
-    cout << "\nFinished Processes:\n";
+    output << "\nFinished Processes:\n";
+
     for (auto& finished : finishedProcesses) {
         time_t finish_time = chrono::system_clock::to_time_t(finished.finishTime);
         tm finish_local_time;
@@ -65,14 +110,20 @@ void RR_Scheduler::displayProcesses() {
 
         stringstream ss;
         ss << finished.process.getPName() << " "
-            << "(" << put_time(&finish_local_time, "%m/%d/%Y %I:%M:%S %p") << ") "
-            << "Finished "
-            << finished.process.getTotalInstructions() << "/"
-            << finished.process.getTotalInstructions();
+           << "(" << put_time(&finish_local_time, "%m/%d/%Y %I:%M:%S %p") << ") "
+           << "Finished "
+           << finished.process.getTotalInstructions() << "/"
+           << finished.process.getTotalInstructions();
 
-        cout << ss.str() << endl;
+        output << ss.str() << endl;
     }
-    cout << setfill('-') << setw(50) << "\n" << std::endl;
+    output << setfill('-') << setw(50) << "\n" << endl;
+
+    return output.str();
+}
+
+vector<CPU>& RR_Scheduler::get_cpuList() {
+    return this->cpuList;
 }
 
 void RR_Scheduler::coreExecutionLoop(CPU& core) {
@@ -119,5 +170,15 @@ void RR_Scheduler::coreExecutionLoop(CPU& core) {
                 core.discardProcess(); // Clear the core for the next process
             }
         }
+    }
+}
+
+void RR_Scheduler::rotateProcessList() {
+    lock_guard<mutex> lock(processListMutex);
+    
+    if (!processList.empty()) {
+        Process& frontProcess = processList.front();
+        processList.erase(processList.begin());
+        processList.push_back(frontProcess);
     }
 }

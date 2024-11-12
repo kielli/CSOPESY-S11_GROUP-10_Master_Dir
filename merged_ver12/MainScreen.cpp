@@ -123,7 +123,7 @@ void MainScreen::runSchedulerTest() {
             continue;
         }
 
-        if (cpuCycleCounter % 4/*screenManager->getbatchProcessFreq()*/ == 0) {
+        if (cpuCycleCounter % 4 == 0) {
             string pname = "process" + to_string(counter);
             srand(static_cast<unsigned>(time(0) + 39 % 4));
             int instructionCount = screenManager->getMinInstructions() + rand() % (/*screenManager->getMaxInstructions() - screenManager->getMinInstructions()*/ 100 - 200 + 1);
