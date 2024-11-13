@@ -20,13 +20,17 @@ RR_Scheduler::RR_Scheduler(int cpuNum, int cpuCycle, int delayPerExec, int quant
     this->cpuNum = cpuNum;
 }
 
-void RR_Scheduler::runScheduler(std::vector<Process>& processes, std::vector<CPU>& cores) {
+void RR_Scheduler::runScheduler(vector<Process>& processes, vector<CPU>& cores) {
     processList = processes;
-    cpuList = std::move(cores);
+    cpuList = move(cores);
+
+    cout << "\nScheduler started, CPU count: " << cpuList.size() << endl;
 
     for (auto& core : cpuList) {
         coreThreads.emplace_back(&RR_Scheduler::coreExecutionLoop, this, std::ref(core));
     }
+
+    cout << "Scheduler threads launched." << endl;
 }
 
 vector<RR_Scheduler::FinishedProcess> RR_Scheduler::get_finishedProcess() {
@@ -55,7 +59,8 @@ void RR_Scheduler::stopScheduler() {
     }
 }
 
-string RR_Scheduler::displayProcesses() {
+string RR_Scheduler::displayProcesses()
+{
     stringstream output; 
     
     auto now = chrono::system_clock::now();
@@ -69,7 +74,7 @@ string RR_Scheduler::displayProcesses() {
     localtime_s(&local_time, &now_time);
 
     // Count of used cores
-    for (const auto& core : cpuList) {
+    for (auto& core : cpuList) {
         if (core.isCoreWorking()) {
             usedCores++;
         }
@@ -130,16 +135,18 @@ void RR_Scheduler::coreExecutionLoop(CPU& core) {
     while (!stopExecution) {
         // Assign a process to the core if it's not currently working and there are processes in the queue
         if (!core.isCoreWorking() && !processList.empty()) {
+            cout << "Assigning process to Core " << core.getCoreNum() << std::endl;  // Debugging
             assignProcessToCore(core);
         }
 
         // If the core is currently working, execute the process
         if (core.isCoreWorking()) {
-            auto startTime = std::chrono::steady_clock::now(); // Start time tracking
+            auto startTime = chrono::steady_clock::now(); // Start time tracking
 
             // Execute the current process for the specified quantum time (in seconds)
             while (!core.getCpuProcess().hasFinished()) {
                 int instructionsToExecute = min(quantum, core.getCpuProcess().getRemainingI());
+                cout << "Running process on Core " << core.getCoreNum() << std::endl;  // Debugging
                 core.runRProcess(instructionsToExecute); // Executes one instruction
 
                 // Sleep for a short time to allow other processes to get CPU time

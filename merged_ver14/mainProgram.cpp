@@ -1,14 +1,14 @@
-//#include "ScreenManager.cpp"
-//#include "Screen.cpp"
-//#include "CreatedScreen.cpp"
-//#include "MainScreen.cpp"
-//#include "Process.cpp"
-//#include "CPU.cpp"
-//#include "FCFS_Scheduler.cpp"
-//#include "RR_Scheduler.cpp"
+#include "ScreenManager.cpp"
+#include "Screen.cpp"
+#include "CreatedScreen.cpp"
+#include "MainScreen.cpp"
+#include "Process.cpp"
+#include "CPU.cpp"
+#include "FCFS_Scheduler.cpp"
+#include "RR_Scheduler.cpp"
 
 // for visual studio uncomment
-#include "ScreenManager.h"
+//#include "ScreenManager.h"
 
 #include <iostream>
 #include <sstream>
@@ -38,7 +38,7 @@ int main()
         if(screenManager.getSchedulerType() == "\"fcfs\"")
         {
             auto& schedulerFCFS = screenManager.getFCFSScheduler();
-            auto& processList = screenManager.getFCFSScheduler().getProcessList();
+            auto& processList = schedulerFCFS.getProcessList();
             auto & cpuList = schedulerFCFS.get_cpuList();
 
             schedulerThreadFCFS = thread ([&schedulerFCFS, &processList, &cpuList]() {
@@ -49,7 +49,7 @@ int main()
         else if(screenManager.getSchedulerType() == "\"rr\"")
         {
             auto& schedulerRR = screenManager.getRRscheduler();
-            auto& processList = screenManager.getRRscheduler().getProcessList();
+            auto& processList = schedulerRR.getProcessList();
             auto& cpuList = schedulerRR.get_cpuList();
 
             schedulerThreadRR = thread ([&schedulerRR, &processList, &cpuList]() {

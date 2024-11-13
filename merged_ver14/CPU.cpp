@@ -36,7 +36,8 @@ void CPU::runProcess() {
 }
 
 void CPU::runRProcess(int instructionLimit) {
-    outFile.open("process_" + to_string(cpuProcess.getPID()) + ".txt", std::ios_base::app);
+    outFile.open("process_" + to_string(cpuProcess.getPID()) + ".txt", ios_base::app);
+
     if (!outFile.is_open()) {
         cerr << "Failed to open the log file for process: " << cpuProcess.getPID() << endl;
         return;
@@ -62,7 +63,8 @@ void CPU::runRProcess(int instructionLimit) {
 }
 
 void CPU::runRRProcess() {
-    outFile.open("process_" + to_string(cpuProcess.getPID()) + ".txt", std::ios_base::app);
+    outFile.open("process_" + to_string(cpuProcess.getPID()) + ".txt", ios_base::app);
+    
     if (!outFile.is_open()) {
         cerr << "Failed to open the log file for process: " << cpuProcess.getPID() << endl;
         return;

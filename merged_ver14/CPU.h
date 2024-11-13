@@ -13,7 +13,7 @@
 
 using namespace std;
 
-class CPU{
+class CPU {
     private:
         int coreNum;
         bool isWorking = false;

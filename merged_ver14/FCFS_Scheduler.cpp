@@ -67,7 +67,7 @@ string FCFS_Scheduler::displayProcesses() {
     localtime_s(&local_time, &now_time);
 
     // Count  of used cores
-    for (const auto& core : cpuList) {
+    for (auto& core : cpuList) {
         if (core.isCoreWorking()) {
             usedCores++;
         }
