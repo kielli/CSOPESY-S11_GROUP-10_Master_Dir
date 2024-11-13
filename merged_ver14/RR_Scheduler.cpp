@@ -24,7 +24,7 @@ void RR_Scheduler::runScheduler(vector<Process>& processes, vector<CPU>& cores) 
     processList = processes;
     cpuList = move(cores);
 
-    cout << "\nScheduler started, CPU count: " << cpuList.size() << endl;
+    cout << "\nScheduler RR started, CPU count: " << cpuList.size() << endl;
 
     for (auto& core : cpuList) {
         coreThreads.emplace_back(&RR_Scheduler::coreExecutionLoop, this, std::ref(core));

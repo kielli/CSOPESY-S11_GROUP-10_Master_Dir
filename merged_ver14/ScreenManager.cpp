@@ -27,6 +27,18 @@ RR_Scheduler& ScreenManager::getRRscheduler() {
     return this->rrScheduler;
 }
 
+void ScreenManager::initialize(int numCPU, string scheduler, int quantumCycles, int batchProcessFreq, int minInstructions, int maxInstructions, int delayPerExec)
+{
+    this->numCPU = numCPU;
+    this->scheduler = scheduler;
+    this->batchProcessFreq = batchProcessFreq;
+    this->quantumCycles = quantumCycles;
+    this->minInstructions = minInstructions;
+    this->maxInstructions = minInstructions;
+    this->delayPerExec = delayPerExec;
+    this->initializedState = true;
+}
+
 // Define static map of config keys and their setter functions
 vector<ScreenManager::configEntries> ScreenManager::configMap() {
     return {
@@ -172,17 +184,12 @@ void ScreenManager::addContent(const string& content) {
 
 void ScreenManager::initializeConfigEntries() {
     this->readFile("config.txt");
+    this->addContent("Program initialized...\n");
 
-    cout << "Program initialized...\n";
-
-    this->scheduler = configData.scheduler;
-    this->numCPU = configData.numCPU;
-    this->quantumCycles = configData.quantumCycles;
-    this->batchProcessFreq = configData.batchProcessFreq;
-    this->minInstructions = configData.minInstructions;
-    this->maxInstructions = configData.maxInstructions;
-    this->delayPerExec = configData.delayPerExec;
-
+    this->initialize(configData.numCPU, configData.scheduler, configData.quantumCycles,
+                configData.batchProcessFreq, configData.minInstructions,
+                configData.minInstructions, configData.delayPerExec);
+                
     this->addContent(this->printConfig());
 }
 

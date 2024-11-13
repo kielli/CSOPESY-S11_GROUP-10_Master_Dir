@@ -69,6 +69,7 @@ class ScreenManager {
         
         void readFile(const string& fileName);
         string printConfig() const;
+        void initialize(int numCPU, string scheduler, int quantumCycles, int batchProcessFreq, int minInstructions, int maxInstructions, int delayPerExec);
 
         void initializeCommand();
         void invalidCommand(const string& command);

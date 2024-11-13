@@ -146,8 +146,6 @@ int main() {
             }
         }
         else if (command == "initialize" && screenManager.getInitializeState() == false) {
-            cout << "Program initialized." << endl;
-
             config = readFile(); // Read the config from the file and get its corresponding values
             screenManager.addContent("Program initialized...");
             screenManager.initialize(config.numCPU, config.scheduler, config.quantumCycles, config.batchProcessFreq, config.minInstructions, config.maxInstructions, config.delayPerExec);

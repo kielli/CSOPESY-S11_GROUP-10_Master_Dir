@@ -24,7 +24,7 @@ int main()
 {
 	ScreenManager screenManager;
     string command;
-	thread schedulerThreadFCFS,  schedulerThreadRR;
+	thread schedulerThreadFCFS, schedulerThreadRR;
 
     while (screenManager.getInitializedState() == false) {
         screenManager.displayCurrentScreen();
@@ -44,7 +44,6 @@ int main()
             schedulerThreadFCFS = thread ([&schedulerFCFS, &processList, &cpuList]() {
                 schedulerFCFS.runScheduler(processList, cpuList);
             });
-
         }
         else if(screenManager.getSchedulerType() == "\"rr\"")
         {
@@ -61,7 +60,7 @@ int main()
         getline(cin, command); // User input
         cout << "\n";
         cout.flush(); 
-
+        
         screenManager.handleCurrentCommand(command);
 
         if(screenManager.getSchedulerType() == "\"fcfs\"") {
