@@ -262,6 +262,9 @@ void ScreenManager::handleCurrentCommand(const string& command)
             iss >> option;
 
             if (option == "-test") {
+                // always set the schedulerStop to false
+                schedulerStop = false;
+                
                 screens[currentScreenIndex]->printAndStore("scheduler -test command recognized. Doing something.");
                 this->runSchedulerTest();
             }
