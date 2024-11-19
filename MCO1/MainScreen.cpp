@@ -75,6 +75,7 @@ void MainScreen::displayHeader() {
     cout << "\t   Hallar, Francine Marie\n";
     cout << "\t   Hong, Letty\n";
     cout << "\t   Pe, Gyan Josh\n";
+    cout << "\t   Abenoja, Amelia Joyce\n";
 
     cout << "\nLast updated:" + this->getTimestamp() + "\n";
     cout << "\n------------------------------------------------------------\n";
