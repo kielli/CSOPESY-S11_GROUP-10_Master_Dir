@@ -1,0 +1,19 @@
+CPU Utilization: 0%
+Cores used: 3
+Cores available: 1
+
+--------------------------------------
+Running processes:
+Process_10	(11/26/2024, 07:18:28 PM)	Core: 0	101 / 198
+Process_8	(11/26/2024, 07:18:26 PM)	Core: 2	23 / 166
+Process_9	(11/26/2024, 07:18:27 PM)	Core: 3	12 / 115
+
+--------------------------------------
+Finished processes:
+Process_1	(11/26/2024, 07:18:23 PM)	FINISHED	0 / 161
+Process_2	(11/26/2024, 07:18:23 PM)	FINISHED	0 / 114
+Process_3	(11/26/2024, 07:18:24 PM)	FINISHED	0 / 131
+Process_4	(11/26/2024, 07:18:24 PM)	FINISHED	0 / 198
+Process_5	(11/26/2024, 07:18:25 PM)	FINISHED	0 / 134
+Process_6	(11/26/2024, 07:18:25 PM)	FINISHED	0 / 118
+Process_7	(11/26/2024, 07:18:26 PM)	FINISHED	0 / 148
