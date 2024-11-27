@@ -41,6 +41,8 @@ public:
 
     void generateCommands();
 
+    void setCPUCoreID(int cpuCoreID);
+
 private:
     int pid;
     String name;

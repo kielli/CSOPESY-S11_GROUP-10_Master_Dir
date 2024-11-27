@@ -67,7 +67,7 @@ std::shared_ptr<Process> Scheduler::createUniqueProcess()
 		this->addProcessToReadyQueue(newProcess);
 
 		// debugger:
-		std::cout << "Process " << newProcess->getName() << " added to ready queue" << std::endl;
+		//std::cout << "Process " << newProcess->getName() << " added to ready queue" << std::endl;
 
 		return newProcess;
 	}
@@ -105,7 +105,7 @@ void Scheduler::displaySchedulerStatus()
 
 	for (int i = 0; i < this->processList.size(); i++) {
 		std::shared_ptr<Process> process = this->processList[i];
-		if (process->getState() == Process::ProcessState::RUNNING || process->getCPUCoreID() == -1) {
+		if (process->getState() == Process::ProcessState::RUNNING || process->getCPUCoreID() == -1 || process->getState() == Process::ProcessState::WAITING) {
 			String processName = process->getName();
 			int commandCounter = process->getCommandCounter();
 			int linesOfCode = process->getLinesOfCode();
@@ -244,55 +244,36 @@ void Scheduler::runFCFSScheduler(int delay)
 	}
 }
 
+
 void Scheduler::runRoundRobinScheduler(int delay, int quantum)
 {
-	int cpuCycleCounter = 0;
+	int quantumCounter = 0;
 
-	while (this->isRunning) {
+    while(this->isRunning) {
 		for (int i = 0; i < this->cpuCoreList.size(); i++) {
 			std::shared_ptr<CPUCore> cpuCore = this->cpuCoreList[i];
 
 			if (cpuCore->isAvailable()) {
 				if (!this->readyQueue.empty()) {
-					// Get the next process from the ready queue
 					std::shared_ptr<Process> process = this->readyQueue.front();
 					this->readyQueue.erase(this->readyQueue.begin());
 
-					// Assign process to CPU core
 					cpuCore->assignProcess(process);
 
-					// Run the process for one quantum
-					int elapsedTime = 0;
-
-					// Execute commands for the process until quantum is finished or process is done
-					while (elapsedTime < quantum && !process->isFinished()) {
-
-						//process->executeCurrentCommand();
-						process->moveToNextLine();
-						elapsedTime++;
-
-						std::this_thread::sleep_for(std::chrono::milliseconds(delay));
-					}
-
-					// If the process is not finished, push it back to the ready queue
-					if (!process->isFinished()) {
+					if(cpuCore->getProcess()->getState() == Process::ProcessState::WAITING) {
+						cpuCore->getProcess()->setCPUCoreID(-1);
 						this->readyQueue.push_back(process);
-
-						
 					}
 
-					cpuCore->assignProcess(nullptr);  // Free the CPU core
-					
+
 				}
 			}
+			
 		}
-
-		// Sleep for the specified delay to simulate CPU cycles
-		std::this_thread::sleep_for(std::chrono::milliseconds(delay));
-
-		cpuCycleCounter++;
 	}
 }
+
+
 
 Scheduler::Scheduler()
 {

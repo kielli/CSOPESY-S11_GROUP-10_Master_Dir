@@ -82,6 +82,7 @@ void CPUCore::run()
 
 	while (this->stopFlag == false) {
 		if (this->process != nullptr) {
+			
 			this->process->cpuCoreID = this->cpuCoreID;
 			
 			this->process->currentState = Process::ProcessState::RUNNING;
@@ -96,8 +97,13 @@ void CPUCore::run()
 
 				this->assignProcess(nullptr);
 				this->availableFlag = true;
+			}
+			else {
+				String sched = GlobalConfig::getInstance()->getScheduler();
 
-				
+				if (sched == "rr") {
+					this->process->currentState = Process::ProcessState::WAITING;
+				}
 			}
 
 			std::this_thread::sleep_for(std::chrono::milliseconds(100));

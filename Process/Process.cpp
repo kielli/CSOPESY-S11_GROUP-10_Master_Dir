@@ -108,3 +108,8 @@ void Process::generateCommands()
 		this->addCommand(ICommand::CommandType::PRINT);
 	}
 }
+
+void Process::setCPUCoreID(int cpuCoreID)
+{
+	this->cpuCoreID = cpuCoreID;
+}
