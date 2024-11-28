@@ -1,0 +1,14 @@
+C:\Users\Acer\OneDrive\Desktop\GitHub\CSOPESY\CSOPESY-Process-Scheduler\Scheduler\CPUCore.cpp;C:\Users\Acer\OneDrive\Desktop\GitHub\CSOPESY\CSOPESY-Process-Scheduler\CSOPESY-.b1732ff2\x64\Debug\CPUCore.obj
+C:\Users\Acer\OneDrive\Desktop\GitHub\CSOPESY\CSOPESY-Process-Scheduler\Scheduler\Scheduler.cpp;C:\Users\Acer\OneDrive\Desktop\GitHub\CSOPESY\CSOPESY-Process-Scheduler\CSOPESY-.b1732ff2\x64\Debug\Scheduler.obj
+C:\Users\Acer\OneDrive\Desktop\GitHub\CSOPESY\CSOPESY-Process-Scheduler\Console\MainConsole.cpp;C:\Users\Acer\OneDrive\Desktop\GitHub\CSOPESY\CSOPESY-Process-Scheduler\CSOPESY-.b1732ff2\x64\Debug\MainConsole.obj
+C:\Users\Acer\OneDrive\Desktop\GitHub\CSOPESY\CSOPESY-Process-Scheduler\Config\GlobalConfig.cpp;C:\Users\Acer\OneDrive\Desktop\GitHub\CSOPESY\CSOPESY-Process-Scheduler\CSOPESY-.b1732ff2\x64\Debug\GlobalConfig.obj
+C:\Users\Acer\OneDrive\Desktop\GitHub\CSOPESY\CSOPESY-Process-Scheduler\Command\PrintCommand.cpp;C:\Users\Acer\OneDrive\Desktop\GitHub\CSOPESY\CSOPESY-Process-Scheduler\CSOPESY-.b1732ff2\x64\Debug\PrintCommand.obj
+C:\Users\Acer\OneDrive\Desktop\GitHub\CSOPESY\CSOPESY-Process-Scheduler\Log\MessageBuffer.cpp;C:\Users\Acer\OneDrive\Desktop\GitHub\CSOPESY\CSOPESY-Process-Scheduler\CSOPESY-.b1732ff2\x64\Debug\MessageBuffer.obj
+C:\Users\Acer\OneDrive\Desktop\GitHub\CSOPESY\CSOPESY-Process-Scheduler\Process\Process.cpp;C:\Users\Acer\OneDrive\Desktop\GitHub\CSOPESY\CSOPESY-Process-Scheduler\CSOPESY-.b1732ff2\x64\Debug\Process.obj
+C:\Users\Acer\OneDrive\Desktop\GitHub\CSOPESY\CSOPESY-Process-Scheduler\Layout\DummyProcessLayout.cpp;C:\Users\Acer\OneDrive\Desktop\GitHub\CSOPESY\CSOPESY-Process-Scheduler\CSOPESY-.b1732ff2\x64\Debug\DummyProcessLayout.obj
+C:\Users\Acer\OneDrive\Desktop\GitHub\CSOPESY\CSOPESY-Process-Scheduler\Event\KeyboardEventHandler.cpp;C:\Users\Acer\OneDrive\Desktop\GitHub\CSOPESY\CSOPESY-Process-Scheduler\CSOPESY-.b1732ff2\x64\Debug\KeyboardEventHandler.obj
+C:\Users\Acer\OneDrive\Desktop\GitHub\CSOPESY\CSOPESY-Process-Scheduler\Console\MarqueeConsole.cpp;C:\Users\Acer\OneDrive\Desktop\GitHub\CSOPESY\CSOPESY-Process-Scheduler\CSOPESY-.b1732ff2\x64\Debug\MarqueeConsole.obj
+C:\Users\Acer\OneDrive\Desktop\GitHub\CSOPESY\CSOPESY-Process-Scheduler\Screen\BaseScreen.cpp;C:\Users\Acer\OneDrive\Desktop\GitHub\CSOPESY\CSOPESY-Process-Scheduler\CSOPESY-.b1732ff2\x64\Debug\BaseScreen.obj
+C:\Users\Acer\OneDrive\Desktop\GitHub\CSOPESY\CSOPESY-Process-Scheduler\Console\ConsoleManager.cpp;C:\Users\Acer\OneDrive\Desktop\GitHub\CSOPESY\CSOPESY-Process-Scheduler\CSOPESY-.b1732ff2\x64\Debug\ConsoleManager.obj
+C:\Users\Acer\OneDrive\Desktop\GitHub\CSOPESY\CSOPESY-Process-Scheduler\Console\AConsole.cpp;C:\Users\Acer\OneDrive\Desktop\GitHub\CSOPESY\CSOPESY-Process-Scheduler\CSOPESY-.b1732ff2\x64\Debug\AConsole.obj
+C:\Users\Acer\OneDrive\Desktop\GitHub\CSOPESY\CSOPESY-Process-Scheduler\main.cpp;C:\Users\Acer\OneDrive\Desktop\GitHub\CSOPESY\CSOPESY-Process-Scheduler\CSOPESY-.b1732ff2\x64\Debug\main.obj
