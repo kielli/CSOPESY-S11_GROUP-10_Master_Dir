@@ -293,7 +293,7 @@ void MainConsole::executeSchedulerTestCommand()
 
 		while (this->isStopSchedulerTest == false) {
 			if (cpuCycleCounter % batchProcessFreq == 0) {
-				std::shared_ptr<Process> newProcess = Scheduler::getInstance()->createUniqueProcess();
+				std::shared_ptr<Process> newProcess = Scheduler::getInstance()->createUniqueProcess("");
 
 				String processName = newProcess->getName();
 				if (ConsoleManager::getInstance()->findExistingProcess(processName)) {

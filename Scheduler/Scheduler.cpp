@@ -47,13 +47,15 @@ void Scheduler::startSchedulerThread(String scheduler, int delay, int quantum)
 	}
 }
 
-std::shared_ptr<Process> Scheduler::createUniqueProcess()
+std::shared_ptr<Process> Scheduler::createUniqueProcess(String name)
 {
 	int totalLines = GlobalConfig::getInstance()->getRandomInstructionCount();
 	int pidCounter = ConsoleManager::getInstance()->getProcessTableSize();
 	pidCounter += 1;
 
-	String name = this->generateUniqueProcessName(pidCounter);
+	if (name != "") {
+		String name = this->generateUniqueProcessName(pidCounter);
+	}
 
 	std::shared_ptr<Process> existingProcess = this->findProcess(name);
 
@@ -61,7 +63,14 @@ std::shared_ptr<Process> Scheduler::createUniqueProcess()
 		return existingProcess;
 	}
 	else {
-		std::shared_ptr<Process> newProcess = std::make_shared<Process>(pidCounter, name, totalLines);
+		Process::RequirementFlags requirementFlags = {
+			true,
+			0,
+			true,
+			GlobalConfig::getInstance()->getMemPerProcess()
+		};
+
+		std::shared_ptr<Process> newProcess = std::make_shared<Process>(pidCounter, name, totalLines, requirementFlags);
 		newProcess->generateCommands();
 
 		this->addProcessToReadyQueue(newProcess);

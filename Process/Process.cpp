@@ -1,18 +1,13 @@
 #include "Process.h"
 #include "Process.h"
+#include <MemoryManager.h>
 
 
 
-Process::Process(int pid, String name, int totalLines)
+Process::Process(int pid, String name, int totalLines, RequirementFlags flags)
+	: pid(pid), name(name), requirementFlags(flags), currentState(READY), commandCounter(0), totalLines(totalLines), cpuCoreID(-1)
 {
-	this->pid = pid;
-	this->name = name;
-	this->totalLines = totalLines;
-	
 	this->generateArrivalTime();
-
-	this->commandCounter = 0;
-	this->currentState = ProcessState::READY;
 }
 
 void Process::manualAddCommand(String command)
@@ -112,4 +107,24 @@ void Process::generateCommands()
 void Process::setCPUCoreID(int cpuCoreID)
 {
 	this->cpuCoreID = cpuCoreID;
+}
+
+void Process::setBaseAddress(char *baseAddress)
+{
+	this->baseAddress = baseAddress;
+}
+
+char *Process::getBaseAddress() const
+{
+    return this->baseAddress;
+}
+
+size_t Process::getMemorySize() const
+{
+	return this->requirementFlags.memoryRequired;
+}
+
+size_t Process::getNumberOfPages() const
+{
+    return this->requirementFlags.memoryRequired / MemoryManager::getInstance()->getMemoryPerFrame();
 }

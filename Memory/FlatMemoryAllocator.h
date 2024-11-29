@@ -1,29 +1,33 @@
 #pragma once
-#include <unordered_map>
+#include <algorithm>
+#include <string>
+#include <iostream>
 
 #include "IMemoryAllocator.h"
+#include "../Process/Process.h"
 
 
 class FlatMemoryAllocator : public IMemoryAllocator
 {
 public:
-	FlatMemoryAllocator(size_t maximumSize);
+	FlatMemoryAllocator(char* baseAddress, size_t maximumSize);
 	~FlatMemoryAllocator();
 
-	void* allocate(size_t size) override;
-	void deallocate(void* ptr) override;
+	void* allocate(std::shared_ptr<Process> process) override;
+	void deallocate(std::shared_ptr<Process> process) override;
+	void visualizeMemory() const override;
 
-	String visualizeMemory() override;
+	bool isFull() const override;
 
 private:
 	size_t maximumSize;
 	size_t allocatedSize;
-	CharVector memory;
-	std::unordered_map<size_t, bool> allocationMap;
 
-	void initializeMemory();
+	char* baseAddress;
+	std::vector<bool> allocationMap;
+
 	bool canAllocateAt(size_t index, size_t size) const;
 	void allocateAt(size_t index, size_t size);
-	void deallocateAt(size_t index);
+	void deallocateAt(size_t index, size_t size);
 };
 

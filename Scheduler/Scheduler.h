@@ -22,7 +22,7 @@ public:
 
 	void startSchedulerThread(String scheduler, int delay, int quantum);
 
-	std::shared_ptr<Process> createUniqueProcess();
+	std::shared_ptr<Process> createUniqueProcess(String name);
 	std::shared_ptr<Process> findProcess(String name) const;
 
 	void displaySchedulerStatus();

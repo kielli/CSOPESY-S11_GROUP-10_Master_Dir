@@ -1,6 +1,7 @@
 #include <Windows.h>
 
 #include "Config/GlobalConfig.h"
+#include "Memory/MemoryManager.h"
 #include "Scheduler/Scheduler.h"
 #include "Console/ConsoleManager.h"
 
@@ -17,6 +18,7 @@ int main()
 	String filename = "config.txt";
 	GlobalConfig::getInstance()->loadConfigFile(filename);
 
+	MemoryManager::initialize();
 	Scheduler::initialize();
 	ConsoleManager::initialize();
 
@@ -28,9 +30,11 @@ int main()
 		running = ConsoleManager::getInstance()->isRunning();
 	}
 
-	GlobalConfig::destroy();
+	
 	ConsoleManager::destroy();
 	Scheduler::destroy();
+	MemoryManager::destroy();
+	GlobalConfig::destroy();
 
 	return 0;
 }

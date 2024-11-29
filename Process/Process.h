@@ -10,6 +10,14 @@
 class Process
 {
 public:
+	struct RequirementFlags {
+		bool requireFiles;
+		int numFiles;
+		bool requireMemory;
+		int memoryRequired;
+	};
+
+
     enum ProcessState {
         READY,
         RUNNING,
@@ -17,7 +25,7 @@ public:
         FINISHED
     };
 
-    Process(int pid, String name, int totalLines);
+    Process(int pid, String name, int totalLines, RequirementFlags flags);
 
     void manualAddCommand(String command);
 
@@ -43,6 +51,14 @@ public:
 
     void setCPUCoreID(int cpuCoreID);
 
+    void setBaseAddress(char* baseAddress);
+    char* getBaseAddress() const;
+
+    size_t getMemorySize() const;
+
+    size_t getNumberOfPages() const;
+
+
 private:
     int pid;
     String name;
@@ -54,11 +70,13 @@ private:
     CommandList commandList;
     int cpuCoreID = -1;
     ProcessState currentState;
+    RequirementFlags requirementFlags;
+    char* baseAddress;
 
     // mutex for process
     std::mutex processMutex;
 
-	friend class CPUCore;
+	friend class CPUCore; 
 };
 
 
