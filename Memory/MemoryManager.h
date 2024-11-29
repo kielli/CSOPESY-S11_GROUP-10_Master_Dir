@@ -63,6 +63,8 @@ public:
 
 	size_t frameCount;
 
+	size_t getMemoryPerFrame() const;
+
 private:
 	MemoryManager();
 	~MemoryManager() = default;

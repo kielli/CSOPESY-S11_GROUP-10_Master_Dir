@@ -1,5 +1,7 @@
 #include "MemoryManager.h"
 #include <Scheduler.h>
+#include "PagingAllocator.h"
+#include "FlatMemoryAllocator.h"
 
 MemoryManager* MemoryManager::sharedInstance = nullptr;
 
@@ -209,11 +211,14 @@ void MemoryManager::setMemoryAllocator()
     }
 }
 
+size_t MemoryManager::getMemoryPerFrame() const
+{
+    return this->memoryPerFrame;
+}
+
 // Constructor
 MemoryManager::MemoryManager():
 	baseAddress(0),
-	maxMemory(0),
-	memoryPerFrame(0),
 	minMemoryPerProcess(0),
 	maxMemoryPerProcess(0),
 	frameCount(0),
@@ -221,6 +226,8 @@ MemoryManager::MemoryManager():
 	pageOutCount(0),
 	processCount(0)
 {
+	this->maxMemory = GlobalConfig::getInstance()->getMaxOverallMem();
+	this->memoryPerFrame = GlobalConfig::getInstance()->getMemPerFrame();
 }
 
 String MemoryManager::updateTimeStamp()

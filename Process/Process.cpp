@@ -32,7 +32,6 @@ void Process::executeCurrentCommand() const
 }
 
 void Process::moveToNextLine() {
-    std::lock_guard<std::mutex> lock(this->processMutex); // Add a mutex to Process class
     if (this->commandCounter < this->commandList.size()) {
         this->commandCounter++;
     }
