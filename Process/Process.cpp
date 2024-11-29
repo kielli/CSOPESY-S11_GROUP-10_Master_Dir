@@ -1,8 +1,6 @@
 #include "Process.h"
 #include "Process.h"
 
-
-
 Process::Process(int pid, String name, int totalLines)
 {
 	this->pid = pid;

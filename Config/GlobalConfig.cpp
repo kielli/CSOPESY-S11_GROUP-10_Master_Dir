@@ -185,7 +185,7 @@ bool GlobalConfig::parseConfigFile(String& line) {
 }
 
 void GlobalConfig::printConfig() const {
-	std::cout << "Number of CPUs: " << static_cast<int>(config.num_cpu) << std::endl;
+	std::cout << "\nNumber of CPUs: " << static_cast<int>(config.num_cpu) << std::endl;
 	std::cout << "Scheduler: " << config.scheduler << std::endl;
 	std::cout << "Quantum Cycles: " << config.quantum_cycles << std::endl;
 	std::cout << "Batch Process Frequency: " << config.batch_process_freq << std::endl;

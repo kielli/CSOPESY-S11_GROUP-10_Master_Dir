@@ -3,12 +3,9 @@
 #include <limits>
 #include <memory>
 
-
-
 #include "../TypeDefRepo.h"
 #include "../Console/AConsole.h"
 #include "../Process/Process.h"
-
 
 class BaseScreen : public AConsole
 {
@@ -20,6 +17,7 @@ public:
 
 private:
 	void printProcessInfo();
+	void printProcessSmi();
 	std::shared_ptr<Process> attachedProcess;
 	bool refreshed = false;
 };

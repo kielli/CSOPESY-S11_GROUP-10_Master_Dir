@@ -43,12 +43,16 @@ public:
 
     void setCPUCoreID(int cpuCoreID);
 
+    int getNumPages();
+
 private:
     int pid;
     String name;
     int totalLines;
     int commandCounter = 0;
     std::tm localArrivalTime; // Store the Arrival Time
+
+    int pageNum;
 
     typedef std::vector<std::shared_ptr<ICommand>> CommandList;
     CommandList commandList;

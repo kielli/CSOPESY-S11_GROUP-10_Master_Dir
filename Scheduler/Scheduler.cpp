@@ -35,12 +35,9 @@ void Scheduler::startSchedulerThread(String scheduler, int delay, int quantum)
 
 		if (scheduler == "fcfs") {
 			schedulerThread = std::thread(&Scheduler::runFCFSScheduler, this, delay);
-
-			
 		}
 		else if (scheduler == "rr") {
 			schedulerThread = std::thread(&Scheduler::runRoundRobinScheduler, this, delay, quantum);
-
 		}
 
 		schedulerThread.detach();
@@ -76,7 +73,6 @@ std::shared_ptr<Process> Scheduler::createUniqueProcess()
 std::shared_ptr<Process> Scheduler::findProcess(String name) const
 {
 	return ConsoleManager::getInstance()->findProcess(name);
-
 }
 
 void Scheduler::displaySchedulerStatus()
@@ -91,7 +87,7 @@ void Scheduler::displaySchedulerStatus()
 
 	float cpuUtil = (this->numCPU - availableCPUCount) / this->numCPU * 100;
 
-	std::cout << "CPU Utilization: " << cpuUtil << "%" << std::endl;
+	std::cout << "CPU Utilization: " << this->getCpuUtil() << "%" << std::endl;
 	std::cout << "Cores used: " << this->numCPU - availableCPUCount << std::endl;
 	std::cout << "Cores available: " << availableCPUCount << std::endl;
 	std::cout << std::endl;
@@ -177,6 +173,13 @@ void Scheduler::displaySchedulerStatus()
 	}
 }
 
+// added
+int Scheduler::getCpuUtil() {
+	int availableCPUCount = 0;
+
+	return (this->numCPU - availableCPUCount) / this->numCPU * 100;
+}
+
 String Scheduler::generateUniqueProcessName(int id)
 {
 	std::stringstream ss;
@@ -243,7 +246,6 @@ void Scheduler::runFCFSScheduler(int delay)
 		}
 	}
 }
-
 
 void Scheduler::runRoundRobinScheduler(int delay, int quantum)
 {

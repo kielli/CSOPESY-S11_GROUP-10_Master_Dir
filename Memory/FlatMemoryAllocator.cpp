@@ -61,7 +61,6 @@ void FlatMemoryAllocator::allocateAt(size_t index, size_t size)
 		this->allocationMap[i] = true;
 	}
 	
-	
 	this->allocatedSize += size;
 }
 

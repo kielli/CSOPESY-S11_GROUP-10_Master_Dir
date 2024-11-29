@@ -1,8 +1,5 @@
 #include "MainConsole.h"
 
-
-
-
 MainConsole::MainConsole() : AConsole("MainConsole")
 {
 }
@@ -23,7 +20,7 @@ void MainConsole::process()
 	isRunning = true;
 
 	while (isRunning) {
-		std::cout << "Enter a command: ";
+		std::cout << "\nEnter a command: ";
 		std::getline(std::cin, commandMain);
 
 		// Check if it is a valid initialize command
@@ -45,8 +42,6 @@ void MainConsole::process()
 			}
 		}
 
-		
-		
 		// Check if the program is initialized before proceeding
 		if (this->isInitialized) {
 			isValidCommand = this->validateCommand(commandMain);
@@ -101,6 +96,12 @@ void MainConsole::process()
 				else if (commandMain == "report-util") {
 					this->executeReportUtilizationCommand();
 				}
+				else if (commandMain == "process-smi") { //added
+					this->displayMainProcessSmi();
+				}
+				else if (commandMain == "vmstat") { //added
+					this->displayVmstat();
+				}
 				else if (commandMain == "dummy-layout") {
 					this->executeDummyLayoutCommand();
 				}
@@ -148,9 +149,13 @@ void MainConsole::displayDevelopers() const
 	SetConsoleTextAttribute(console_color, 15);
 
 	std::cout << "Developers: \n";
-	std::cout << "1. Abenoja, Amelia Joyce L. \n";
+	std::cout << "1. Abenoja, Amelia Joyce \n";
+	std::cout << "2. Cipriaso, James Kielson \n";
+	std::cout << "3. Hallar, Francine Marie \n";
+	std::cout << "4. Hong, Letty \n";
+	std::cout << "5. Pe, Gyan Josh \n";
 	std::cout << "\n";
-	std::cout << "Last Updated: 15-11-2024\n";
+	std::cout << "Last Updated: 29-11-2024\n";
 }
 
 bool MainConsole::isInitialCommand(String command) const
@@ -178,7 +183,7 @@ bool MainConsole::validateCommand(String command) const
 
 	String commandList[] = { "initialize", "exit", "clear",
 							"scheduler-test", "scheduler-stop", "report-util",
-							"screen",
+							"screen", "process-smi", "vmstat",
 							"dummy-layout", "marquee-console", "marquee-console" };
 
 	String inputCommand = command.substr(0, command.find(" "));
@@ -266,8 +271,6 @@ void MainConsole::executeScreenRedrawCommand(String command) const
 
 void MainConsole::executeScreenListCommand()
 {
-
-
 	std::cout << std::endl;
 	for (int i = 0; i < 62; i++) {
 		std::cout << "=";
@@ -359,4 +362,36 @@ void MainConsole::executeMarqueeConsoleCommand() const
 	ConsoleManager::getInstance()->switchConsole(MARQUEE_CONSOLE_NAME);
 	ConsoleManager::getInstance()->process();
 	ConsoleManager::getInstance()->drawConsole();
+}
+
+// added
+void MainConsole::displayMainProcessSmi()
+{
+	std::cout << "\n---------------------------------------------------------------" << std::endl;
+	std::cout << "| PROCESS-SMI v01.00                 Driver Version: 01.00    |" << std::endl;
+	std::cout << "---------------------------------------------------------------" << std::endl;
+	std::cout << "CPU-Util: " << std::endl;
+	std::cout << "Memory Usage: " << std::endl;
+	std::cout << "Memory-Util: " << std::endl;
+	std::cout << "\n";
+	std::cout << "================================================================" << std::endl;
+	std::cout << "Running processes and memory usage : " << std::endl;
+	std::cout << "----------------------------------------------------------------" << std::endl;
+	std::cout << "process-name-holder \tmemory-usage-holder" << std::endl;
+	std::cout << "process-name-holder \tmemory-usage-holder" << std::endl;
+	std::cout << "----------------------------------------------------------------" << std::endl;
+}
+
+// added
+void MainConsole::displayVmstat()
+{
+	std::cout << "\nVMSTAT: " << std::endl;
+	std::cout << "num-holder \t K Total Memory" << std::endl;
+	std::cout << "num-holder \t K Used Memory" << std::endl;
+	std::cout << "num-holder \t K ree Memory" << std::endl;
+	std::cout << "num-holder \t Idle CPU ticks" << std::endl;
+	std::cout << "num-holder \t Active CPU ticks" << std::endl;
+	std::cout << "num-holder \t Total CPU ticks" << std::endl;
+	std::cout << "num-holder \t Num Paged In" << std::endl;
+	std::cout << "num-holder \t Num Paged Out" << std::endl;
 }
