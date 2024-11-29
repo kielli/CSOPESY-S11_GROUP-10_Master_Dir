@@ -10,11 +10,13 @@
 #include "../Config/GlobalConfig.h"
 #include "../Console/ConsoleManager.h"
 
+#include "../Memory/FlatMemoryAllocator.h"
 
 class Scheduler
 {
 public:
 	static Scheduler* getInstance();
+
 	static void initialize();
 	static void destroy();
 
@@ -27,11 +29,15 @@ public:
 
 	void displaySchedulerStatus();
 
+	// added
+	int getCpuUtil();
+	void addProcessToMemoryAllocator(Process* process);
 
 private:
 	Scheduler();
 	~Scheduler() = default;
 	Scheduler(Scheduler const&) = delete;
+
 	Scheduler& operator=(Scheduler const&) = delete;
 	static Scheduler* sharedInstance;
 

@@ -71,7 +71,11 @@
         "xstring": "cpp",
         "xtr1common": "cpp",
         "xutility": "cpp",
+<<<<<<< HEAD
         "map": "cpp",
         "xtree": "cpp"
+=======
+        "map": "cpp"
+>>>>>>> 94894f831500e7e3133824f7cd944d053ad89c05
     }
 }

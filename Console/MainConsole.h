@@ -4,8 +4,6 @@
 #include <algorithm>
 #include <conio.h>
 
-
-
 #include "AConsole.h"
 #include "../TypeDefRepo.h"
 #include "ConsoleManager.h"
@@ -45,6 +43,9 @@ private:
 	void executeDummyLayoutCommand() const;
 	void executeMarqueeConsoleCommand() const;
 
+	// added
+	void displayMainProcessSmi();
+	void displayVmstat();
 };
 
 	

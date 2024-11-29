@@ -3,6 +3,7 @@
 #include <vector>
 #include <chrono>
 #include <mutex>
+#include <ctime>
 
 #include "../TypedefRepo.h"
 #include "../Command/PrintCommand.h"
@@ -26,6 +27,7 @@ public:
     };
 
     Process(int pid, String name, int totalLines, RequirementFlags flags);
+
 
     void manualAddCommand(String command);
 
@@ -58,13 +60,15 @@ public:
 
     size_t getNumberOfPages() const;
 
-
 private:
     int pid;
     String name;
     int totalLines;
     int commandCounter = 0;
+    size_t requiredMemory;
     std::tm localArrivalTime; // Store the Arrival Time
+
+    int pageNum;
 
     typedef std::vector<std::shared_ptr<ICommand>> CommandList;
     CommandList commandList;

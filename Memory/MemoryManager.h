@@ -15,6 +15,7 @@
 #include "../TypeDefRepo.h"
 #include "../Config/GlobalConfig.h"
 #include "../Process/Process.h"
+#include "IMemoryAllocator.h"
 #include "FlatMemoryAllocator.h"
 #include "PagingAllocator.h"
 

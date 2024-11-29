@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../TypeDefRepo.h"
+#include "../Process/Process.h"
 
 class IMemoryAllocator
 {
