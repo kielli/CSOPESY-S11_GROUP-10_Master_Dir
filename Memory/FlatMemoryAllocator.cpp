@@ -35,9 +35,9 @@ void FlatMemoryAllocator::deallocate(void* ptr)
 	}
 }
 
-String FlatMemoryAllocator::visualizeMemory()
+void FlatMemoryAllocator::visualizeMemory() const
 {
-	return String(this->memory.begin(), this->memory.end());
+	return void(this->memory.begin(), this->memory.end());
 }
 
 void FlatMemoryAllocator::initializeMemory()

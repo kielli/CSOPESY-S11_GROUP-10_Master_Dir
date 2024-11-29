@@ -10,6 +10,8 @@
 #include "../Config/GlobalConfig.h"
 #include "../Console/ConsoleManager.h"
 
+#include "../Memory/FlatMemoryAllocator.h"
+
 class Scheduler
 {
 public:
@@ -29,6 +31,7 @@ public:
 
 	// added
 	int getCpuUtil();
+	void addProcessToMemoryAllocator(Process* process);
 
 private:
 	Scheduler();

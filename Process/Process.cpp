@@ -1,11 +1,12 @@
 #include "Process.h"
 #include "Process.h"
 
-Process::Process(int pid, String name, int totalLines)
+Process::Process(int pid, String name, int totalLines, size_t requiredMemory)
 {
 	this->pid = pid;
 	this->name = name;
 	this->totalLines = totalLines;
+	this->requiredMemory = requiredMemory;
 	
 	this->generateArrivalTime();
 

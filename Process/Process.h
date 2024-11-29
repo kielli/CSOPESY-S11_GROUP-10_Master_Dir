@@ -17,7 +17,7 @@ public:
         FINISHED
     };
 
-    Process(int pid, String name, int totalLines);
+    Process(int pid, String name, int totalLines, size_t requiredMemory = 0);
 
     void manualAddCommand(String command);
 
@@ -50,6 +50,7 @@ private:
     String name;
     int totalLines;
     int commandCounter = 0;
+    size_t requiredMemory;
     std::tm localArrivalTime; // Store the Arrival Time
 
     int pageNum;

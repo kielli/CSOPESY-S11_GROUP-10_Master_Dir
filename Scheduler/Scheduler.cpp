@@ -1,7 +1,7 @@
 #include "Scheduler.h"
 #include <mutex>
 
-
+#include "../Memory/FlatMemoryAllocator.h"
 
 Scheduler* Scheduler::sharedInstance = nullptr;
 
@@ -58,7 +58,7 @@ std::shared_ptr<Process> Scheduler::createUniqueProcess()
 		return existingProcess;
 	}
 	else {
-		std::shared_ptr<Process> newProcess = std::make_shared<Process>(pidCounter, name, totalLines);
+		std::shared_ptr<Process> newProcess = std::make_shared<Process>(pidCounter, name, totalLines, GlobalConfig::getInstance()->getMemPerProcess());
 		newProcess->generateCommands();
 
 		this->addProcessToReadyQueue(newProcess);
@@ -275,8 +275,6 @@ void Scheduler::runRoundRobinScheduler(int delay, int quantum)
 	}
 }
 
-
-
 Scheduler::Scheduler()
 {
 	this->numCPU = GlobalConfig::getInstance()->getNumCPU();
@@ -292,4 +290,22 @@ Scheduler::Scheduler()
 	String scheduler = GlobalConfig::getInstance()->getScheduler();
 	int quantum = GlobalConfig::getInstance()->getQuantumCycles();
 	this->startSchedulerThread(scheduler, this->bacthProcessFrequency, quantum);
+}
+
+void Scheduler::addProcessToMemoryAllocator(Process* process)
+{
+	// Allocate memory for the process
+	// allocate(process);
+	
+	// if(!memoryBlock)
+	// {
+	// 	std::cerr << "Failed to add process " << process->getId() << ". Memory allocation failed.\n";
+	// 	return;
+	// }
+	
+	// size_t coreId = rand() % numCores; // Assign the process to a random core
+	
+	// processCores[process] = coreId;
+	// process->setMemoryBlock(memoryBlock);
+	// std::cout << "Process " << process->getId() << " added to Core " << coreId << ".\n";
 }

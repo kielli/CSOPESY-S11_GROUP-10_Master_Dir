@@ -244,7 +244,7 @@ void MainConsole::executeScreenSwitchCommand(String command) const
 	else {
 		int newPID = ConsoleManager::getInstance()->getProcessTableSize() + 1;
 
-		std::shared_ptr<Process> newProcess = std::make_shared<Process>(newPID, processName, 0);
+		std::shared_ptr<Process> newProcess = std::make_shared<Process>(newPID, processName, 0, GlobalConfig::getInstance()->getMemPerProcess());
 		std::shared_ptr<BaseScreen> newScreen = std::make_shared<BaseScreen>(newProcess, processName);
 
 		ConsoleManager::getInstance()->addProcess(newProcess);
