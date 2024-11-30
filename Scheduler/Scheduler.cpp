@@ -1,8 +1,7 @@
 #include "Scheduler.h"
 #include <mutex>
 
-#include "../Memory/FlatMemoryAllocator.h"
-
+#include "../Memory/MemoryManager.h"
 Scheduler* Scheduler::sharedInstance = nullptr;
 
 Scheduler* Scheduler::getInstance()
@@ -46,12 +45,11 @@ void Scheduler::startSchedulerThread(String scheduler, int delay, int quantum)
 
 std::shared_ptr<Process> Scheduler::createUniqueProcess(String name)
 {
-	int totalLines = GlobalConfig::getInstance()->getRandomInstructionCount();
 	int pidCounter = ConsoleManager::getInstance()->getProcessTableSize();
-	pidCounter += 1;
+	pidCounter++;
 
-	if (name != "") {
-		String name = this->generateUniqueProcessName(pidCounter);
+	if (name == "") {
+		name = this->generateUniqueProcessName(pidCounter);
 	}
 
 	std::shared_ptr<Process> existingProcess = this->findProcess(name);
@@ -60,14 +58,19 @@ std::shared_ptr<Process> Scheduler::createUniqueProcess(String name)
 		return existingProcess;
 	}
 	else {
-		Process::RequirementFlags requirementFlags = {
-			true,
-			0,
-			true,
-			GlobalConfig::getInstance()->getMemPerProcess()
-		};
+		int totalLines = GlobalConfig::getInstance()->getTotalInstructionsPerProcess();
+        int totalMemory = GlobalConfig::getInstance()->getTotalMemoryPerProcess();
+        int totalFrames = totalMemory / GlobalConfig::getInstance()->getMemPerFrame();
 
-		std::shared_ptr<Process> newProcess = std::make_shared<Process>(pidCounter, name, totalLines, requirementFlags);
+        bool requireFiles = true;
+        int numFiles = totalFrames;
+        bool requireMemory = true;
+        int memoryRequired = totalMemory;
+		Process::RequirementFlags reqFlags = {
+            requireFiles, numFiles, requireMemory, memoryRequired
+        };
+
+		std::shared_ptr<Process> newProcess = std::make_shared<Process>(pidCounter, name, totalLines, reqFlags);
 		newProcess->generateCommands();
 
 		this->addProcessToReadyQueue(newProcess);
@@ -288,8 +291,6 @@ Scheduler::Scheduler()
 {
 	this->numCPU = GlobalConfig::getInstance()->getNumCPU();
 	this->bacthProcessFrequency = GlobalConfig::getInstance()->getBatchProcessFreq();
-	this->minInstructions = GlobalConfig::getInstance()->getMinIns();
-	this->maxInstructions = GlobalConfig::getInstance()->getMaxIns();
 
 	for (int i = 0; i < this->numCPU; i++) {
 		std::shared_ptr<CPUCore> cpuCore = std::make_shared<CPUCore>();
@@ -318,3 +319,81 @@ void Scheduler::addProcessToMemoryAllocator(Process* process)
 	// process->setMemoryBlock(memoryBlock);
 	// std::cout << "Process " << process->getId() << " added to Core " << coreId << ".\n";
 }
+
+// void Scheduler::runFCFSScheduler(int delay)
+// {
+// 	while (this->isRunning) {
+// 		//std::lock_guard<std::mutex> lock(schedulerMutex);
+
+// 		for (int i = 0; i < this->cpuCoreList.size(); i++) {
+// 			std::shared_ptr<CPUCore> cpuCore = this->cpuCoreList[i];
+
+// 			if (cpuCore->isAvailable()) {
+// 				if (!this->readyQueue.empty()) {
+// 					std::shared_ptr<Process> process = this->readyQueue.front();
+// 					this->readyQueue.erase(this->readyQueue.begin());
+
+// 					cpuCore->assignProcess(process);
+
+// 					/*while (!process->isFinished()) {
+// 						process->executeCurrentCommand();
+// 						process->moveToNextLine();
+
+// 						Sleep(delay);
+// 					}*/
+// 				}
+// 			}
+
+
+
+// 			/*if (this->readyQueue.size() > 0) {
+// 				std::shared_ptr<Process> process = this->readyQueue.front();
+// 				this->readyQueue.pop();
+
+// 				int cpuCoreID = process->getCPUCoreID();
+// 				this->cpuCoreList[cpuCoreID]->assignProcess(process);
+
+// 				ConsoleManager::getInstance()->addProcess(process);
+// 				ConsoleManager::getInstance()->switchConsole(SCHEDULING_CONSOLE_NAME);
+
+// 				while (!process->isFinished()) {
+// 					process->executeCurrentCommand();
+// 					process->moveToNextLine();
+
+// 					ConsoleManager::getInstance()->drawConsole();
+// 					Sleep(delay);
+// 				}
+
+// 				this->cpuCoreList[cpuCoreID]->removeProcess();
+// 			}*/
+// 		}
+// 	}
+// }
+
+// void Scheduler::runRoundRobinScheduler(int delay, int quantum)
+// {
+// 	int quantumCounter = 0;
+
+//     while(this->isRunning) {
+// 		for (int i = 0; i < this->cpuCoreList.size(); i++) {
+// 			std::shared_ptr<CPUCore> cpuCore = this->cpuCoreList[i];
+
+// 			if (cpuCore->isAvailable()) {
+// 				if (!this->readyQueue.empty()) {
+// 					std::shared_ptr<Process> process = this->readyQueue.front();
+// 					this->readyQueue.erase(this->readyQueue.begin());
+
+// 					cpuCore->assignProcess(process);
+
+// 					if(cpuCore->getProcess()->getState() == Process::ProcessState::WAITING) {
+// 						cpuCore->getProcess()->setCPUCoreID(-1);
+// 						this->readyQueue.push_back(process);
+// 					}
+
+
+// 				}
+// 			}
+			
+// 		}
+// 	}
+// }

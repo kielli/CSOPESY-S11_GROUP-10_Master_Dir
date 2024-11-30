@@ -244,7 +244,20 @@ void MainConsole::executeScreenSwitchCommand(String command) const
 	else {
 		int newPID = ConsoleManager::getInstance()->getProcessTableSize() + 1;
 
-		std::shared_ptr<Process> newProcess = std::make_shared<Process>(newPID, processName, 0, GlobalConfig::getInstance()->getMemPerProcess());
+		int totalLines = GlobalConfig::getInstance()->getTotalInstructionsPerProcess();
+        int totalMemory = GlobalConfig::getInstance()->getTotalMemoryPerProcess();
+        int totalFrames = totalMemory / GlobalConfig::getInstance()->getMemPerFrame();
+
+        bool requireFiles = true;
+        int numFiles = totalFrames;
+        bool requireMemory = true;
+        int memoryRequired = totalMemory;
+
+		Process::RequirementFlags reqFlags = {
+            requireFiles, numFiles, requireMemory, memoryRequired
+        };
+
+		std::shared_ptr<Process> newProcess = std::make_shared<Process>(newPID, name, totalLines, reqFlags);
 		std::shared_ptr<BaseScreen> newScreen = std::make_shared<BaseScreen>(newProcess, processName);
 
 		ConsoleManager::getInstance()->addProcess(newProcess);
@@ -300,7 +313,7 @@ void MainConsole::executeSchedulerTestCommand()
 
 				String processName = newProcess->getName();
 				if (ConsoleManager::getInstance()->findExistingProcess(processName)) {
-					std::cerr << "Error: Process " << processName << " already exists.\n";
+					std::cerr << "Error: " << processName << " already exists.\n";
 					continue;
 				}
 				else {

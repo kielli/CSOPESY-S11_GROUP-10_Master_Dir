@@ -1,5 +1,5 @@
 #include "MemoryManager.h"
-#include <Scheduler.h>
+#include "../Scheduler/Scheduler.h"
 #include "PagingAllocator.h"
 #include "FlatMemoryAllocator.h"
 

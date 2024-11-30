@@ -13,7 +13,8 @@ GlobalConfig::GlobalConfig() {
 	config.delays_per_exec = 0;
 	config.max_overall_mem = 0;
 	config.mem_per_frame = 0;
-	config.mem_per_process = 0;
+	config.min_mem_per_process = 0;
+	config.max_mem_per_process = 0;
 }
 
 
@@ -33,6 +34,7 @@ void GlobalConfig::destroy()
 }
 
 void GlobalConfig::loadConfigFile(String& filename) {
+	bool isLoaded = false;
 
 	try {
 		std::ifstream file(filename);
@@ -50,10 +52,12 @@ void GlobalConfig::loadConfigFile(String& filename) {
 			}
 
 			file.close();
+			isLoaded = true;
 		}
 	}
 	catch (const std::runtime_error& e) {
 		std::cerr << e.what() << std::endl;
+		isLoaded = false;
 	}
 }
 
@@ -161,18 +165,25 @@ bool GlobalConfig::parseConfigFile(String& line) {
 				throw std::invalid_argument("Invalid mem-per-frame value");
 			}
 		}
-		else if (key == "mem-per-proc") {
+		else if (key == "min-mem-per-proc") {
 			uint32_t value;
 			if (iss >> value) {
-				config.mem_per_process = value;
+				config.min_mem_per_process = value;
 				isParsed = true;
 			}
 			else {
 				throw std::invalid_argument("Invalid mem-per-process value");
 			}
 		}
-		else {
-			throw std::invalid_argument("Unknown configuration key: " + key);
+		else if (key == "max-mem-per-proc") {
+			uint32_t value;
+			if (iss >> value) {
+				config.max_mem_per_process = value;
+				isParsed = true;
+			}
+			else {
+				throw std::invalid_argument("Invalid max-mem-per-process value");
+			}
 		}
 	}
 	catch (const std::invalid_argument& e) {
@@ -184,8 +195,42 @@ bool GlobalConfig::parseConfigFile(String& line) {
 	return isParsed;
 }
 
+int GlobalConfig::generateRandomInstructionCount() const
+{
+	int linesOfCode = 0;
+
+    if (this->config.min_ins == this->config.max_ins) {
+        return this->config.min_ins;
+    }
+    else {
+		std::random_device rd;
+		std::mt19937 gen(rd());
+		std::uniform_int_distribution<> dis(this->config.min_ins, this->config.max_ins);
+		linesOfCode = dis(gen);
+    }
+
+	return linesOfCode;
+}
+
+int GlobalConfig::generateRandomMemoryCount() const
+{
+    int memoryCount = 0;
+
+	if (this->config.min_mem_per_process == this->config.max_mem_per_process) {
+		return this->config.min_mem_per_process;
+	}
+	else {
+		std::random_device rd;
+		std::mt19937 gen(rd());
+		std::uniform_int_distribution<> dis(this->config.min_mem_per_process, this->config.max_mem_per_process);
+		memoryCount = dis(gen);
+	}
+
+	return memoryCount;
+}
+
 void GlobalConfig::printConfig() const {
-	std::cout << "\nNumber of CPUs: " << static_cast<int>(config.num_cpu) << std::endl;
+	std::cout << "Number of CPUs: " << static_cast<int>(config.num_cpu) << std::endl;
 	std::cout << "Scheduler: " << config.scheduler << std::endl;
 	std::cout << "Quantum Cycles: " << config.quantum_cycles << std::endl;
 	std::cout << "Batch Process Frequency: " << config.batch_process_freq << std::endl;
@@ -194,74 +239,61 @@ void GlobalConfig::printConfig() const {
 	std::cout << "Delays per Execution: " << config.delays_per_exec << std::endl;
 	std::cout << "Max Overall Memory: " << config.max_overall_mem << std::endl;
 	std::cout << "Memory per Frame: " << config.mem_per_frame << std::endl;
-	std::cout << "Memory per Process: " << config.mem_per_process << std::endl;
+	std::cout << "Min Memory per Process: " << config.min_mem_per_process << std::endl;
+	std::cout << "Max Memory per Process: " << config.max_mem_per_process << std::endl;
 }
 
-int GlobalConfig::getRandomInstructionCount() const
+int GlobalConfig::getNumCPU() const
 {
-	int linesOfCode = 0;
-
-	if (config.min_ins == config.max_ins) {
-		linesOfCode = config.min_ins;
-	}
-	else {
-		std::random_device rd;
-		std::mt19937 gen(rd());
-		std::uniform_int_distribution<> dis(config.min_ins, config.max_ins);
-		linesOfCode = dis(gen);
-	}
-
-	return linesOfCode;
-}
-
-uint16_t GlobalConfig::getNumCPU() const
-{
-	return config.num_cpu;
+	return this->config.num_cpu;
 }
 
 String GlobalConfig::getScheduler() const
 {
-	return config.scheduler;
+	return this->config.scheduler;
 }
 
-uint32_t GlobalConfig::getQuantumCycles() const
+int GlobalConfig::getQuantumCycles() const
 {
-	return config.quantum_cycles;
+	return this->config.quantum_cycles;
 }
 
-uint32_t GlobalConfig::getBatchProcessFreq() const
+int GlobalConfig::getBatchProcessFreq() const
 {
-	return config.batch_process_freq;
+	return this->config.batch_process_freq;
 }
 
-uint32_t GlobalConfig::getMinIns() const
+// int GlobalConfig::getMinIns() const
+// {
+// 	return this->config.min_ins;
+// }
+
+// int GlobalConfig::getMaxIns() const
+// {
+// 	return this->config.max_ins;
+// }
+
+int GlobalConfig::getDelaysPerExec() const
 {
-	return config.min_ins;
+	return this->config.delays_per_exec;
 }
 
-uint32_t GlobalConfig::getMaxIns() const
+int GlobalConfig::getMaxOverallMem() const
 {
-	return config.max_ins;
+	return this->config.max_overall_mem;
 }
 
-uint32_t GlobalConfig::getDelaysPerExec() const
+int GlobalConfig::getMemPerFrame() const
 {
-	return config.delays_per_exec;
+	return this->config.mem_per_frame;
 }
 
-uint32_t GlobalConfig::getMaxOverallMem() const
+int GlobalConfig::getTotalInstructionsPerProcess() const
 {
-	return config.max_overall_mem;
+    return this->generateRandomInstructionCount();
 }
 
-uint32_t GlobalConfig::getMemPerFrame() const
+int GlobalConfig::getTotalMemoryPerProcess() const
 {
-	return config.mem_per_frame;
+    return this->generateRandomMemoryCount();
 }
-
-uint32_t GlobalConfig::getMemPerProcess() const
-{
-	return config.mem_per_process;
-}
-
-
