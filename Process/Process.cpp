@@ -115,6 +115,10 @@ size_t Process::getMemoryRequired() const {
 	return this->memoryRequired;
 }
 
+size_t Process::getFramesRequired() const {
+	return this->framesRequired;
+}
+
 void Process::setMemBaseAddress(char* address){
 	this->memBaseAddress = address;
 }
