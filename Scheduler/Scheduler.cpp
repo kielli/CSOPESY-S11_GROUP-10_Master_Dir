@@ -204,12 +204,6 @@ void Scheduler::runFCFSScheduler(int delay)
 					this->readyQueue.erase(this->readyQueue.begin());
 
 					cpuCore->assignProcess(process);
-					
-					do{
-						if(process->isFinished()){
-
-						}
-					}while(!process->isFinished());
 				}
 			}
 
