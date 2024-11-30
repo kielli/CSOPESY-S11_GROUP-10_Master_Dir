@@ -1,4 +1,6 @@
 #include "Scheduler.h"
+#include "../Memory/FlatMemoryAllocator.h"
+#include "../Memory/PagingAllocator.h"
 #include <mutex>
 
 using namespace std;
@@ -202,13 +204,12 @@ void Scheduler::runFCFSScheduler(int delay)
 					this->readyQueue.erase(this->readyQueue.begin());
 
 					cpuCore->assignProcess(process);
+					
+					do{
+						if(process->isFinished()){
 
-					/*while (!process->isFinished()) {
-						process->executeCurrentCommand();
-						process->moveToNextLine();
-
-						Sleep(delay);
-					}*/
+						}
+					}while(!process->isFinished());
 				}
 			}
 
