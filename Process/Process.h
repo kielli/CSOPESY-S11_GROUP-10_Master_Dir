@@ -17,7 +17,7 @@ class Process
             FINISHED
         };
 
-        Process(int pid, String name, int totalLines);
+        Process(int pid, String name, int totalLines, size_t memoryRequired);
 
         void manualAddCommand(String command);
 
@@ -47,6 +47,8 @@ class Process
         int pid;
         String name;
         int totalLines;
+        size_t memoryRequired;
+        
         int commandCounter = 0;
         std::tm localArrivalTime; // Store the Arrival Time
 

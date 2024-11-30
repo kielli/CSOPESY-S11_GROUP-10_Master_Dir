@@ -55,7 +55,7 @@ shared_ptr<Process> Scheduler::createUniqueProcess()
 		return existingProcess;
 	}
 	else {
-		shared_ptr<Process> newProcess = make_shared<Process>(pidCounter, name, totalLines);
+		shared_ptr<Process> newProcess = make_shared<Process>(pidCounter, name, totalLines, GlobalConfig::getInstance()->getMemPerProcess());
 		newProcess->generateCommands();
 
 		this->addProcessToReadyQueue(newProcess);

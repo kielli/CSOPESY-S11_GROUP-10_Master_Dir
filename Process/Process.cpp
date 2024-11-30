@@ -3,11 +3,12 @@
 
 using namespace std;
 
-Process::Process(int pid, String name, int totalLines)
+Process::Process(int pid, String name, int totalLines, size_t memoryRequired)
 {
 	this->pid = pid;
 	this->name = name;
 	this->totalLines = totalLines;
+	this->memoryRequired = memoryRequired;
 	
 	this->generateArrivalTime();
 
