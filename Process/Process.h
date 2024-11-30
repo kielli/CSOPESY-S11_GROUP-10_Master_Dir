@@ -36,18 +36,23 @@ class Process
 
         std::tm getArrivalTime() const;
         String getFormattedArrivalTime() const;
+        size_t getMemoryRequired() const;
+        char* getMemBaseAddress() const;
 
         void generateArrivalTime();
 
         void generateCommands();
 
         void setCPUCoreID(int cpuCoreID);
+        void setMemBaseAddress(char* memBaseAddress);
+
 
     private:
         int pid;
         String name;
         int totalLines;
         size_t memoryRequired;
+        char* memBaseAddress;
         
         int commandCounter = 0;
         std::tm localArrivalTime; // Store the Arrival Time

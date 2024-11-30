@@ -104,3 +104,11 @@ void Process::generateCommands()
 void Process::setCPUCoreID(int cpuCoreID) {
 	this->cpuCoreID = cpuCoreID;
 }
+
+size_t Process::getMemoryRequired() const {
+	return this->memoryRequired;
+}
+
+void Process::setMemBaseAddress(char* address){
+	this->memBaseAddress = address;
+}
