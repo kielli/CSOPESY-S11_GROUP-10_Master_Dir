@@ -10,46 +10,48 @@
 #include "../Config/GlobalConfig.h"
 #include "../Console/ConsoleManager.h"
 
+
 class Scheduler
 {
-	public:
-		static Scheduler* getInstance();
-		static void initialize();
-		static void destroy();
+public:
+	static Scheduler* getInstance();
+	static void initialize();
+	static void destroy();
 
-		void stopScheduler();
+	void stopScheduler();
 
-		void startSchedulerThread(String scheduler, int delay, int quantum);
+	void startSchedulerThread(String scheduler, int delay, int quantum);
 
-		std::shared_ptr<Process> createUniqueProcess();
-		std::shared_ptr<Process> findProcess(String name) const;
+	std::shared_ptr<Process> createUniqueProcess();
+	std::shared_ptr<Process> findProcess(String name) const;
 
-		void displaySchedulerStatus();
+	void displaySchedulerStatus();
 
-	private:
-		Scheduler();
-		~Scheduler() = default;
-		Scheduler(Scheduler const&) = delete;
-		Scheduler& operator=(Scheduler const&) = delete;
-		static Scheduler* sharedInstance;
 
-		int numCPU;
-		int bacthProcessFrequency;
-		int minInstructions;
-		int maxInstructions;
+private:
+	Scheduler();
+	~Scheduler() = default;
+	Scheduler(Scheduler const&) = delete;
+	Scheduler& operator=(Scheduler const&) = delete;
+	static Scheduler* sharedInstance;
 
-		bool isRunning = false;
+	int numCPU;
+	int bacthProcessFrequency;
+	int minInstructions;
+	int maxInstructions;
 
-		std::vector<std::shared_ptr<Process>> readyQueue;
-		std::vector<std::shared_ptr<CPUCore>> cpuCoreList;
-		std::vector<std::shared_ptr<Process>> processList;
+	bool isRunning = false;
 
-		std::thread schedulerThread;
-		std::mutex schedulerMutex;
+	std::vector<std::shared_ptr<Process>> readyQueue;
+	std::vector<std::shared_ptr<CPUCore>> cpuCoreList;
+	std::vector<std::shared_ptr<Process>> processList;
 
-		String generateUniqueProcessName(int id);
-		void addProcessToReadyQueue(std::shared_ptr<Process> process);
+	std::thread schedulerThread;
+	std::mutex schedulerMutex;
 
-		void runFCFSScheduler(int delay);
-		void runRoundRobinScheduler(int delay, int quantum);
+	String generateUniqueProcessName(int id);
+	void addProcessToReadyQueue(std::shared_ptr<Process> process);
+
+	void runFCFSScheduler(int delay);
+	void runRoundRobinScheduler(int delay, int quantum);
 };

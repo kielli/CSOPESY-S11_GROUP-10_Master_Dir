@@ -53,6 +53,7 @@ shared_ptr<Process> CPUCore::getProcess() const {
 	return this->process;
 }
 
+
 void CPUCore::stop() {
 	this->stopFlag = true;
 }
@@ -69,10 +70,8 @@ void CPUCore::run()
 {
 	this->stopFlag = false;
 
-	while (this->stopFlag == false)
-	{
-		if (this->process != nullptr)
-		{
+	while (this->stopFlag == false) {
+		if (this->process != nullptr) {
 			
 			this->process->cpuCoreID = this->cpuCoreID;
 			
@@ -80,10 +79,9 @@ void CPUCore::run()
 			//this->process->executeCurrentCommand();
 			this->process->moveToNextLine();
 
-			if (this->process->isFinished())
-			{
+			if (this->process->isFinished()) {
 				// debugger:
-				//cout << "Process " << this->process->getName() << " finished on core " << this->cpuCoreID << "\n";
+				//std::cout << "Process " << this->process->getName() << " finished on core " << this->cpuCoreID << "\n";
 				
 				this->process->currentState = Process::ProcessState::FINISHED;
 
@@ -98,7 +96,7 @@ void CPUCore::run()
 				}
 			}
 
-			this_thread::sleep_for(chrono::milliseconds(100));
+			std::this_thread::sleep_for(std::chrono::milliseconds(100));
 		}
 	}
 

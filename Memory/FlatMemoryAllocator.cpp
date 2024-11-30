@@ -3,7 +3,7 @@
 #include <vector>
 #include <unordered_map>
 
-FlatMemoryAllocator::FlatMemoryAllocator(size_t maxMemSize) : maxMemSize(maxMemSize), allocatedMem(0), memBaseAddress(0){
+FlatMemoryAllocator::FlatMemoryAllocator(char* memBaseAddress, size_t maxMemSize) : maxMemSize(maxMemSize), allocatedMem(0), memBaseAddress(0){
     allocationMap.resize(maxMemSize, false);
 }
 FlatMemoryAllocator::~FlatMemoryAllocator(){

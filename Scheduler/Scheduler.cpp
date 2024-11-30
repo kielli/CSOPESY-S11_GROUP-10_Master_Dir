@@ -78,18 +78,19 @@ void Scheduler::displaySchedulerStatus()
 {
 	int availableCPUCount = 0;
 
-	for (int i = 0; i < this->cpuCoreList.size(); i++) {
-		if (this->cpuCoreList[i]->isAvailable()) {
-			availableCPUCount += 1;
-		}
-	}
+    for (int i = 0; i < this->cpuCoreList.size(); i++) {
+        std::shared_ptr<CPUCore> cpuCore = this->cpuCoreList[i];
+        if (cpuCore->isAvailable()) {
+            availableCPUCount += 1;
+        }
+    }
 
-	float cpuUtil = (this->numCPU - availableCPUCount) / this->numCPU * 100;
+    float util = (((float)(this->numCPU - availableCPUCount) / (float)this->numCPU) * 100);
 
-	cout << "CPU Utilization: " << cpuUtil << "%" << endl;
-	cout << "Cores used: " << this->numCPU - availableCPUCount << endl;
-	cout << "Cores available: " << availableCPUCount << endl;
-	cout << endl;
+    std::cout << "CPU Utilization: " << util << "%" << std::endl;
+    std::cout << "Cores used: " << this->numCPU - availableCPUCount << std::endl;
+    std::cout << "Cores available: " << availableCPUCount << std::endl;
+    std::cout << std::endl;
 
 	for (int i = 0; i < 62; i++) {
 		cout << "-";
@@ -238,11 +239,11 @@ void Scheduler::runRoundRobinScheduler(int delay, int quantum)
 
     while(this->isRunning) {
 		for (int i = 0; i < this->cpuCoreList.size(); i++) {
-			shared_ptr<CPUCore> cpuCore = this->cpuCoreList[i];
+			std::shared_ptr<CPUCore> cpuCore = this->cpuCoreList[i];
 
 			if (cpuCore->isAvailable()) {
 				if (!this->readyQueue.empty()) {
-					shared_ptr<Process> process = this->readyQueue.front();
+					std::shared_ptr<Process> process = this->readyQueue.front();
 					this->readyQueue.erase(this->readyQueue.begin());
 
 					cpuCore->assignProcess(process);
@@ -253,9 +254,11 @@ void Scheduler::runRoundRobinScheduler(int delay, int quantum)
 					}
 				}
 			}
+			
 		}
 	}
 }
+
 
 // Constructor
 Scheduler::Scheduler()

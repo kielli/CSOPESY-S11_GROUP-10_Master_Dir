@@ -39,11 +39,21 @@ void Process::executeCurrentCommand() const {
 	this->commandList[this->commandCounter]->execute();
 }
 
-void Process::moveToNextLine()
-{
-    lock_guard<mutex> lock(this->processMutex); // Add a mutex to Process class
+void Process::moveToNextLine() {
+    String sched = GlobalConfig::getInstance()->getScheduler();
+    int quantum = GlobalConfig::getInstance()->getQuantumCycles();
+    int elapsedTime = 0;
+
     if (this->commandCounter < this->commandList.size()) {
-        this->commandCounter++;
+        if (sched == "rr") {
+            while (elapsedTime < quantum) {
+                this->commandCounter++;
+                elapsedTime++;
+            }
+        }
+        else {
+            this->commandCounter++;
+        }
     }
 }
 

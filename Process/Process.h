@@ -45,7 +45,6 @@ class Process
         void generateCommands();
 
         void setCPUCoreID(int cpuCoreID);
-        size_t getRequiredMemory() const;
         void setMemBaseAddress(char *memBaseAddress);
 
     private:

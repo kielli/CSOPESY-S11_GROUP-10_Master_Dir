@@ -7,12 +7,8 @@
 
 class FlatMemoryAllocator : public IMemoryAllocator {
     public:
-        FlatMemoryAllocator(size_t maxMemSize) : maxMemSize(maxMemSize), allocatedMem(0){
-            allocationMap.resize(maxMemSize, false);
-        }
-        ~FlatMemoryAllocator(){
-            allocationMap.clear();
-        }
+        FlatMemoryAllocator(char* memBaseAddress, size_t maxMemSize);
+        ~FlatMemoryAllocator();
 
         void* allocate(Process* process) override;
         void deallocate(Process* process) override;
