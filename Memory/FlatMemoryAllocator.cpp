@@ -3,14 +3,14 @@
 #include <vector>
 #include <unordered_map>
 
-FlatMemoryAllocator::FlatMemoryAllocator(char* memBaseAddress, size_t maxMemSize) : maxMemSize(maxMemSize), allocatedMem(0), memBaseAddress(0){
+FlatMemoryAllocator::FlatMemoryAllocator(size_t maxMemSize) : maxMemSize(maxMemSize), allocatedMem(0), memBaseAddress(0){
     allocationMap.resize(maxMemSize, false);
 }
 FlatMemoryAllocator::~FlatMemoryAllocator(){
     allocationMap.clear();
 }
 
-void* FlatMemoryAllocator::allocate(Process* process) {
+void* FlatMemoryAllocator::allocate(std::shared_ptr<Process> process) {
     if(process->getMemoryRequired() == 0 || process->getMemoryRequired() > maxMemSize)
         return nullptr;
     for(size_t i = 0; i < maxMemSize - process->getMemoryRequired(); i++){
@@ -22,7 +22,7 @@ void* FlatMemoryAllocator::allocate(Process* process) {
     return nullptr;
 }
 
-void FlatMemoryAllocator::deallocate(Process* process) {
+void FlatMemoryAllocator::deallocate(std::shared_ptr<Process> process) {
     if(process->getMemBaseAddress() == nullptr || process->getMemoryRequired() == 0)
         return;
     size_t index = reinterpret_cast<size_t>(process->getMemBaseAddress());

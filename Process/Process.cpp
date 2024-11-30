@@ -4,19 +4,15 @@
 
 using namespace std;
 
-Process::Process(int pid, String name, int totalLines, size_t memoryRequired)
+Process::Process(int pid, String name, int totalLines)
 {
 	this->pid = pid;
 	this->name = name;
 	this->totalLines = totalLines;
-	this->memoryRequired = memoryRequired;
-	this->memBaseAddress = 0;
-	this->framesRequired = ceil(memoryRequired / GlobalConfig::getInstance()->getMemPerFrame());
-	
 	this->generateArrivalTime();
-
 	this->commandCounter = 0;
 	this->currentState = ProcessState::READY;
+	this->memoryStatus = false;
 }
 
 void Process::manualAddCommand(String command)
@@ -37,6 +33,20 @@ void Process::addCommand(ICommand::CommandType commandType)
 
 void Process::executeCurrentCommand() const {
 	this->commandList[this->commandCounter]->execute();
+}
+
+void Process::initializeMemory(size_t memset){
+	this->memoryRequired = memset;
+	this->framesRequired = ceil(memset / GlobalConfig::getInstance()->getMemPerFrame());
+	this->memBaseAddress = 0;
+}
+
+void Process::setMemoryStatus(bool status) {
+	this->memoryStatus = status;
+}
+
+bool Process::getMemoryStatus() const{
+	return this->memoryStatus;
 }
 
 void Process::moveToNextLine() {

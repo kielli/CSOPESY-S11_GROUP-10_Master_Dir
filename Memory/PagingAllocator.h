@@ -8,8 +8,8 @@ class PagingAllocator : public IMemoryAllocator {
     public:
         PagingAllocator(size_t maxMemSize);
 
-        void* allocate(Process* process) override;
-        void deallocate(Process* process) override;
+        void* allocate(std::shared_ptr<Process> process) override;
+        void deallocate(std::shared_ptr<Process> process) override;
 		bool isMemFull() const;
 
     private:

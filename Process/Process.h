@@ -17,13 +17,15 @@ class Process
             FINISHED
         };
 
-        Process(int pid, String name, int totalLines, size_t memoryRequired);
+        Process(int pid, String name, int totalLines);
 
         void manualAddCommand(String command);
 
         void addCommand(ICommand::CommandType commandType);
         void executeCurrentCommand() const;
+        void initializeMemory(size_t memoryRequired);
         void moveToNextLine();
+        void setMemoryStatus(bool status);
 
         bool isFinished() const;
         int getRemainingTime() const;
@@ -39,6 +41,7 @@ class Process
         size_t getMemoryRequired() const;
         size_t getFramesRequired() const;
         char* getMemBaseAddress() const;
+        bool getMemoryStatus() const;
 
         void generateArrivalTime();
 
@@ -54,6 +57,7 @@ class Process
         size_t memoryRequired;
         char* memBaseAddress;
         size_t framesRequired;
+        bool memoryStatus;
         
         int commandCounter = 0;
         std::tm localArrivalTime; // Store the Arrival Time

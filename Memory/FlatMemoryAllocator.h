@@ -7,11 +7,11 @@
 
 class FlatMemoryAllocator : public IMemoryAllocator {
     public:
-        FlatMemoryAllocator(char* memBaseAddress, size_t maxMemSize);
+        FlatMemoryAllocator(size_t maxMemSize);
         ~FlatMemoryAllocator();
 
-        void* allocate(Process* process) override;
-        void deallocate(Process* process) override;
+        void* allocate(std::shared_ptr<Process> process) override;
+        void deallocate(std::shared_ptr<Process> process) override;
 		bool isMemFull() const;
 
     private:
