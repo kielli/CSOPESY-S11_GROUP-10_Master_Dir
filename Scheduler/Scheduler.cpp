@@ -290,7 +290,7 @@ void Scheduler::addProcessToReadyQueue(std::shared_ptr<Process> process)
 	//this->processList.push_back(process);
 
 	//old
-	this->readyQueue.push_back(process);
+	this->waitListQueue.push_back(process);
 	this->processList.push_back(process);
 
 	// debugger:
@@ -364,29 +364,93 @@ void Scheduler::runFCFSScheduler(int delay)
 }
 
 
+//void Scheduler::runRoundRobinScheduler(int delay, int quantum)
+//{
+//	int quantumCounter = 0;
+//
+//    while(this->isRunning) {
+//		for (int i = 0; i < this->cpuCoreList.size(); i++) {
+//			std::shared_ptr<CPUCore> cpuCore = this->cpuCoreList[i];
+//
+//			if (cpuCore->isAvailable()) {
+//				if (!this->readyQueue.empty()) {
+//					std::shared_ptr<Process> process = this->readyQueue.front();
+//					this->readyQueue.erase(this->readyQueue.begin());
+//
+//					if (process->getStoredAt() == nullptr && process->isInBackingStore()) {
+//						backingStore->loadProcess(process);
+//					}
+//
+//					void* allocatedMemory = this->memoryAllocator->allocate(process);
+//					if (allocatedMemory != nullptr) {
+//						process->setStoredAt(allocatedMemory);
+//						cpuCore->assignProcess(process);
+//
+//						/*quantumCounter++;*/
+//						if (cpuCore->getProcess()->getState() == Process::ProcessState::WAITING) {
+//							cpuCore->getProcess()->setCPUCoreID(-1);
+//							this->readyQueue.push_back(process);
+//						}
+//
+//						if (cpuCore->getProcess()->getState() == Process::ProcessState::FINISHED) {
+//							cpuCore->getProcess()->setCPUCoreID(-1);
+//							this->memoryAllocator->deallocate(process);
+//							/*this->readyQueue.erase(this->readyQueue.begin());*/
+//						}
+//
+//					}
+//					else {
+//						swapOutProcess();
+//						allocatedMemory = this->memoryAllocator->allocate(process);
+//						if (allocatedMemory != nullptr) {
+//							process->setStoredAt(allocatedMemory);
+//							cpuCore->assignProcess(process);
+//						}
+//						else {
+//							this->readyQueue.push_back(process);
+//						}
+//					}
+//
+//
+//				}
+//			}
+//			
+//		}
+//	}
+//}
+
 void Scheduler::runRoundRobinScheduler(int delay, int quantum)
 {
 	int quantumCounter = 0;
 
-    while(this->isRunning) {
+	while (this->isRunning) {
 		for (int i = 0; i < this->cpuCoreList.size(); i++) {
 			std::shared_ptr<CPUCore> cpuCore = this->cpuCoreList[i];
 
+			//if availbel cpu
 			if (cpuCore->isAvailable()) {
-				if (!this->readyQueue.empty()) {
-					std::shared_ptr<Process> process = this->readyQueue.front();
-					this->readyQueue.erase(this->readyQueue.begin());
 
+				//if waitlist is not empty
+				if (!this->waitListQueue.empty()) {
+					//get the first process
+					std::shared_ptr<Process> process = this->waitListQueue.front();
+					//erase from waitList
+					this->waitListQueue.erase(this->waitListQueue.begin());
+
+					//check if process is in backingstore, if yes load it
 					if (process->getStoredAt() == nullptr && process->isInBackingStore()) {
 						backingStore->loadProcess(process);
+						/*this->readyQueue.insert(this->readyQueue.begin(), process);*/
 					}
 
+					//see if process can be allocated
 					void* allocatedMemory = this->memoryAllocator->allocate(process);
 					if (allocatedMemory != nullptr) {
 						process->setStoredAt(allocatedMemory);
+						this->readyQueue.push_back(process);
 						cpuCore->assignProcess(process);
 
-						/*quantumCounter++;*/
+						//if process becomes waiting after quantum time put them back to readyque
 						if (cpuCore->getProcess()->getState() == Process::ProcessState::WAITING) {
 							cpuCore->getProcess()->setCPUCoreID(-1);
 							this->readyQueue.push_back(process);
@@ -394,27 +458,17 @@ void Scheduler::runRoundRobinScheduler(int delay, int quantum)
 
 						if (cpuCore->getProcess()->getState() == Process::ProcessState::FINISHED) {
 							cpuCore->getProcess()->setCPUCoreID(-1);
-							this->memoryAllocator->deallocate(process);
-							/*this->readyQueue.erase(this->readyQueue.begin());*/
 						}
-
 					}
+					//else if cannot allocate
 					else {
+						//swap the oldes out
 						swapOutProcess();
-						allocatedMemory = this->memoryAllocator->allocate(process);
-						if (allocatedMemory != nullptr) {
-							process->setStoredAt(allocatedMemory);
-							cpuCore->assignProcess(process);
-						}
-						else {
-							this->readyQueue.push_back(process);
-						}
+
 					}
-
-
 				}
+
 			}
-			
 		}
 	}
 }
@@ -450,17 +504,43 @@ void Scheduler::swapOutProcess() {
 	if (this->readyQueue.empty()) return;
 
 	// Select a process to swap out (e.g., based on LRU or LFU)
+	//get the oldest
 	std::shared_ptr<Process> processToSwap = this->readyQueue.front();
-	this->readyQueue.pop_back();
-
-	// Free its memory
+	this->readyQueue.erase(readyQueue.begin());
+	/*this->waitListQueue.push_back(processToSwap);*/
+	
+	//free this core
+	for (auto& cpu : cpuCoreList) {
+		if (cpu->getProcess() == processToSwap) {
+			cpu->getProcess()->setCPUCoreID(-1);
+		}
+	}
+	// free its memory
 	if (processToSwap->getStoredAt() != nullptr) {
 		this->memoryAllocator->deallocate(processToSwap);
 		processToSwap->setStoredAt(nullptr);
 	}
 
-	// Move the process to the backing store
+	// move the process to the backing store
 	this->backingStore->saveProcess(processToSwap);
-	std::cout << "Swapped out process " << processToSwap->getName()
-		<< " to the backing store.\n";
+
+	std::shared_ptr<Process> nextProcess = this->waitListQueue.front(); //get the process in waitlist
+	void* allocatedMemory = this->memoryAllocator->allocate(nextProcess);
+	if (allocatedMemory != nullptr) {
+		nextProcess->setStoredAt(allocatedMemory);
+		this->readyQueue.push_back(nextProcess); //push to readyQue
+		for (int i = 0; i < this->cpuCoreList.size(); i++) {
+			std::shared_ptr<CPUCore> cpuCore = this->cpuCoreList[i];
+			if (cpuCore->isAvailable()) {
+				cpuCore->assignProcess(nextProcess);
+			}
+		}
+	}
+	else {
+		this->waitListQueue.push_back(nextProcess);
+		/*this->waitListQueue.insert(this->readyQueue.begin(), nextProcess);*/
+	}
+	this->readyQueue.push_back(processToSwap); //push the process in backingstore to readyQue
+	/*std::cout << "Swapped out process " << processToSwap->getName()
+		<< " to the backing store.\n";*/
 }

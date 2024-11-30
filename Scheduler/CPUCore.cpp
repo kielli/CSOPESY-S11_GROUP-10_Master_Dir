@@ -113,3 +113,56 @@ void CPUCore::run()
 
 	this->availableFlag = true;
 }
+
+//void CPUCore::run()
+//{
+//    this->stopFlag = false;
+//
+//    while (this->stopFlag == false) {
+//        if (this->process != nullptr) {
+//
+//            //std::lock_guard<std::mutex> lock(this->mtxCPUCore);
+//           /* this->totalTicks++;*/
+//
+//            if (this->process->isFinished() == false) {
+//                this->process->currentState = Process::ProcessState::RUNNING;
+//                this->process->cpuCoreID = this->cpuCoreID;
+//                //this->process->executeCurrentCommand();
+//
+//                String sched = GlobalConfig::getInstance()->getScheduler();
+//                if (sched == "rr") {
+//                    int quantum = GlobalConfig::getInstance()->getQuantumCycles();
+//
+//                    for (int i = 0; i < quantum; i++) {
+//                        this->process->moveToNextLine();
+//                    }
+//                }
+//                else {
+//                    this->process->moveToNextLine();
+//                }
+//
+//                if (this->process->isFinished()) {
+//                    // debugger:
+//                    //std::cout << "Process " << this->process->getName() << " finished on core " << this->cpuCoreID << "\n";
+//
+//                    this->process->currentState = Process::ProcessState::FINISHED;
+//
+//                    this->assignProcess(nullptr);
+//                    this->availableFlag = true;
+//                }
+//                else {
+//                    String sched = GlobalConfig::getInstance()->getScheduler();
+//
+//                    if (sched == "rr") {
+//                        this->process->currentState = Process::ProcessState::WAITING;
+//                    }
+//                }
+//            }
+//            else {
+//               /* this->inActiveTicks++;*/
+//            }
+//            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+//        }
+//    }
+//    this->availableFlag = true;
+//}

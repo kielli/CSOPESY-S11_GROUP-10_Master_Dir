@@ -2,6 +2,23 @@
 #include "Process.h"
 
 
+void Process::moveToNextLine() {
+	String sched = GlobalConfig::getInstance()->getScheduler();
+	int quantum = GlobalConfig::getInstance()->getQuantumCycles();
+	int elapsedTime = 0;
+
+	if (this->commandCounter < this->commandList.size()) {
+		if (sched == "rr") {
+			while (elapsedTime < quantum) {
+				this->commandCounter++;
+				elapsedTime++;
+			}
+		}
+		else {
+			this->commandCounter++;
+		}
+	}
+}
 
 Process::Process(int pid, String name, int totalLines, size_t reqMemory)
 {
@@ -40,12 +57,12 @@ void Process::executeCurrentCommand() const
 	this->commandList[this->commandCounter]->execute();
 }
 
-void Process::moveToNextLine() {
-    std::lock_guard<std::mutex> lock(this->processMutex); // Add a mutex to Process class
-    if (this->commandCounter < this->commandList.size()) {
-        this->commandCounter++;
-    }
-}
+//void Process::moveToNextLine() {
+//    std::lock_guard<std::mutex> lock(this->processMutex); // Add a mutex to Process class
+//    if (this->commandCounter < this->commandList.size()) {
+//        this->commandCounter++;
+//    }
+//}
 
 bool Process::isFinished() const
 {

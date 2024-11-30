@@ -14,11 +14,11 @@ void BackingStore::ensureDirectoryExists() {
             std::cout << "Directory created: " << fullDirectoryPath << "\n";
         }
         else {
-            std::cerr << "Failed to create directory: " << fullDirectoryPath << "\n";
+           /* std::cerr << "Failed to create directory: " << fullDirectoryPath << "\n";*/
         }
     }
     else {
-        std::cout << "Directory already exists: " << fullDirectoryPath << "\n";
+        /*std::cout << "Directory already exists: " << fullDirectoryPath << "\n";*/
     }
 
     directory = fullDirectoryPath.string();
@@ -37,10 +37,10 @@ void BackingStore::saveProcess(std::shared_ptr<Process> process) {
         outFile.close();
 
         process->setInBackingStore(true);
-        std::cout << "Process " << process->getName() << " saved to backing store.\n";
+        /*std::cout << "Process " << process->getName() << " saved to backing store.\n";*/
     }
     else {
-        std::cerr << "Failed to save process " << process->getName() << " to backing store.\n";
+        /*std::cerr << "Failed to save process " << process->getName() << " to backing store.\n";*/
     }
 }
 
@@ -58,10 +58,10 @@ void BackingStore::loadProcess(std::shared_ptr<Process> process) {
         inFile.close();
 
         process->setInBackingStore(false);
-        std::cout << "Process " << process->getName() << " loaded from backing store.\n";
+       /* std::cout << "Process " << process->getName() << " loaded from backing store.\n";*/
     }
     else {
-        std::cerr << "Failed to load process " << process->getName() << " from backing store.\n";
+       /* std::cerr << "Failed to load process " << process->getName() << " from backing store.\n";*/
     }
 }
 
@@ -70,7 +70,7 @@ void BackingStore::removeProcess(const std::shared_ptr<Process>& process) {
     std::string filePath = directory + "/" + process->getName() + ".txt";
     if (std::filesystem::exists(filePath)) {
         std::filesystem::remove(filePath);
-        std::cout << "Process " << process->getName() << " removed from backing store.\n";
+       /* std::cout << "Process " << process->getName() << " removed from backing store.\n";*/
     }
 }
 
