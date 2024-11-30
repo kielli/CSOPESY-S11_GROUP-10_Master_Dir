@@ -34,7 +34,8 @@ class GlobalConfig
 		uint32_t getDelaysPerExec() const;					// Returns the delays per execution
 		uint32_t getMaxOverallMem() const;					// Returns the maximum overall memory
 		uint32_t getMemPerFrame() const;					// Returns the memory per frame
-		uint32_t getMemPerProcess() const;					// Returns the memory per process
+		uint32_t getMinMemPerProcess() const;					// Returns the memory per process
+		uint32_t getMaxMemPerProcess() const;					// Returns the memory per process
 
 	private:
 		GlobalConfig();
@@ -50,7 +51,8 @@ class GlobalConfig
 			uint32_t delays_per_exec;			// Delays per execution: [0, 2^32]
 			uint32_t max_overall_mem;			// Maximum overall memory: [1, 2^32]
 			uint32_t mem_per_frame;				// Memory per frame: [1, 2^32]
-			uint32_t mem_per_process;			// Memory per process: [1, 2^32]
+			uint32_t min_mem_per_process;		// Minimum memory per process: [1, 2^32]
+			uint32_t max_mem_per_process;		// Maximum memory per process: [1, 2^32]
 		};
 
 		Config config;										// Config variable

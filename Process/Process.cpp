@@ -1,5 +1,6 @@
 #include "Process.h"
-#include "Process.h"
+
+#include <cstdlib> // For rand()
 
 using namespace std;
 
@@ -74,6 +75,12 @@ Process::ProcessState Process::getState() const {
 
 String Process::getName() const {
 	return this->name;
+}
+
+int Process::getMemoryRequired() {
+	this->memoryRequired = GlobalConfig::getInstance()->getMinMemPerProcess() + (std::rand() % (GlobalConfig::getInstance()->getMaxMemPerProcess() - GlobalConfig::getInstance()->getMinMemPerProcess() + 1));
+
+	return this->memoryRequired;
 }
 
 tm Process::getArrivalTime() const {

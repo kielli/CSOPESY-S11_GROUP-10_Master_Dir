@@ -14,9 +14,9 @@ GlobalConfig::GlobalConfig() {
 	config.delays_per_exec = 0;
 	config.max_overall_mem = 0;
 	config.mem_per_frame = 0;
-	config.mem_per_process = 0;
+	config.min_mem_per_process = 0;
+	config.max_mem_per_process = 0;
 }
-
 
 void GlobalConfig::initialize()
 {
@@ -160,10 +160,20 @@ bool GlobalConfig::parseConfigFile(String& line) {
 				throw invalid_argument("Invalid mem-per-frame value");
 			}
 		}
-		else if (key == "mem-per-proc") {
+		else if (key == "min-mem-per-proc") {
 			uint32_t value;
 			if (iss >> value) {
-				config.mem_per_process = value;
+				config.min_mem_per_process = value;
+				isParsed = true;
+			}
+			else {
+				throw invalid_argument("Invalid mem-per-process value");
+			}
+		}
+		else if (key == "max-mem-per-proc") {
+			uint32_t value;
+			if (iss >> value) {
+				config.max_mem_per_process = value;
 				isParsed = true;
 			}
 			else {
@@ -194,7 +204,8 @@ void GlobalConfig::printConfig() const
 	cout << "Delays per Execution: " << config.delays_per_exec << endl;
 	cout << "Max Overall Memory: " << config.max_overall_mem << endl;
 	cout << "Memory per Frame: " << config.mem_per_frame << endl;
-	cout << "Memory per Process: " << config.mem_per_process << endl;
+	cout << "Minimum memory per Process: " << config.min_mem_per_process << endl;
+	cout << "Maximum memory per Process: " << config.max_mem_per_process << endl;
 }
 
 int GlobalConfig::getRandomInstructionCount() const
@@ -250,8 +261,10 @@ uint32_t GlobalConfig::getMemPerFrame() const {
 	return config.mem_per_frame;
 }
 
-uint32_t GlobalConfig::getMemPerProcess() const {
-	return config.mem_per_process;
+uint32_t GlobalConfig::getMinMemPerProcess() const {
+	return config.min_mem_per_process;
 }
 
-
+uint32_t GlobalConfig::getMaxMemPerProcess() const {
+	return config.max_mem_per_process;
+}

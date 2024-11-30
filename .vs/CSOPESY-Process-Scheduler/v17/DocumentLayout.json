@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "C:\\Users\\HP\\Documents\\GitHub\\CSOPESY-S11_GROUP-10_Master_Dir\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{B1732FF2-6C2F-499C-92ED-F1F30C99A61A}|CSOPESY-Process-Scheduler.vcxproj|C:\\Users\\HP\\Documents\\GitHub\\CSOPESY-S11_GROUP-10_Master_Dir\\Console\\MainConsole.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B1732FF2-6C2F-499C-92ED-F1F30C99A61A}|CSOPESY-Process-Scheduler.vcxproj|solutionrelative:Console\\MainConsole.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B1732FF2-6C2F-499C-92ED-F1F30C99A61A}|CSOPESY-Process-Scheduler.vcxproj|C:\\Users\\HP\\Documents\\GitHub\\CSOPESY-S11_GROUP-10_Master_Dir\\Scheduler\\Scheduler.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B1732FF2-6C2F-499C-92ED-F1F30C99A61A}|CSOPESY-Process-Scheduler.vcxproj|solutionrelative:Scheduler\\Scheduler.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{B1732FF2-6C2F-499C-92ED-F1F30C99A61A}|CSOPESY-Process-Scheduler.vcxproj|C:\\Users\\HP\\Documents\\GitHub\\CSOPESY-S11_GROUP-10_Master_Dir\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{B1732FF2-6C2F-499C-92ED-F1F30C99A61A}|CSOPESY-Process-Scheduler.vcxproj|solutionrelative:main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
@@ -27,6 +35,32 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "MainConsole.cpp",
+              "DocumentMoniker": "C:\\Users\\HP\\Documents\\GitHub\\CSOPESY-S11_GROUP-10_Master_Dir\\Console\\MainConsole.cpp",
+              "RelativeDocumentMoniker": "Console\\MainConsole.cpp",
+              "ToolTip": "C:\\Users\\HP\\Documents\\GitHub\\CSOPESY-S11_GROUP-10_Master_Dir\\Console\\MainConsole.cpp",
+              "RelativeToolTip": "Console\\MainConsole.cpp",
+              "ViewState": "AgIAAOoAAAAAAAAAAADgv/oAAAA7AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-11-30T05:55:04.649Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Scheduler.cpp",
+              "DocumentMoniker": "C:\\Users\\HP\\Documents\\GitHub\\CSOPESY-S11_GROUP-10_Master_Dir\\Scheduler\\Scheduler.cpp",
+              "RelativeDocumentMoniker": "Scheduler\\Scheduler.cpp",
+              "ToolTip": "C:\\Users\\HP\\Documents\\GitHub\\CSOPESY-S11_GROUP-10_Master_Dir\\Scheduler\\Scheduler.cpp",
+              "RelativeToolTip": "Scheduler\\Scheduler.cpp",
+              "ViewState": "AgIAAC4AAAAAAAAAAADgvzkAAABZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-11-30T05:55:00.285Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "main.cpp",
               "DocumentMoniker": "C:\\Users\\HP\\Documents\\GitHub\\CSOPESY-S11_GROUP-10_Master_Dir\\main.cpp",
               "RelativeDocumentMoniker": "main.cpp",

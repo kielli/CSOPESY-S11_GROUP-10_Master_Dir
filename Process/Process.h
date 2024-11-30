@@ -33,6 +33,7 @@ class Process
         int getCPUCoreID() const;
         ProcessState getState() const;
         String getName() const;
+        int getMemoryRequired();
 
         std::tm getArrivalTime() const;
         String getFormattedArrivalTime() const;
