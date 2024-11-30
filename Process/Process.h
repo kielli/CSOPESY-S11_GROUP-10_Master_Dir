@@ -48,6 +48,9 @@ public:
     size_t getRequiredMemory() const;
     void* getStoredAt() const;
     void setStoredAt(void* ptr);
+    void setInBackingStore(bool state);
+    bool isInBackingStore() const;
+    void setMemorySize(size_t size);
 
 private:
     int pid;
@@ -69,6 +72,7 @@ private:
     //added
     size_t requiredMemory;
     void* storedAt;
+    bool inBackingstore;
 };
 
 

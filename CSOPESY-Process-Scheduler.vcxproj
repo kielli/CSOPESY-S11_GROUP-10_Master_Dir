@@ -129,6 +129,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Memory\FlatMemoryAllocator.cpp" />
+    <ClCompile Include="Scheduler\BackingStore.cpp" />
     <ClCompile Include="Scheduler\CPUCore.cpp" />
     <ClCompile Include="Scheduler\Scheduler.cpp" />
     <ClCompile Include="Console\MainConsole.cpp" />
@@ -147,6 +148,7 @@
   <ItemGroup>
     <ClInclude Include="Memory\FlatMemoryAllocator.h" />
     <ClInclude Include="Memory\MemoryAllocator.h" />
+    <ClInclude Include="Scheduler\BackingStore.h" />
     <ClInclude Include="Scheduler\CPUCore.h" />
     <ClInclude Include="Scheduler\Scheduler.h" />
     <ClInclude Include="Console\MainConsole.h" />

@@ -319,10 +319,10 @@ void Scheduler::runFCFSScheduler(int delay)
 						/*this->readyQueue.push_back(process);*/
 						//std::cout << "Process " << process->getName() << " added to ready queue.\n"; //check
 					}
-					//else {
-					//	//std::cerr << "Memory allocation failed for process " << process->getName()
-					//	//	<< ". Adding to waiting queue.\n"; //check
-					//	this->waitListQueue.push_back(process);
+					/*else {
+						this->backingStore->saveProcess(process);
+						this
+					}*/
 
 					this->readyQueue.erase(this->readyQueue.begin());
 
@@ -377,11 +377,38 @@ void Scheduler::runRoundRobinScheduler(int delay, int quantum)
 					std::shared_ptr<Process> process = this->readyQueue.front();
 					this->readyQueue.erase(this->readyQueue.begin());
 
-					cpuCore->assignProcess(process);
+					if (process->getStoredAt() == nullptr && process->isInBackingStore()) {
+						backingStore->loadProcess(process);
+					}
 
-					if(cpuCore->getProcess()->getState() == Process::ProcessState::WAITING) {
-						cpuCore->getProcess()->setCPUCoreID(-1);
-						this->readyQueue.push_back(process);
+					void* allocatedMemory = this->memoryAllocator->allocate(process);
+					if (allocatedMemory != nullptr) {
+						process->setStoredAt(allocatedMemory);
+						cpuCore->assignProcess(process);
+
+						/*quantumCounter++;*/
+						if (cpuCore->getProcess()->getState() == Process::ProcessState::WAITING) {
+							cpuCore->getProcess()->setCPUCoreID(-1);
+							this->readyQueue.push_back(process);
+						}
+
+						if (cpuCore->getProcess()->getState() == Process::ProcessState::FINISHED) {
+							cpuCore->getProcess()->setCPUCoreID(-1);
+							this->memoryAllocator->deallocate(process);
+							/*this->readyQueue.erase(this->readyQueue.begin());*/
+						}
+
+					}
+					else {
+						swapOutProcess();
+						allocatedMemory = this->memoryAllocator->allocate(process);
+						if (allocatedMemory != nullptr) {
+							process->setStoredAt(allocatedMemory);
+							cpuCore->assignProcess(process);
+						}
+						else {
+							this->readyQueue.push_back(process);
+						}
 					}
 
 
@@ -401,6 +428,7 @@ Scheduler::Scheduler()
 	this->minInstructions = GlobalConfig::getInstance()->getMinIns();
 	this->maxInstructions = GlobalConfig::getInstance()->getMaxIns();
 	//added
+	this->backingStore = std::make_unique<BackingStore>("../BackingStore/");
 	this->overAllMemory = GlobalConfig::getInstance()->getMaxOverallMem();
 	this->memPerFrame = GlobalConfig::getInstance()->getMemPerFrame();
 	this->memPerProc = GlobalConfig::getInstance()->getMemPerProcess();
@@ -415,4 +443,24 @@ Scheduler::Scheduler()
 	String scheduler = GlobalConfig::getInstance()->getScheduler();
 	int quantum = GlobalConfig::getInstance()->getQuantumCycles();
 	this->startSchedulerThread(scheduler, this->bacthProcessFrequency, quantum);
+}
+
+
+void Scheduler::swapOutProcess() {
+	if (this->readyQueue.empty()) return;
+
+	// Select a process to swap out (e.g., based on LRU or LFU)
+	std::shared_ptr<Process> processToSwap = this->readyQueue.front();
+	this->readyQueue.pop_back();
+
+	// Free its memory
+	if (processToSwap->getStoredAt() != nullptr) {
+		this->memoryAllocator->deallocate(processToSwap);
+		processToSwap->setStoredAt(nullptr);
+	}
+
+	// Move the process to the backing store
+	this->backingStore->saveProcess(processToSwap);
+	std::cout << "Swapped out process " << processToSwap->getName()
+		<< " to the backing store.\n";
 }

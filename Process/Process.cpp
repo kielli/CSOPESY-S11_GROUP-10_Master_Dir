@@ -16,6 +16,7 @@ Process::Process(int pid, String name, int totalLines, size_t reqMemory)
 	this->currentState = ProcessState::READY;
 	//added
 	this->storedAt = nullptr;
+	this->inBackingstore = false;
 }
 
 void Process::manualAddCommand(String command)
@@ -132,4 +133,19 @@ void* Process::getStoredAt() const
 void Process::setStoredAt(void* ptr)
 {
 	this->storedAt = ptr;
+}
+
+void Process::setInBackingStore(bool state)
+{
+	this->inBackingstore = state;
+}
+
+bool Process::isInBackingStore() const
+{
+	return this->inBackingstore;
+}
+
+void Process::setMemorySize(size_t size)
+{
+	this->requiredMemory = size;
 }

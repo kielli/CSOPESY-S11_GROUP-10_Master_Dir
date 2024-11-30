@@ -1,24 +1,6 @@
-﻿  FlatMemoryAllocator.cpp
-  CPUCore.cpp
-  Scheduler.cpp
+﻿  Scheduler.cpp
 C:\Users\Asus\Desktop\MCO2\CSOPESY-S11_GROUP-10_Master_Dir\Scheduler\Scheduler.cpp(132,17): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
 C:\Users\Asus\Desktop\MCO2\CSOPESY-S11_GROUP-10_Master_Dir\Scheduler\Scheduler.cpp(180,16): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
 C:\Users\Asus\Desktop\MCO2\CSOPESY-S11_GROUP-10_Master_Dir\Scheduler\Scheduler.cpp(199,20): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
 C:\Users\Asus\Desktop\MCO2\CSOPESY-S11_GROUP-10_Master_Dir\Scheduler\Scheduler.cpp(254,20): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  MainConsole.cpp
-C:\Users\Asus\Desktop\MCO2\CSOPESY-S11_GROUP-10_Master_Dir\Console\MainConsole.cpp(245,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  GlobalConfig.cpp
-  PrintCommand.cpp
-  MessageBuffer.cpp
-  Process.cpp
-  DummyProcessLayout.cpp
-  KeyboardEventHandler.cpp
-  MarqueeConsole.cpp
-C:\Users\Asus\Desktop\MCO2\CSOPESY-S11_GROUP-10_Master_Dir\Console\MarqueeConsole.cpp(82,78): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-  BaseScreen.cpp
-  ConsoleManager.cpp
-C:\Users\Asus\Desktop\MCO2\CSOPESY-S11_GROUP-10_Master_Dir\Console\ConsoleManager.cpp(139,21): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-  AConsole.cpp
-  main.cpp
-  Generating Code...
   CSOPESY-Process-Scheduler.vcxproj -> C:\Users\Asus\Desktop\MCO2\CSOPESY-S11_GROUP-10_Master_Dir\x64\Debug\CSOPESY-Process-Scheduler.exe

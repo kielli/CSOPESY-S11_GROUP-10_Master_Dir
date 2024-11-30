@@ -10,6 +10,7 @@
 #include "../Config/GlobalConfig.h"
 #include "../Console/ConsoleManager.h"
 #include "../Memory/FlatMemoryAllocator.h"
+#include "../Scheduler/BackingStore.h"
 
 
 class Scheduler
@@ -33,6 +34,7 @@ public:
 
 private:
 	Scheduler();
+	void swapOutProcess();
 	~Scheduler() = default;
 	Scheduler(Scheduler const&) = delete;
 	Scheduler& operator=(Scheduler const&) = delete;
@@ -67,5 +69,6 @@ private:
 	size_t memPerFrame;
 	size_t memPerProc;
 	char* baseAddress;
+	std::unique_ptr<BackingStore> backingStore;
 };
 
