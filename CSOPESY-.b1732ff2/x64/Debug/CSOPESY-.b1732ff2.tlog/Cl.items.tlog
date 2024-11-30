@@ -1,0 +1,15 @@
+C:\Users\Asus\Desktop\MCO2\CSOPESY-S11_GROUP-10_Master_Dir\Memory\FlatMemoryAllocator.cpp;C:\Users\Asus\Desktop\MCO2\CSOPESY-S11_GROUP-10_Master_Dir\CSOPESY-.b1732ff2\x64\Debug\FlatMemoryAllocator.obj
+C:\Users\Asus\Desktop\MCO2\CSOPESY-S11_GROUP-10_Master_Dir\Scheduler\CPUCore.cpp;C:\Users\Asus\Desktop\MCO2\CSOPESY-S11_GROUP-10_Master_Dir\CSOPESY-.b1732ff2\x64\Debug\CPUCore.obj
+C:\Users\Asus\Desktop\MCO2\CSOPESY-S11_GROUP-10_Master_Dir\Scheduler\Scheduler.cpp;C:\Users\Asus\Desktop\MCO2\CSOPESY-S11_GROUP-10_Master_Dir\CSOPESY-.b1732ff2\x64\Debug\Scheduler.obj
+C:\Users\Asus\Desktop\MCO2\CSOPESY-S11_GROUP-10_Master_Dir\Console\MainConsole.cpp;C:\Users\Asus\Desktop\MCO2\CSOPESY-S11_GROUP-10_Master_Dir\CSOPESY-.b1732ff2\x64\Debug\MainConsole.obj
+C:\Users\Asus\Desktop\MCO2\CSOPESY-S11_GROUP-10_Master_Dir\Config\GlobalConfig.cpp;C:\Users\Asus\Desktop\MCO2\CSOPESY-S11_GROUP-10_Master_Dir\CSOPESY-.b1732ff2\x64\Debug\GlobalConfig.obj
+C:\Users\Asus\Desktop\MCO2\CSOPESY-S11_GROUP-10_Master_Dir\Command\PrintCommand.cpp;C:\Users\Asus\Desktop\MCO2\CSOPESY-S11_GROUP-10_Master_Dir\CSOPESY-.b1732ff2\x64\Debug\PrintCommand.obj
+C:\Users\Asus\Desktop\MCO2\CSOPESY-S11_GROUP-10_Master_Dir\Log\MessageBuffer.cpp;C:\Users\Asus\Desktop\MCO2\CSOPESY-S11_GROUP-10_Master_Dir\CSOPESY-.b1732ff2\x64\Debug\MessageBuffer.obj
+C:\Users\Asus\Desktop\MCO2\CSOPESY-S11_GROUP-10_Master_Dir\Process\Process.cpp;C:\Users\Asus\Desktop\MCO2\CSOPESY-S11_GROUP-10_Master_Dir\CSOPESY-.b1732ff2\x64\Debug\Process.obj
+C:\Users\Asus\Desktop\MCO2\CSOPESY-S11_GROUP-10_Master_Dir\Layout\DummyProcessLayout.cpp;C:\Users\Asus\Desktop\MCO2\CSOPESY-S11_GROUP-10_Master_Dir\CSOPESY-.b1732ff2\x64\Debug\DummyProcessLayout.obj
+C:\Users\Asus\Desktop\MCO2\CSOPESY-S11_GROUP-10_Master_Dir\Event\KeyboardEventHandler.cpp;C:\Users\Asus\Desktop\MCO2\CSOPESY-S11_GROUP-10_Master_Dir\CSOPESY-.b1732ff2\x64\Debug\KeyboardEventHandler.obj
+C:\Users\Asus\Desktop\MCO2\CSOPESY-S11_GROUP-10_Master_Dir\Console\MarqueeConsole.cpp;C:\Users\Asus\Desktop\MCO2\CSOPESY-S11_GROUP-10_Master_Dir\CSOPESY-.b1732ff2\x64\Debug\MarqueeConsole.obj
+C:\Users\Asus\Desktop\MCO2\CSOPESY-S11_GROUP-10_Master_Dir\Screen\BaseScreen.cpp;C:\Users\Asus\Desktop\MCO2\CSOPESY-S11_GROUP-10_Master_Dir\CSOPESY-.b1732ff2\x64\Debug\BaseScreen.obj
+C:\Users\Asus\Desktop\MCO2\CSOPESY-S11_GROUP-10_Master_Dir\Console\ConsoleManager.cpp;C:\Users\Asus\Desktop\MCO2\CSOPESY-S11_GROUP-10_Master_Dir\CSOPESY-.b1732ff2\x64\Debug\ConsoleManager.obj
+C:\Users\Asus\Desktop\MCO2\CSOPESY-S11_GROUP-10_Master_Dir\Console\AConsole.cpp;C:\Users\Asus\Desktop\MCO2\CSOPESY-S11_GROUP-10_Master_Dir\CSOPESY-.b1732ff2\x64\Debug\AConsole.obj
+C:\Users\Asus\Desktop\MCO2\CSOPESY-S11_GROUP-10_Master_Dir\main.cpp;C:\Users\Asus\Desktop\MCO2\CSOPESY-S11_GROUP-10_Master_Dir\CSOPESY-.b1732ff2\x64\Debug\main.obj
