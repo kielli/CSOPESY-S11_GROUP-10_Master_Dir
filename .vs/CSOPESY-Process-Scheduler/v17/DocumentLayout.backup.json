@@ -1,9 +1,53 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\HP\\Documents\\GitHub\\CSOPESY-S11_GROUP-10_Master_Dir\\",
+  "WorkspaceRootPath": "C:\\Users\\Acer\\OneDrive\\Desktop\\GitHub\\CSOPESY\\CSOPESY-S11_GROUP-10_Master_Dir\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{B1732FF2-6C2F-499C-92ED-F1F30C99A61A}|CSOPESY-Process-Scheduler.vcxproj|C:\\Users\\HP\\Documents\\GitHub\\CSOPESY-S11_GROUP-10_Master_Dir\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{B1732FF2-6C2F-499C-92ED-F1F30C99A61A}|CSOPESY-Process-Scheduler.vcxproj|C:\\Users\\Acer\\OneDrive\\Desktop\\GitHub\\CSOPESY\\CSOPESY-S11_GROUP-10_Master_Dir\\Memory\\FlatMemoryAllocator.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B1732FF2-6C2F-499C-92ED-F1F30C99A61A}|CSOPESY-Process-Scheduler.vcxproj|solutionrelative:Memory\\FlatMemoryAllocator.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B1732FF2-6C2F-499C-92ED-F1F30C99A61A}|CSOPESY-Process-Scheduler.vcxproj|C:\\Users\\Acer\\OneDrive\\Desktop\\GitHub\\CSOPESY\\CSOPESY-S11_GROUP-10_Master_Dir\\Scheduler\\Scheduler.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B1732FF2-6C2F-499C-92ED-F1F30C99A61A}|CSOPESY-Process-Scheduler.vcxproj|solutionrelative:Scheduler\\Scheduler.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B1732FF2-6C2F-499C-92ED-F1F30C99A61A}|CSOPESY-Process-Scheduler.vcxproj|C:\\Users\\Acer\\OneDrive\\Desktop\\GitHub\\CSOPESY\\CSOPESY-S11_GROUP-10_Master_Dir\\Process\\Process.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B1732FF2-6C2F-499C-92ED-F1F30C99A61A}|CSOPESY-Process-Scheduler.vcxproj|solutionrelative:Process\\Process.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B1732FF2-6C2F-499C-92ED-F1F30C99A61A}|CSOPESY-Process-Scheduler.vcxproj|C:\\Users\\Acer\\OneDrive\\Desktop\\GitHub\\CSOPESY\\CSOPESY-S11_GROUP-10_Master_Dir\\Memory\\FlatMemoryAllocator.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B1732FF2-6C2F-499C-92ED-F1F30C99A61A}|CSOPESY-Process-Scheduler.vcxproj|solutionrelative:Memory\\FlatMemoryAllocator.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B1732FF2-6C2F-499C-92ED-F1F30C99A61A}|CSOPESY-Process-Scheduler.vcxproj|C:\\Users\\Acer\\OneDrive\\Desktop\\GitHub\\CSOPESY\\CSOPESY-S11_GROUP-10_Master_Dir\\Scheduler\\Scheduler.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B1732FF2-6C2F-499C-92ED-F1F30C99A61A}|CSOPESY-Process-Scheduler.vcxproj|solutionrelative:Scheduler\\Scheduler.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B1732FF2-6C2F-499C-92ED-F1F30C99A61A}|CSOPESY-Process-Scheduler.vcxproj|C:\\Users\\Acer\\OneDrive\\Desktop\\GitHub\\CSOPESY\\CSOPESY-S11_GROUP-10_Master_Dir\\config.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{B1732FF2-6C2F-499C-92ED-F1F30C99A61A}|CSOPESY-Process-Scheduler.vcxproj|solutionrelative:config.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B1732FF2-6C2F-499C-92ED-F1F30C99A61A}|CSOPESY-Process-Scheduler.vcxproj|C:\\Users\\Acer\\OneDrive\\Desktop\\GitHub\\CSOPESY\\CSOPESY-S11_GROUP-10_Master_Dir\\Config\\GlobalConfig.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B1732FF2-6C2F-499C-92ED-F1F30C99A61A}|CSOPESY-Process-Scheduler.vcxproj|solutionrelative:Config\\GlobalConfig.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B1732FF2-6C2F-499C-92ED-F1F30C99A61A}|CSOPESY-Process-Scheduler.vcxproj|C:\\Users\\Acer\\OneDrive\\Desktop\\GitHub\\CSOPESY\\CSOPESY-S11_GROUP-10_Master_Dir\\Config\\GlobalConfig.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B1732FF2-6C2F-499C-92ED-F1F30C99A61A}|CSOPESY-Process-Scheduler.vcxproj|solutionrelative:Config\\GlobalConfig.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B1732FF2-6C2F-499C-92ED-F1F30C99A61A}|CSOPESY-Process-Scheduler.vcxproj|C:\\Users\\Acer\\OneDrive\\Desktop\\GitHub\\CSOPESY\\CSOPESY-S11_GROUP-10_Master_Dir\\Console\\MainConsole.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B1732FF2-6C2F-499C-92ED-F1F30C99A61A}|CSOPESY-Process-Scheduler.vcxproj|solutionrelative:Console\\MainConsole.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B1732FF2-6C2F-499C-92ED-F1F30C99A61A}|CSOPESY-Process-Scheduler.vcxproj|C:\\Users\\Acer\\OneDrive\\Desktop\\GitHub\\CSOPESY\\CSOPESY-S11_GROUP-10_Master_Dir\\Process\\Process.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B1732FF2-6C2F-499C-92ED-F1F30C99A61A}|CSOPESY-Process-Scheduler.vcxproj|solutionrelative:Process\\Process.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B1732FF2-6C2F-499C-92ED-F1F30C99A61A}|CSOPESY-Process-Scheduler.vcxproj|C:\\Users\\Acer\\OneDrive\\Desktop\\GitHub\\CSOPESY\\CSOPESY-S11_GROUP-10_Master_Dir\\Memory\\IMemoryAllocator.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B1732FF2-6C2F-499C-92ED-F1F30C99A61A}|CSOPESY-Process-Scheduler.vcxproj|solutionrelative:Memory\\IMemoryAllocator.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B1732FF2-6C2F-499C-92ED-F1F30C99A61A}|CSOPESY-Process-Scheduler.vcxproj|C:\\Users\\Acer\\OneDrive\\Desktop\\GitHub\\CSOPESY\\CSOPESY-S11_GROUP-10_Master_Dir\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{B1732FF2-6C2F-499C-92ED-F1F30C99A61A}|CSOPESY-Process-Scheduler.vcxproj|solutionrelative:main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
@@ -14,7 +58,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 10,
           "Children": [
             {
               "$type": "Bookmark",
@@ -26,16 +70,157 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "main.cpp",
-              "DocumentMoniker": "C:\\Users\\HP\\Documents\\GitHub\\CSOPESY-S11_GROUP-10_Master_Dir\\main.cpp",
-              "RelativeDocumentMoniker": "main.cpp",
-              "ToolTip": "C:\\Users\\HP\\Documents\\GitHub\\CSOPESY-S11_GROUP-10_Master_Dir\\main.cpp",
-              "RelativeToolTip": "main.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAeAAAAAAAAAA==",
+              "DocumentIndex": 8,
+              "Title": "MainConsole.cpp",
+              "DocumentMoniker": "C:\\Users\\Acer\\OneDrive\\Desktop\\GitHub\\CSOPESY\\CSOPESY-S11_GROUP-10_Master_Dir\\Console\\MainConsole.cpp",
+              "RelativeDocumentMoniker": "Console\\MainConsole.cpp",
+              "ToolTip": "C:\\Users\\Acer\\OneDrive\\Desktop\\GitHub\\CSOPESY\\CSOPESY-S11_GROUP-10_Master_Dir\\Console\\MainConsole.cpp",
+              "RelativeToolTip": "Console\\MainConsole.cpp",
+              "ViewState": "AgIAAOMAAAAAAAAAAAAiwP4AAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-11-30T02:41:47.714Z",
+              "WhenOpened": "2024-11-30T17:24:58.916Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Scheduler.h",
+              "DocumentMoniker": "C:\\Users\\Acer\\OneDrive\\Desktop\\GitHub\\CSOPESY\\CSOPESY-S11_GROUP-10_Master_Dir\\Scheduler\\Scheduler.h",
+              "RelativeDocumentMoniker": "Scheduler\\Scheduler.h",
+              "ToolTip": "C:\\Users\\Acer\\OneDrive\\Desktop\\GitHub\\CSOPESY\\CSOPESY-S11_GROUP-10_Master_Dir\\Scheduler\\Scheduler.h",
+              "RelativeToolTip": "Scheduler\\Scheduler.h",
+              "ViewState": "AgIAADwAAAAAAAAAAAAwwEMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-11-30T17:24:35.324Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "GlobalConfig.cpp",
+              "DocumentMoniker": "C:\\Users\\Acer\\OneDrive\\Desktop\\GitHub\\CSOPESY\\CSOPESY-S11_GROUP-10_Master_Dir\\Config\\GlobalConfig.cpp",
+              "RelativeDocumentMoniker": "Config\\GlobalConfig.cpp",
+              "ToolTip": "C:\\Users\\Acer\\OneDrive\\Desktop\\GitHub\\CSOPESY\\CSOPESY-S11_GROUP-10_Master_Dir\\Config\\GlobalConfig.cpp",
+              "RelativeToolTip": "Config\\GlobalConfig.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-11-30T17:20:18.24Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "GlobalConfig.h",
+              "DocumentMoniker": "C:\\Users\\Acer\\OneDrive\\Desktop\\GitHub\\CSOPESY\\CSOPESY-S11_GROUP-10_Master_Dir\\Config\\GlobalConfig.h",
+              "RelativeDocumentMoniker": "Config\\GlobalConfig.h",
+              "ToolTip": "C:\\Users\\Acer\\OneDrive\\Desktop\\GitHub\\CSOPESY\\CSOPESY-S11_GROUP-10_Master_Dir\\Config\\GlobalConfig.h",
+              "RelativeToolTip": "Config\\GlobalConfig.h",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAADEAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-11-30T17:20:15.12Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Scheduler.cpp",
+              "DocumentMoniker": "C:\\Users\\Acer\\OneDrive\\Desktop\\GitHub\\CSOPESY\\CSOPESY-S11_GROUP-10_Master_Dir\\Scheduler\\Scheduler.cpp",
+              "RelativeDocumentMoniker": "Scheduler\\Scheduler.cpp",
+              "ToolTip": "C:\\Users\\Acer\\OneDrive\\Desktop\\GitHub\\CSOPESY\\CSOPESY-S11_GROUP-10_Master_Dir\\Scheduler\\Scheduler.cpp",
+              "RelativeToolTip": "Scheduler\\Scheduler.cpp",
+              "ViewState": "AgIAAFUBAAAAAAAAAAAAAI0AAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-11-30T17:08:17.586Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Process.h",
+              "DocumentMoniker": "C:\\Users\\Acer\\OneDrive\\Desktop\\GitHub\\CSOPESY\\CSOPESY-S11_GROUP-10_Master_Dir\\Process\\Process.h",
+              "RelativeDocumentMoniker": "Process\\Process.h",
+              "ToolTip": "C:\\Users\\Acer\\OneDrive\\Desktop\\GitHub\\CSOPESY\\CSOPESY-S11_GROUP-10_Master_Dir\\Process\\Process.h",
+              "RelativeToolTip": "Process\\Process.h",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAAACYAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-11-30T17:08:07.423Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Process.cpp",
+              "DocumentMoniker": "C:\\Users\\Acer\\OneDrive\\Desktop\\GitHub\\CSOPESY\\CSOPESY-S11_GROUP-10_Master_Dir\\Process\\Process.cpp",
+              "RelativeDocumentMoniker": "Process\\Process.cpp",
+              "ToolTip": "C:\\Users\\Acer\\OneDrive\\Desktop\\GitHub\\CSOPESY\\CSOPESY-S11_GROUP-10_Master_Dir\\Process\\Process.cpp",
+              "RelativeToolTip": "Process\\Process.cpp",
+              "ViewState": "AgIAAEYAAAAAAAAAAAASwFQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-11-30T17:07:34.265Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "config.txt",
+              "DocumentMoniker": "C:\\Users\\Acer\\OneDrive\\Desktop\\GitHub\\CSOPESY\\CSOPESY-S11_GROUP-10_Master_Dir\\config.txt",
+              "RelativeDocumentMoniker": "config.txt",
+              "ToolTip": "C:\\Users\\Acer\\OneDrive\\Desktop\\GitHub\\CSOPESY\\CSOPESY-S11_GROUP-10_Master_Dir\\config.txt",
+              "RelativeToolTip": "config.txt",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2024-11-30T17:07:00.869Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "FlatMemoryAllocator.cpp",
+              "DocumentMoniker": "C:\\Users\\Acer\\OneDrive\\Desktop\\GitHub\\CSOPESY\\CSOPESY-S11_GROUP-10_Master_Dir\\Memory\\FlatMemoryAllocator.cpp",
+              "RelativeDocumentMoniker": "Memory\\FlatMemoryAllocator.cpp",
+              "ToolTip": "C:\\Users\\Acer\\OneDrive\\Desktop\\GitHub\\CSOPESY\\CSOPESY-S11_GROUP-10_Master_Dir\\Memory\\FlatMemoryAllocator.cpp",
+              "RelativeToolTip": "Memory\\FlatMemoryAllocator.cpp",
+              "ViewState": "AgIAAMIAAAAAAAAAAAAgwN4AAABfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-11-30T15:21:04.127Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "FlatMemoryAllocator.h",
+              "DocumentMoniker": "C:\\Users\\Acer\\OneDrive\\Desktop\\GitHub\\CSOPESY\\CSOPESY-S11_GROUP-10_Master_Dir\\Memory\\FlatMemoryAllocator.h",
+              "RelativeDocumentMoniker": "Memory\\FlatMemoryAllocator.h",
+              "ToolTip": "C:\\Users\\Acer\\OneDrive\\Desktop\\GitHub\\CSOPESY\\CSOPESY-S11_GROUP-10_Master_Dir\\Memory\\FlatMemoryAllocator.h",
+              "RelativeToolTip": "Memory\\FlatMemoryAllocator.h",
+              "ViewState": "AgIAABAAAAAAAAAAAAAQwB8AAAA8AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-11-30T15:18:33.741Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "IMemoryAllocator.h",
+              "DocumentMoniker": "C:\\Users\\Acer\\OneDrive\\Desktop\\GitHub\\CSOPESY\\CSOPESY-S11_GROUP-10_Master_Dir\\Memory\\IMemoryAllocator.h",
+              "RelativeDocumentMoniker": "Memory\\IMemoryAllocator.h",
+              "ToolTip": "C:\\Users\\Acer\\OneDrive\\Desktop\\GitHub\\CSOPESY\\CSOPESY-S11_GROUP-10_Master_Dir\\Memory\\IMemoryAllocator.h",
+              "RelativeToolTip": "Memory\\IMemoryAllocator.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-11-30T15:18:04.085Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "main.cpp",
+              "DocumentMoniker": "C:\\Users\\Acer\\OneDrive\\Desktop\\GitHub\\CSOPESY\\CSOPESY-S11_GROUP-10_Master_Dir\\main.cpp",
+              "RelativeDocumentMoniker": "main.cpp",
+              "ToolTip": "C:\\Users\\Acer\\OneDrive\\Desktop\\GitHub\\CSOPESY\\CSOPESY-S11_GROUP-10_Master_Dir\\main.cpp",
+              "RelativeToolTip": "main.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-11-30T02:41:47.714Z"
             }
           ]
         }

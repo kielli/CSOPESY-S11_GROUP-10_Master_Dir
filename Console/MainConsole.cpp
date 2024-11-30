@@ -1,4 +1,5 @@
 #include "MainConsole.h"
+#include "../Memory/IMemoryAllocator.h"
 
 using namespace std;
 
@@ -334,30 +335,18 @@ void MainConsole::executeReportUtilizationCommand() const
 
 void MainConsole::displayMainProcessSmi()
 {
-	cout << "\n---------------------------------------------------------------" << endl;
-	cout << "| PROCESS-SMI v01.00                 Driver Version: 01.00    |" << endl;
-	cout << "---------------------------------------------------------------" << endl;
-	cout << "CPU-Util: " << endl;
-	cout << "Memory Usage: " << endl;
-	cout << "Memory-Util: " << endl;
-	cout << "\n";
-	cout << "================================================================" << endl;
-	cout << "Running processes and memory usage : " << endl;
-	cout << "----------------------------------------------------------------" << endl;
-	cout << "process-name-holder \tmemory-usage-holder" << endl;
-	cout << "process-name-holder \tmemory-usage-holder" << endl;
-	cout << "----------------------------------------------------------------" << endl;
+	std::cout << " " << std::endl;
+
+	Scheduler::getInstance()->processSMI();
+
+	std::cout << " " << std::endl;
 }
 
 void MainConsole::displayVmstat()
 {
-	cout << "\nVMSTAT: " << endl;
-	cout << "num-holder \t K Total Memory" << endl;
-	cout << "num-holder \t K Used Memory" << endl;
-	cout << "num-holder \t K ree Memory" << endl;
-	cout << "num-holder \t Idle CPU ticks" << endl;
-	cout << "num-holder \t Active CPU ticks" << endl;
-	cout << "num-holder \t Total CPU ticks" << endl;
-	cout << "num-holder \t Num Paged In" << endl;
-	cout << "num-holder \t Num Paged Out" << endl;
+	std::cout << " " << std::endl;
+
+	Scheduler::getInstance()->vmStat();
+
+	std::cout << " " << std::endl;
 }

@@ -66,12 +66,25 @@ void CPUCore::setAvailable(bool available) {
 	this->availableFlag = available;
 }
 
+int CPUCore::getTotalTicks()
+{
+    return this->totalTicks;
+}
+
+int CPUCore::getInactiveTicks()
+{
+    return this->inactiveTicks;
+}
+
 void CPUCore::run()
 {
 	this->stopFlag = false;
 
 	while (this->stopFlag == false) {
+		this->totalTicks += 1;
+
 		if (this->process != nullptr) {
+			
 			
 			this->process->cpuCoreID = this->cpuCoreID;
 			
@@ -97,6 +110,9 @@ void CPUCore::run()
 			}
 
 			std::this_thread::sleep_for(std::chrono::milliseconds(100));
+		}
+		else {
+			this->inactiveTicks += 1;
 		}
 	}
 

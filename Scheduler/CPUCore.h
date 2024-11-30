@@ -26,12 +26,18 @@ class CPUCore
 		bool isAvailable() const;
 		void setAvailable(bool available);
 
+		int getTotalTicks();
+		int getInactiveTicks();
+
 	private:
 		std::shared_ptr<Process> process = nullptr;
 		bool availableFlag = true;
 		bool stopFlag = false;
 		int cpuCoreID;
 		static int nextCPUCoreID;
+
+		int totalTicks = 0;
+		int inactiveTicks = 0;
 
 		void run();
 };

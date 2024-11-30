@@ -1,15 +1,25 @@
-﻿  ConsoleManager.cpp
-C:\Users\HP\Documents\GitHub\CSOPESY-S11_GROUP-10_Master_Dir\Console\ConsoleManager.cpp(138,9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\HP\Documents\GitHub\CSOPESY-S11_GROUP-10_Master_Dir\Console\ConsoleManager.cpp(156,32): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
-  MainConsole.cpp
-  MarqueeConsole.cpp
-C:\Users\HP\Documents\GitHub\CSOPESY-S11_GROUP-10_Master_Dir\Console\MarqueeConsole.cpp(77,78): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-  Process.cpp
-C:\Users\HP\Documents\GitHub\CSOPESY-S11_GROUP-10_Master_Dir\Process\Process.cpp(60,31): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
-  CPUCore.cpp
+﻿  FlatMemoryAllocator.cpp
+C:\Users\Acer\OneDrive\Desktop\GitHub\CSOPESY\CSOPESY-S11_GROUP-10_Master_Dir\Memory\FlatMemoryAllocator.h(41,48): warning C4244: 'initializing': conversion from 'double' to 'const size_t', possible loss of data
+  (compiling source file 'Memory/FlatMemoryAllocator.cpp')
+  
+C:\Users\Acer\OneDrive\Desktop\GitHub\CSOPESY\CSOPESY-S11_GROUP-10_Master_Dir\Memory\FlatMemoryAllocator.cpp(14,24): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Acer\OneDrive\Desktop\GitHub\CSOPESY\CSOPESY-S11_GROUP-10_Master_Dir\Memory\FlatMemoryAllocator.cpp(84,17): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.41.34120\include\utility(399,39): warning C4267: '=': conversion from 'size_t' to '_Ty2', possible loss of data
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.41.34120\include\utility(399,39): warning C4267:         with
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.41.34120\include\utility(399,39): warning C4267:         [
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.41.34120\include\utility(399,39): warning C4267:             _Ty2=int
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.41.34120\include\utility(399,39): warning C4267:         ]
+  (compiling source file 'Memory/FlatMemoryAllocator.cpp')
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.41.34120\include\utility(399,39):
+      the template instantiation context (the oldest one first) is
+          C:\Users\Acer\OneDrive\Desktop\GitHub\CSOPESY\CSOPESY-S11_GROUP-10_Master_Dir\Memory\FlatMemoryAllocator.cpp(208,41):
+          see reference to function template instantiation 'std::pair<int,int> &std::pair<int,int>::operator =<int,unsigned __int64,0>(std::pair<int,unsigned __int64> &&) noexcept' being compiled
+              C:\Users\Acer\OneDrive\Desktop\GitHub\CSOPESY\CSOPESY-S11_GROUP-10_Master_Dir\Memory\FlatMemoryAllocator.cpp(208,41):
+              see the first reference to 'std::pair<int,int>::operator =' in 'FlatMemoryAllocator::writeBackingStore'
+  
   Scheduler.cpp
-C:\Users\HP\Documents\GitHub\CSOPESY-S11_GROUP-10_Master_Dir\Scheduler\Scheduler.cpp(85,16): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-  BaseScreen.cpp
-  main.cpp
+C:\Users\Acer\OneDrive\Desktop\GitHub\CSOPESY\CSOPESY-S11_GROUP-10_Master_Dir\Memory\FlatMemoryAllocator.h(41,48): warning C4244: 'initializing': conversion from 'double' to 'const size_t', possible loss of data
+  (compiling source file 'Scheduler/Scheduler.cpp')
+  
   Generating Code...
-  CSOPESY-Process-Scheduler.vcxproj -> C:\Users\HP\Documents\GitHub\CSOPESY-S11_GROUP-10_Master_Dir\x64\Debug\CSOPESY-Process-Scheduler.exe
+  CSOPESY-Process-Scheduler.vcxproj -> C:\Users\Acer\OneDrive\Desktop\GitHub\CSOPESY\CSOPESY-S11_GROUP-10_Master_Dir\x64\Debug\CSOPESY-Process-Scheduler.exe

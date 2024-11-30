@@ -60,6 +60,9 @@
     <ClCompile Include="Scheduler\CPUCore.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Memory\FlatMemoryAllocator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Console\AConsole.h">
@@ -110,12 +113,20 @@
     <ClInclude Include="Scheduler\CPUCore.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Memory\IMemoryAllocator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Memory\FlatMemoryAllocator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
     <None Include=".gitignore" />
+    <None Include="main.exe" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="config.txt" />
+    <Text Include="csopesy-log.txt" />
   </ItemGroup>
 </Project>

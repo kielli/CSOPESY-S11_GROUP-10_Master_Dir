@@ -9,7 +9,7 @@
 #include "../Process/Process.h"
 #include "../Config/GlobalConfig.h"
 #include "../Console/ConsoleManager.h"
-
+#include "../Memory/IMemoryAllocator.h"
 
 class Scheduler
 {
@@ -27,6 +27,10 @@ public:
 
 	void displaySchedulerStatus();
 
+	void processSMI();
+	void vmStat();
+
+    std::shared_ptr<IMemoryAllocator> getMemoryAllocator() const;
 
 private:
 	Scheduler();
@@ -54,4 +58,14 @@ private:
 
 	void runFCFSScheduler(int delay);
 	void runRoundRobinScheduler(int delay, int quantum);
+
+	int cycleCounter = 0;
+
+	// Memory Manager
+	std::shared_ptr<IMemoryAllocator> memoryAllocator;
+	int getTotalCPUTicks();
+	int getInactiveCPUTicks();
+
+	friend class FlatMemoryAllocator;
+	friend class PagingAllocator;
 };
