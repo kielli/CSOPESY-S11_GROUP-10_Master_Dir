@@ -47,3 +47,7 @@ size_t PagingAllocator::allocateFrames(size_t numFrames, size_t processId){
 	mtx.unlock();
 	return frameIndex;
 }
+
+bool PagingAllocator::isMemFull() const {
+	return freeFrameList.empty();
+}

@@ -49,3 +49,7 @@ void FlatMemoryAllocator::deallocateAt(size_t index, size_t size) {
     std::fill(allocationMap.begin() + index, allocationMap.begin() + index + size, false);
     allocatedMem-=size;
 }
+
+bool FlatMemoryAllocator::isMemFull() const {
+	return allocatedMem >= maxMemSize;
+}

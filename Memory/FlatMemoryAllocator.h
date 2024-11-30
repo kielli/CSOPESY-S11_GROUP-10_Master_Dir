@@ -16,6 +16,7 @@ class FlatMemoryAllocator : public IMemoryAllocator {
 
         void* allocate(Process* process) override;
         void deallocate(Process* process) override;
+		bool isMemFull() const;
 
     private:
         size_t maxMemSize;

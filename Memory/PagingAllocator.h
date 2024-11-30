@@ -10,6 +10,7 @@ class PagingAllocator : public IMemoryAllocator {
 
         void* allocate(Process* process) override;
         void deallocate(Process* process) override;
+		bool isMemFull() const;
 
     private:
         size_t maxMemSize;
@@ -20,4 +21,5 @@ class PagingAllocator : public IMemoryAllocator {
 
         size_t allocateFrames(size_t numFrames, size_t proccessId);
         void deallocateFrames(std::vector<size_t> framesToBeFreed);
+        
 };
