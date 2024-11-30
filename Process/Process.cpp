@@ -1,5 +1,6 @@
 #include "Process.h"
 #include "Process.h"
+#include <cmath>
 
 using namespace std;
 
@@ -9,6 +10,8 @@ Process::Process(int pid, String name, int totalLines, size_t memoryRequired)
 	this->name = name;
 	this->totalLines = totalLines;
 	this->memoryRequired = memoryRequired;
+	this->memBaseAddress = 0;
+	this->framesRequired = ceil(memoryRequired / GlobalConfig::getInstance()->getMemPerFrame());
 	
 	this->generateArrivalTime();
 
@@ -80,11 +83,14 @@ tm Process::getArrivalTime() const {
 	return this->localArrivalTime;
 }
 
-String Process::getFormattedArrivalTime() const
-{
+String Process::getFormattedArrivalTime() const {
 	char buffer[64]; // Buffer for formatted time
 	strftime(buffer, sizeof(buffer), "%m/%d/%Y, %I:%M:%S %p", &localArrivalTime);
 	return String(buffer);
+}
+
+char* Process::getMemBaseAddress() const {
+	return this->memBaseAddress;
 }
 
 void Process::generateArrivalTime()
