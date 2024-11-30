@@ -9,24 +9,19 @@ void MarqueeConsole::onEnabled()
 	this->displayHeader();
 }
 
-void MarqueeConsole::display()
-{
-}
+void MarqueeConsole::display() {}
 
-void MarqueeConsole::process()
-{
+void MarqueeConsole::process() {
 	this->PollKeyboard(KEH);
 }
 
-int MarqueeConsole::getConsoleHeight() const
-{
+int MarqueeConsole::getConsoleHeight() const {
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
 	GetConsoleScreenBufferInfo(ConsoleManager::getInstance()->getConsoleHandle(), &csbi);
 	return csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
 }
 
-int MarqueeConsole::getConsoleWidth() const
-{
+int MarqueeConsole::getConsoleWidth() const {
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
 	GetConsoleScreenBufferInfo(ConsoleManager::getInstance()->getConsoleHandle(), &csbi);
 	return csbi.srWindow.Right - csbi.srWindow.Left + 1;

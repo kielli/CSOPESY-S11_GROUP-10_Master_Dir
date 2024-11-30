@@ -2,9 +2,10 @@
 
 #include "../Console/ConsoleManager.h"
 
-BaseScreen::BaseScreen(std::shared_ptr<Process> process, String processName) : AConsole(processName), attachedProcess(process)
-{
-}
+using namespace std;
+
+BaseScreen::BaseScreen(shared_ptr<Process> process, String processName) : AConsole(processName), attachedProcess(process)
+{}
 
 void BaseScreen::onEnabled()
 {
@@ -14,11 +15,11 @@ void BaseScreen::onEnabled()
 
 void BaseScreen::process()
 {
-	std::cout << "\nroot:\\>";
+	cout << "\nroot:\\>";
 
 	// Read user input
 	String command;
-	std::getline(std::cin, command);
+	getline(cin, command);
 
 	if (command == "clear" || command == "cls") {
 		attachedProcess->manualAddCommand(command);
@@ -26,10 +27,10 @@ void BaseScreen::process()
 		this->refreshed = true;		// changes applied
 		system("cls");
 	}
-	//else if (command == "process-smi") {
-	//	this->printProcessInfo();
-	//	this->refreshed = true; // Update after printing
-	//}
+	else if (command == "process-smi") {
+		this->printProcessInfo();
+		this->refreshed = true; // Update after printing
+	}
 	//else if (command == "print") {
 	//	// Log the process print command
 	//	this->refreshed = false; // Mark for refresh after state changes
@@ -44,8 +45,8 @@ void BaseScreen::process()
 		this->refreshed = true;		// changes applied
 	}
 	else {
-		std::cout << "Unrecognized command: " << command << std::endl;
-		std::cout << std::endl;
+		cout << "Unrecognized command: " << command << endl;
+		cout << endl;
 		attachedProcess->manualAddCommand(command);
 		attachedProcess->moveToNextLine();
 		this->refreshed = true;		// changes applied
@@ -61,14 +62,13 @@ void BaseScreen::display()
 
 void BaseScreen::printProcessInfo()
 {
-	std::cout << "Process Name: " << this->attachedProcess->getName() << std::endl;
-	std::cout << "Current line of instruction / Total lines of instruction: "
+	cout << "Process Name: " << this->attachedProcess->getName() << endl;
+	cout << "Current line of instruction / Total lines of instruction: "
 		<< this->attachedProcess->getCommandCounter() << " / "
-		<< this->attachedProcess->getLinesOfCode() << std::endl;
+		<< this->attachedProcess->getLinesOfCode() << endl;
 
-	std::tm arrivalTime = this->attachedProcess->getArrivalTime(); // Store the r-value in a local variable
-	std::cout << "Timestamp: " << std::put_time(&arrivalTime, "%Y-%m-%d %H:%M:%S") << std::endl;
+	tm arrivalTime = this->attachedProcess->getArrivalTime(); // Store the r-value in a local variable
+	cout << "Timestamp: " << put_time(&arrivalTime, "%Y-%m-%d %H:%M:%S") << endl;
 
 	this->refreshed = false;
 }
-

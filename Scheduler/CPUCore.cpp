@@ -1,5 +1,7 @@
 #include "CPUCore.h"
 
+using namespace std;
+
 int CPUCore::nextCPUCoreID = 0;
 
 CPUCore::CPUCore()
@@ -8,11 +10,11 @@ CPUCore::CPUCore()
 	CPUCore::nextCPUCoreID += 1;
 	
 
-	std::thread tickCPUThread(&CPUCore::run, this);
+	thread tickCPUThread(&CPUCore::run, this);
 	tickCPUThread.detach();
 }
 
-void CPUCore::assignProcess(std::shared_ptr<Process> process)
+void CPUCore::assignProcess(shared_ptr<Process> process)
 {
 	this->process = process;
 
@@ -24,64 +26,53 @@ void CPUCore::assignProcess(std::shared_ptr<Process> process)
 	}
 
 	//debugger:
-	//std::cout << "Process assigned to CPU Core " << this->cpuCoreID << std::endl;
-
+	//cout << "Process assigned to CPU Core " << this->cpuCoreID << endl;
 }
 
-int CPUCore::getCPUCoreID() const
-{
+int CPUCore::getCPUCoreID() const {
 	return this->cpuCoreID;
 }
 
-String CPUCore::getProcessName() const
-{
+String CPUCore::getProcessName() const {
 	return this->process->getName();
 }
 
-int CPUCore::getCommandCounter() const
-{
+int CPUCore::getCommandCounter() const {
 	return this->process->getCommandCounter();
 }
 
-int CPUCore::getLinesOfCode() const
-{
+int CPUCore::getLinesOfCode() const {
 	return this->process->getLinesOfCode();
 }
 
-std::tm CPUCore::getArrivalTime() const
-{
+tm CPUCore::getArrivalTime() const {
 	return this->process->getArrivalTime();
 }
 
-std::shared_ptr<Process> CPUCore::getProcess() const
-{
+shared_ptr<Process> CPUCore::getProcess() const {
 	return this->process;
 }
 
-void CPUCore::stop()
-{
+void CPUCore::stop() {
 	this->stopFlag = true;
 }
 
-bool CPUCore::isAvailable() const
-{
+bool CPUCore::isAvailable() const {
 	return this->availableFlag;
 }
 
-void CPUCore::setAvailable(bool available)
-{
+void CPUCore::setAvailable(bool available) {
 	this->availableFlag = available;
 }
-
-
-
 
 void CPUCore::run()
 {
 	this->stopFlag = false;
 
-	while (this->stopFlag == false) {
-		if (this->process != nullptr) {
+	while (this->stopFlag == false)
+	{
+		if (this->process != nullptr)
+		{
 			
 			this->process->cpuCoreID = this->cpuCoreID;
 			
@@ -89,9 +80,10 @@ void CPUCore::run()
 			//this->process->executeCurrentCommand();
 			this->process->moveToNextLine();
 
-			if (this->process->isFinished()) {
+			if (this->process->isFinished())
+			{
 				// debugger:
-				//std::cout << "Process " << this->process->getName() << " finished on core " << this->cpuCoreID << "\n";
+				//cout << "Process " << this->process->getName() << " finished on core " << this->cpuCoreID << "\n";
 				
 				this->process->currentState = Process::ProcessState::FINISHED;
 
@@ -106,7 +98,7 @@ void CPUCore::run()
 				}
 			}
 
-			std::this_thread::sleep_for(std::chrono::milliseconds(100));
+			this_thread::sleep_for(chrono::milliseconds(100));
 		}
 	}
 

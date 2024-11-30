@@ -33,13 +33,11 @@ void KeyboardEventHandler::onKeyUp(char key)
 	storedInput = convertCharVectorToString(keyInputs);
 }
 
-String KeyboardEventHandler::getUserInput() const
-{
+String KeyboardEventHandler::getUserInput() const {
 	return this->userInput;
 }
 
-String KeyboardEventHandler::convertCharVectorToString(CharVector& keyInputs)
-{
+String KeyboardEventHandler::convertCharVectorToString(CharVector& keyInputs) {
 	return String(keyInputs.begin(), keyInputs.end());
 }
 

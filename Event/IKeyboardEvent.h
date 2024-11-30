@@ -3,7 +3,7 @@
 
 class IKeyboardEvent
 {
-public:
-	virtual void onKeyDown(char key) = 0;
-	virtual void onKeyUp(char key) = 0;
+	public:
+		virtual void onKeyDown(char key) = 0;
+		virtual void onKeyUp(char key) = 0;
 };

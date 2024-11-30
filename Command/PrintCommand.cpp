@@ -1,12 +1,10 @@
 #include "PrintCommand.h"
 
-PrintCommand::PrintCommand(int pid, String& toPrint) : ICommand(pid, ICommand::PRINT)
-{
+PrintCommand::PrintCommand(int pid, String& toPrint) : ICommand(pid, ICommand::PRINT) {
 	this->toPrint = toPrint;
 }
 
-void PrintCommand::execute()
-{
+void PrintCommand::execute() {
 	//ICommand::execute();
 
 	std::cout << "PID " << this->pid << ": " << this->toPrint << std::endl;

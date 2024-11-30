@@ -1,17 +1,14 @@
 #include "MainConsole.h"
 
-MainConsole::MainConsole() : AConsole("MainConsole")
-{
-}
+using namespace std;
 
-void MainConsole::onEnabled()
-{
+MainConsole::MainConsole() : AConsole("MainConsole") {}
+
+void MainConsole::onEnabled() {
 	this->ASCIITextHeader();
 }
 
-void MainConsole::display()
-{
-}
+void MainConsole::display() {}
 
 void MainConsole::process()
 {
@@ -19,55 +16,66 @@ void MainConsole::process()
 	bool isValidCommand = false;
 	isRunning = true;
 
-	while (isRunning) {
-		std::cout << "\nEnter a command: ";
-		std::getline(std::cin, commandMain);
+	while (isRunning)
+	{
+		cout << "\nEnter a command: ";
+		getline(cin, commandMain);
 
 		// Check if it is a valid initialize command
-		if (!this->isInitialized && this->isInitialCommand(commandMain) && this->isRunning) {
+		if (!this->isInitialized && this->isInitialCommand(commandMain) && this->isRunning)
+		{
 
-			if (commandMain == "initialize") {
+			if (commandMain == "initialize")
+			{
 				this->isInitialized = true;
-				std::cout << "Initialization successful." << std::endl;
+				cout << "Initialization successful." << endl;
 
 				GlobalConfig::getInstance()->printConfig();
 
-				std::cout << std::endl;
+				cout << endl;
 				continue;	// Skip the rest of the loop
 			}
-			else if (commandMain == "exit") {
-				std::cout << "Exiting the program..." << std::endl;
+			else if (commandMain == "exit")
+			{
+				cout << "Exiting the program..." << endl;
 				isRunning = false;
 				ConsoleManager::getInstance()->exitApplication();
 			}
 		}
 
 		// Check if the program is initialized before proceeding
-		if (this->isInitialized) {
+		if (this->isInitialized)
+		{
 			isValidCommand = this->validateCommand(commandMain);
 
-			if (isValidCommand) {
-				if (commandMain == "initialize") {
-					std::cout << "The program is already initialized!" << std::endl;
+			if (isValidCommand)
+			{
+				if (commandMain == "initialize")
+				{
+					cout << "The program is already initialized!" << endl;
 
 					GlobalConfig::getInstance()->printConfig();
 
-					std::cout << std::endl;
+					cout << endl;
 					continue;
 				}
-				else if (commandMain == "clear") {
+				else if (commandMain == "clear")
+				{
 					system("cls");
 					this->onEnabled();
 					continue;	// Skip the rest of the loop
 				}
-				else if (commandMain == "exit") {
+				else if (commandMain == "exit")
+				{
 					this->isRunning = false;
-					std::cout << "Exiting the program..." << std::endl;
+					cout << "Exiting the program..." << endl;
 					ConsoleManager::getInstance()->exitApplication();
 					isRunning = false;
 				}
-				else if (commandMain.substr(0, 6) == "screen") {
-					if (this->validateScreenCommand(commandMain)) {
+				else if (commandMain.substr(0, 6) == "screen")
+				{
+					if (this->validateScreenCommand(commandMain))
+					{
 						
 						if (commandMain.substr(0, 9) == "screen -s") {
 							isRunning = false;
@@ -84,7 +92,7 @@ void MainConsole::process()
 						}
 					}
 					else {
-						std::cerr << "Error: Invalid screen command.\n";
+						::cerr << "Error: Invalid screen command.\n";
 					}
 				}
 				else if (commandMain == "scheduler-test") {
@@ -96,50 +104,42 @@ void MainConsole::process()
 				else if (commandMain == "report-util") {
 					this->executeReportUtilizationCommand();
 				}
-				else if (commandMain == "process-smi") { //added
+				else if (commandMain == "process-smi") { 
 					this->displayMainProcessSmi();
 				}
-				else if (commandMain == "vmstat") { //added
+				else if (commandMain == "vmstat") {
 					this->displayVmstat();
-				}
-				else if (commandMain == "dummy-layout") {
-					this->executeDummyLayoutCommand();
-				}
-				else if (commandMain == "marquee-console") {
-					this->executeMarqueeConsoleCommand();
 				}
 				else {
 					this->commandRecognized(commandMain);
 				}
 			}
 			else {
-				std::cerr << "Error: Invalid command. Please enter a valid command.\n" << std::endl;
+				cerr << "Error: Invalid command. Please enter a valid command.\n" << endl;
 			}
 		}
 		else {
-			std::cerr << "Error: Application is not initialized. Please initialize the application first.\n" << std::endl;
+			cerr << "Error: Application is not initialized. Please initialize the application first.\n" << endl;
 		}
-		
 	}
-
 }
 
 void MainConsole::ASCIITextHeader() const
 {
-	std::cout << "  ____    ____      ___     ____    _______    ____    __   __		\n";
-	std::cout << " / ___|  / ___|    / _ \\   |  _ \\   |  ___|   / ___|   \\ \\ / /	\n";
-	std::cout << "| |      \\___ \\   | | | |  | |_) |  |  __|    \\___ \\    \\ V /	\n";
-	std::cout << "| |___    ___) |  | |_| |  |  __/   | |___     ___) |    | |			\n";
-	std::cout << " \\____|  |____/    \\___/   |_|      |_____|   |____/     |_|		\n";
-	std::cout << "______________________________________________________________\n";
+	cout << "  ____    ____      ___     ____    _______    ____    __   __		\n";
+	cout << " / ___|  / ___|    / _ \\   |  _ \\   |  ___|   / ___|   \\ \\ / /	\n";
+	cout << "| |      \\___ \\   | | | |  | |_) |  |  __|    \\___ \\    \\ V /	\n";
+	cout << "| |___    ___) |  | |_| |  |  __/   | |___     ___) |    | |			\n";
+	cout << " \\____|  |____/    \\___/   |_|      |_____|   |____/     |_|		\n";
+	cout << "______________________________________________________________\n";
 	HANDLE console_color = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(console_color, 10);
-	std::cout << "Welcome to CSOPESY Emulator!\n";
-	std::cout << "\n";
+	cout << "Welcome to CSOPESY Emulator!\n";
+	cout << "\n";
 	displayDevelopers();
-	std::cout << "______________________________________________________________\n";
+	cout << "______________________________________________________________\n";
 	SetConsoleTextAttribute(console_color, 14);
-	std::cout << "Type 'exit' to quit, 'clear' to clear the screen\n";
+	cout << "Type 'exit' to quit, 'clear' to clear the screen, 'initialize' to start the program\n";
 	SetConsoleTextAttribute(console_color, 15);
 }
 
@@ -148,14 +148,14 @@ void MainConsole::displayDevelopers() const
 	HANDLE console_color = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(console_color, 15);
 
-	std::cout << "Developers: \n";
-	std::cout << "1. Abenoja, Amelia Joyce \n";
-	std::cout << "2. Cipriaso, James Kielson \n";
-	std::cout << "3. Hallar, Francine Marie \n";
-	std::cout << "4. Hong, Letty \n";
-	std::cout << "5. Pe, Gyan Josh \n";
-	std::cout << "\n";
-	std::cout << "Last Updated: 29-11-2024\n";
+	cout << "Developers: \n";
+	cout << "1. Abenoja, Amelia Joyce \n";
+	cout << "2. Cipriaso, James Kielson \n";
+	cout << "3. Hallar, Francine Marie \n";
+	cout << "4. Hong, Letty \n";
+	cout << "5. Pe, Gyan Josh \n";
+	cout << "\n";
+	cout << "Last Updated: 30-11-2024\n";
 }
 
 bool MainConsole::isInitialCommand(String command) const
@@ -165,7 +165,7 @@ bool MainConsole::isInitialCommand(String command) const
 	String commandList[] = { "initialize", "exit" };
 
 	String inputCommand = command.substr(0, command.find(" "));
-	std::transform(inputCommand.begin(), inputCommand.end(), inputCommand.begin(), ::tolower);
+	transform(inputCommand.begin(), inputCommand.end(), inputCommand.begin(), ::tolower);
 
 	for (String cmd : commandList) {
 		if (inputCommand == cmd) {
@@ -183,11 +183,10 @@ bool MainConsole::validateCommand(String command) const
 
 	String commandList[] = { "initialize", "exit", "clear",
 							"scheduler-test", "scheduler-stop", "report-util",
-							"screen", "process-smi", "vmstat",
-							"dummy-layout", "marquee-console", "marquee-console" };
+							"screen", "process-smi", "vmstat"};
 
 	String inputCommand = command.substr(0, command.find(" "));
-	std::transform(inputCommand.begin(), inputCommand.end(), inputCommand.begin(), ::tolower);
+	transform(inputCommand.begin(), inputCommand.end(), inputCommand.begin(), ::tolower);
 
 	for (String cmd : commandList) {
 		if (inputCommand == cmd) {
@@ -201,7 +200,7 @@ bool MainConsole::validateCommand(String command) const
 
 void MainConsole::commandRecognized(String command) const
 {
-	std::cout << command << " command recognized. Doing something...\n" << std::endl;
+	cout << command << " command recognized. Doing something...\n" << endl;
 }
 
 bool MainConsole::validateScreenCommand(String command) const
@@ -223,10 +222,10 @@ bool MainConsole::validateScreenCommand(String command) const
 	}
 
 	if (subString == "screen -s" && command.length() == 9) {
-		std::cerr << "Error: No screen name provided.\n";
+		cerr << "Error: No screen name provided.\n";
 	}
 	else if (subString == "screen -r" && command.length() == 9) {
-		std::cerr << "Error: No screen name provided.\n";
+		cerr << "Error: No screen name provided.\n";
 	}
 
 	return isValid;
@@ -238,14 +237,14 @@ void MainConsole::executeScreenSwitchCommand(String command) const
 
 	// Check if the process already exists
 	if (ConsoleManager::getInstance()->findExistingProcess(processName)) {
-		std::cerr << "Error: Process " << processName << " already exists.\n";
+		cerr << "Error: Process " << processName << " already exists.\n";
 		return;
 	}
 	else {
 		int newPID = ConsoleManager::getInstance()->getProcessTableSize() + 1;
 
-		std::shared_ptr<Process> newProcess = std::make_shared<Process>(newPID, processName, 0, GlobalConfig::getInstance()->getMemPerProcess());
-		std::shared_ptr<BaseScreen> newScreen = std::make_shared<BaseScreen>(newProcess, processName);
+		shared_ptr<Process> newProcess = make_shared<Process>(newPID, processName, 0);
+		shared_ptr<BaseScreen> newScreen = make_shared<BaseScreen>(newProcess, processName);
 
 		ConsoleManager::getInstance()->addProcess(newProcess);
 
@@ -261,8 +260,8 @@ void MainConsole::executeScreenRedrawCommand(String command) const
 	String screenName = command.substr(10, command.length());
 
 	// get the process first
-	std::shared_ptr<Process> currentProcess = ConsoleManager::getInstance()->findProcess(screenName);
-	std::shared_ptr<BaseScreen> currentScreen = std::make_shared<BaseScreen>(currentProcess, screenName);
+	shared_ptr<Process> currentProcess = ConsoleManager::getInstance()->findProcess(screenName);
+	shared_ptr<BaseScreen> currentScreen = make_shared<BaseScreen>(currentProcess, screenName);
 	ConsoleManager::getInstance()->registerScreen(currentScreen);
 	ConsoleManager::getInstance()->switchToScreen(screenName);
 	ConsoleManager::getInstance()->process();
@@ -271,36 +270,36 @@ void MainConsole::executeScreenRedrawCommand(String command) const
 
 void MainConsole::executeScreenListCommand()
 {
-	std::cout << std::endl;
+	cout << endl;
 	for (int i = 0; i < 62; i++) {
-		std::cout << "=";
+		cout << "=";
 	}
-	std::cout << std::endl;
+	cout << endl;
 	Scheduler::getInstance()->displaySchedulerStatus();
 
-	std::cout << std::endl;
+	cout << endl;
 	for (int i = 0; i < 62; i++) {
-		std::cout << "=";
+		cout << "=";
 	}
-	std::cout << std::endl;
+	cout << endl;
 }
 
 void MainConsole::executeSchedulerTestCommand()
 {
-	std::cout << "Running scheduler test: Start adding processes...\n" << std::endl;
+	cout << "Running scheduler test: Start adding processes...\n" << endl;
 	this->isStopSchedulerTest = false;
 
-	std::thread schedulerTestThread([this]() {
+	thread schedulerTestThread([this]() {
 		int batchProcessFreq = GlobalConfig::getInstance()->getBatchProcessFreq();
 		int cpuCycleCounter = 0;
 
 		while (this->isStopSchedulerTest == false) {
 			if (cpuCycleCounter % batchProcessFreq == 0) {
-				std::shared_ptr<Process> newProcess = Scheduler::getInstance()->createUniqueProcess("");
+				shared_ptr<Process> newProcess = Scheduler::getInstance()->createUniqueProcess();
 
 				String processName = newProcess->getName();
 				if (ConsoleManager::getInstance()->findExistingProcess(processName)) {
-					std::cerr << "Error: Process " << processName << " already exists.\n";
+					cerr << "Error: Process " << processName << " already exists.\n";
 					continue;
 				}
 				else {
@@ -309,7 +308,7 @@ void MainConsole::executeSchedulerTestCommand()
 			}
 			cpuCycleCounter++;
 
-			std::this_thread::sleep_for(std::chrono::milliseconds(100));
+			this_thread::sleep_for(chrono::milliseconds(100));
 		}
 		});
 
@@ -318,80 +317,47 @@ void MainConsole::executeSchedulerTestCommand()
 
 void MainConsole::executeSchedulerStopCommand()
 {
-	std::cout << "Stopping the scheduler test: Stop adding processes...\n" << std::endl;
+	cout << "Stopping the scheduler test: Stop adding processes...\n" << endl;
 	this->isStopSchedulerTest = true;
 	//Scheduler::getInstance()->stopScheduler();
 }
 
 void MainConsole::executeReportUtilizationCommand() const
 {
-	std::ofstream out("csopesy-log.txt");
-	std::streambuf* coutbuf = std::cout.rdbuf(); //save old buf
-	std::cout.rdbuf(out.rdbuf()); //redirect std::cout to out.txt!
+	ofstream out("csopesy-log.txt");
+	streambuf* coutbuf = cout.rdbuf(); //save old buf
+	cout.rdbuf(out.rdbuf()); //redirect cout to out.txt!
 	Scheduler::getInstance()->displaySchedulerStatus();
-	std::cout.rdbuf(coutbuf); //reset to standard output again
-	std::cout << "Report generated at csopesy-log.txt\n" << std::endl;
+	cout.rdbuf(coutbuf); //reset to standard output again
+	cout << "Report generated at csopesy-log.txt\n" << endl;
 }
 
-void MainConsole::executeDummyLayoutCommand() const
-{
-	DummyProcessLayout dummyLayout;
-
-	dummyLayout.displayCurrentDateTimes();
-	dummyLayout.displayGPUSummaries();
-	
-	// Create a dummy process list for displayProcessList()
-	std::vector<GPUProcess> processes = {
-		{0, "N/A", "N/A", 1368, "C+G", "C:\\Windows\\System32\\dwm.exe", "N/A"},
-		{0, "N/A", "N/A", 2116, "C+G", "...wekyb3d8bbwe\\XboxGameBarWidgets.exe", "N/A"},
-		{0, "N/A", "N/A", 4224, "C+G", "...on\\123.0.2420.65\\msedgewebview2.exe", "N/A"},
-		{0, "N/A", "N/A", 5684, "C+G", "C:\\Windows\\explorer.exe", "N/A"},
-		{0, "N/A", "N/A", 6676, "C+G", "...nt.CBS_cw5n1h2txyewy\\SearchHost.exe", "N/A"},
-		{0, "N/A", "N/A", 6700, "C+G", "...2txyewy\\StartMenuExperienceHost.exe", "N/A"}
-	};
-
-	// Call displayProcessList() with the dummy data
-	dummyLayout.displayProcessList(processes);
-
-	std::cout << std::endl;
-}
-
-void MainConsole::executeMarqueeConsoleCommand() const
-{
-	// Switch to the Marquee Console
-	ConsoleManager::getInstance()->switchConsole(MARQUEE_CONSOLE_NAME);
-	ConsoleManager::getInstance()->process();
-	ConsoleManager::getInstance()->drawConsole();
-}
-
-// added
 void MainConsole::displayMainProcessSmi()
 {
-	std::cout << "\n---------------------------------------------------------------" << std::endl;
-	std::cout << "| PROCESS-SMI v01.00                 Driver Version: 01.00    |" << std::endl;
-	std::cout << "---------------------------------------------------------------" << std::endl;
-	std::cout << "CPU-Util: " << std::endl;
-	std::cout << "Memory Usage: " << std::endl;
-	std::cout << "Memory-Util: " << std::endl;
-	std::cout << "\n";
-	std::cout << "================================================================" << std::endl;
-	std::cout << "Running processes and memory usage : " << std::endl;
-	std::cout << "----------------------------------------------------------------" << std::endl;
-	std::cout << "process-name-holder \tmemory-usage-holder" << std::endl;
-	std::cout << "process-name-holder \tmemory-usage-holder" << std::endl;
-	std::cout << "----------------------------------------------------------------" << std::endl;
+	cout << "\n---------------------------------------------------------------" << endl;
+	cout << "| PROCESS-SMI v01.00                 Driver Version: 01.00    |" << endl;
+	cout << "---------------------------------------------------------------" << endl;
+	cout << "CPU-Util: " << endl;
+	cout << "Memory Usage: " << endl;
+	cout << "Memory-Util: " << endl;
+	cout << "\n";
+	cout << "================================================================" << endl;
+	cout << "Running processes and memory usage : " << endl;
+	cout << "----------------------------------------------------------------" << endl;
+	cout << "process-name-holder \tmemory-usage-holder" << endl;
+	cout << "process-name-holder \tmemory-usage-holder" << endl;
+	cout << "----------------------------------------------------------------" << endl;
 }
 
-// added
 void MainConsole::displayVmstat()
 {
-	std::cout << "\nVMSTAT: " << std::endl;
-	std::cout << "num-holder \t K Total Memory" << std::endl;
-	std::cout << "num-holder \t K Used Memory" << std::endl;
-	std::cout << "num-holder \t K ree Memory" << std::endl;
-	std::cout << "num-holder \t Idle CPU ticks" << std::endl;
-	std::cout << "num-holder \t Active CPU ticks" << std::endl;
-	std::cout << "num-holder \t Total CPU ticks" << std::endl;
-	std::cout << "num-holder \t Num Paged In" << std::endl;
-	std::cout << "num-holder \t Num Paged Out" << std::endl;
+	cout << "\nVMSTAT: " << endl;
+	cout << "num-holder \t K Total Memory" << endl;
+	cout << "num-holder \t K Used Memory" << endl;
+	cout << "num-holder \t K ree Memory" << endl;
+	cout << "num-holder \t Idle CPU ticks" << endl;
+	cout << "num-holder \t Active CPU ticks" << endl;
+	cout << "num-holder \t Total CPU ticks" << endl;
+	cout << "num-holder \t Num Paged In" << endl;
+	cout << "num-holder \t Num Paged Out" << endl;
 }

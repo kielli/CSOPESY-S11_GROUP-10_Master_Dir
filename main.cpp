@@ -4,12 +4,8 @@
 #include "Scheduler/Scheduler.h"
 #include "Console/ConsoleManager.h"
 
-
-
-
 // Function Prototype
 //void SetConsoleWindow(int width, int height);
-
 
 int main()
 {

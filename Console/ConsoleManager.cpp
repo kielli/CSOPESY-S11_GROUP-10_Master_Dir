@@ -1,14 +1,24 @@
 #include "ConsoleManager.h"
-
-
-
 #include "MainConsole.h"
-#include "MarqueeConsole.h"
-//#include "SchedulingConsole.h"
-//#include "MemorySimulationConsole.h"
 
+using namespace std;
+
+// Constructor
+ConsoleManager::ConsoleManager()
+{
+	this->running = true;
+
+	// Initialize consoles
+	this->consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+
+	const shared_ptr<MainConsole> mainConsole = make_shared<MainConsole>();
+
+	this->consoleTable[MAIN_CONSOLE_NAME] = mainConsole;
+	this->switchConsole(MAIN_CONSOLE_NAME);
+}
 
 ConsoleManager* ConsoleManager::sharedInstance = nullptr;
+
 ConsoleManager* ConsoleManager::getInstance()
 {
 	if (sharedInstance == nullptr) {
@@ -17,13 +27,11 @@ ConsoleManager* ConsoleManager::getInstance()
 	return sharedInstance;
 }
 
-void ConsoleManager::initialize()
-{
+void ConsoleManager::initialize() {
 	sharedInstance = new ConsoleManager();
 }
 
-void ConsoleManager::destroy()
-{
+void ConsoleManager::destroy() {
 	delete sharedInstance;
 }
 
@@ -33,7 +41,7 @@ void ConsoleManager::drawConsole() const
 		this->currentConsole->display();
 	}
 	else {
-		std::cout << "There is no assigned console. Please check." << std::endl;
+		cout << "There is no assigned console. Please check." << endl;
 	}
 }
 
@@ -43,7 +51,7 @@ void ConsoleManager::process() const
 		this->currentConsole->process();
 	}
 	else {
-		std::cout << "There is no assigned console. Please check." << std::endl;
+		cout << "There is no assigned console. Please check." << endl;
 	}
 }
 
@@ -57,14 +65,14 @@ void ConsoleManager::switchConsole(String consoleName)
 		this->currentConsole->onEnabled();
 	}
 	else {
-		std::cerr << "Console name " << consoleName << " is not found. Was it initialized?" << std::endl;
+		cerr << "Console name " << consoleName << " is not found. Was it initialized?" << endl;
 	}
 }
 
-void ConsoleManager::registerScreen(std::shared_ptr<BaseScreen> screenRef)
+void ConsoleManager::registerScreen(shared_ptr<BaseScreen> screenRef)
 {
 	if (this->consoleTable.contains(screenRef->getName())) {
-		std::cerr << "Screen name " << screenRef->getName() << " is already registered. Please use a different name" << std::endl;
+		cerr << "Screen name " << screenRef->getName() << " is already registered. Please use a different name" << endl;
 		return;
 	}
 
@@ -81,7 +89,7 @@ void ConsoleManager::switchToScreen(String screenName)
 		this->currentConsole->onEnabled();
 	}
 	else {
-		std::cerr << "Screen name " << screenName << " is not found. Was it initialized?" << std::endl;
+		cerr << "Screen name " << screenName << " is not found. Was it initialized?" << endl;
 	}
 }
 
@@ -91,7 +99,7 @@ void ConsoleManager::unregisteredScreen(String screenName)
 		this->consoleTable.erase(screenName);
 	}
 	else {
-		std::cerr << "Unable to unregister screen " << screenName << ". Was it registered?" << std::endl;
+		cerr << "Unable to unregister screen " << screenName << ". Was it registered?" << endl;
 	}
 }
 
@@ -103,42 +111,36 @@ void ConsoleManager::returnToPreviousConsole()
 		this->currentConsole->onEnabled();
 	}
 	else {
-		std::cerr << "There is no previous console to return to." << std::endl;
+		cerr << "There is no previous console to return to." << endl;
 	}
 }
 
-void ConsoleManager::exitApplication()
-{
+void ConsoleManager::exitApplication() {
 	this->running = false;
 }
 
-bool ConsoleManager::isRunning() const
-{
+bool ConsoleManager::isRunning() const {
 	return this->running;
 }
 
-HANDLE ConsoleManager::getConsoleHandle() const
-{
+HANDLE ConsoleManager::getConsoleHandle() const {
 	return this->consoleHandle;
 }
 
-void ConsoleManager::setCursorPosition(int posX, int posY) const
-{
+void ConsoleManager::setCursorPosition(int posX, int posY) const {
 	COORD coord;
 	coord.X = posX;
 	coord.Y = posY;
 	SetConsoleCursorPosition(this->consoleHandle, coord);
 }
 
-void ConsoleManager::addProcess(std::shared_ptr<Process> process)
-{
+void ConsoleManager::addProcess(shared_ptr<Process> process) {
 	int id = processTable.size() + 1;
 
 	this->processTable[id] = process;
 }
 
-std::shared_ptr<Process> ConsoleManager::findProcess(String processName)
-{
+shared_ptr<Process> ConsoleManager::findProcess(String processName) {
 	// Iterate through the processTable
 	for (const auto& [id, process] : processTable) {
 		// Check if the process name matches
@@ -150,8 +152,7 @@ std::shared_ptr<Process> ConsoleManager::findProcess(String processName)
 	return nullptr;
 }
 
-int ConsoleManager::getProcessTableSize() const
-{
+int ConsoleManager::getProcessTableSize() const {
 	return this->processTable.size();
 }
 
@@ -171,32 +172,6 @@ bool ConsoleManager::findExistingProcess(String name)
 	return isExist;
 }
 
-ConsoleManager::ProcessTable ConsoleManager::getProcessTable() const
-{
+ConsoleManager::ProcessTable ConsoleManager::getProcessTable() const {
 	return this->processTable;
 }
-
-
-
-// Constructor
-ConsoleManager::ConsoleManager()
-{
-	this->running = true;
-
-	// Initialize consoles
-	this->consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
-
-	const std::shared_ptr<MainConsole> mainConsole = std::make_shared<MainConsole>();
-	const std::shared_ptr<MarqueeConsole> marqueeConsole = std::make_shared<MarqueeConsole>();
-	/*const std::shared_ptr<SchedulingConsole> schedulingConsole = std::make_shared<SchedulingConsole>();
-	const std::shared_ptr<MemorySimulationConsole> memoryConsole = std::make_shared<MemorySimulationConsole>();*/
-
-
-	this->consoleTable[MAIN_CONSOLE_NAME] = mainConsole;
-	this->consoleTable[MARQUEE_CONSOLE_NAME] = marqueeConsole;
-	/*this->consoleTable[SCHEDULING_CONSOLE_NAME] = schedulingConsole;
-	this->consoleTable[MEMORY_CONSOLE_NAME] = memoryConsole;*/
-
-	this->switchConsole(MAIN_CONSOLE_NAME);
-}
-
