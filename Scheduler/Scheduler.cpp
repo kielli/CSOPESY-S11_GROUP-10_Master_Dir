@@ -198,8 +198,8 @@ void Scheduler::runFCFSScheduler(int delay)
 
 		for (int i = 0; i < this->cpuCoreList.size(); i++) {
 			shared_ptr<CPUCore> cpuCore = this->cpuCoreList[i];
-
-			if (cpuCore->isAvailable()) {
+			//MemoryManager::getInstance()->addProcessToMemory(this->readyQueue.front());
+			if (cpuCore->isAvailable() && this->readyQueue.front()->getMemoryStatus()) {
 				if (!this->readyQueue.empty()) {
 					shared_ptr<Process> process = this->readyQueue.front();
 					this->readyQueue.erase(this->readyQueue.begin());
@@ -240,8 +240,8 @@ void Scheduler::runRoundRobinScheduler(int delay, int quantum)
     while(this->isRunning) {
 		for (int i = 0; i < this->cpuCoreList.size(); i++) {
 			std::shared_ptr<CPUCore> cpuCore = this->cpuCoreList[i];
-
-			if (cpuCore->isAvailable()) {
+			//MemoryManager::getInstance()->addProcessToMemory(this->readyQueue.front());
+			if (cpuCore->isAvailable() && this->readyQueue.front()->getMemoryStatus()) {
 				if (!this->readyQueue.empty()) {
 					std::shared_ptr<Process> process = this->readyQueue.front();
 					this->readyQueue.erase(this->readyQueue.begin());

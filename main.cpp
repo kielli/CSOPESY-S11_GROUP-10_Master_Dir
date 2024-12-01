@@ -3,6 +3,7 @@
 #include "Config/GlobalConfig.h"
 #include "Scheduler/Scheduler.h"
 #include "Console/ConsoleManager.h"
+#include "Memory/MemoryManager.h"
 
 // Function Prototype
 //void SetConsoleWindow(int width, int height);
@@ -15,7 +16,8 @@ int main()
 
 	Scheduler::initialize();
 	ConsoleManager::initialize();
-
+	//MemoryManager::initialize();
+	std::cout<<"test1";
 	bool running = true;
 	while (running) {
 		ConsoleManager::getInstance()->process();
@@ -24,9 +26,11 @@ int main()
 		running = ConsoleManager::getInstance()->isRunning();
 	}
 
+	std::cout<<"test2";
 	GlobalConfig::destroy();
 	ConsoleManager::destroy();
 	Scheduler::destroy();
+	//MemoryManager::destroy();
 
 	return 0;
 }

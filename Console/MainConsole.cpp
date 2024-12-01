@@ -334,18 +334,24 @@ void MainConsole::executeReportUtilizationCommand() const
 
 void MainConsole::displayMainProcessSmi()
 {
+	//size_t memTotal = GlobalConfig::getInstance()->getMaxOverallMem();
+	//size_t memUsed = MemoryManager::getInstance()->currentMemAllocated();
+	//size_t memUtil = (memTotal - memUtil) / memTotal * 100;
+	//std::vector<shared_ptr<Process>> memProcessList = MemoryManager::getInstance()->getProcessList();
+
 	cout << "\n---------------------------------------------------------------" << endl;
 	cout << "| PROCESS-SMI v01.00                 Driver Version: 01.00    |" << endl;
 	cout << "---------------------------------------------------------------" << endl;
-	cout << "CPU-Util: " << endl;
-	cout << "Memory Usage: " << endl;
-	cout << "Memory-Util: " << endl;
+	cout << "CPU-Util: 100%" << endl;
+	//cout << "Memory Usage: " << memUsed << endl;
+	//cout << "Memory-Util: "<< memUtil << endl;
 	cout << "\n";
 	cout << "================================================================" << endl;
 	cout << "Running processes and memory usage : " << endl;
 	cout << "----------------------------------------------------------------" << endl;
-	cout << "process-name-holder \tmemory-usage-holder" << endl;
-	cout << "process-name-holder \tmemory-usage-holder" << endl;
+	//for(shared_ptr<Process> process : memProcessList){
+	//	cout << process->getName() << " : " << process->getMemoryRequired() << endl;
+	//}
 	cout << "----------------------------------------------------------------" << endl;
 }
 

@@ -1,5 +1,7 @@
 #include "MemoryManager.h"
 
+MemoryManager* MemoryManager::instance = nullptr;
+
 MemoryManager::MemoryManager(){
     this->max_overall_mem = GlobalConfig::getInstance()->getMaxOverallMem();
     this->mem_per_frame = GlobalConfig::getInstance()->getMemPerFrame();
@@ -9,14 +11,11 @@ MemoryManager::MemoryManager(){
     this->pagedOut = 0;
 }
 
-MemoryManager* MemoryManager::instance = nullptr;
-
-MemoryManager* MemoryManager::getInstance() {
-	return instance;
-}
-
-void MemoryManager::initialize() {
-	instance = new MemoryManager();
+void MemoryManager::initialize()
+{
+	if (instance == nullptr) {
+		instance = new MemoryManager();
+	}
 }
 
 void MemoryManager::destroy() {
@@ -44,9 +43,8 @@ void MemoryManager::allocateProcess(std::shared_ptr<Process> process){
     if(processBaseAddress != nullptr){
         process->setMemoryStatus(true);
     } else {
-
+        doBackingStore(process);
     }
-    
 }
 
 void MemoryManager::deallocateProcess(std::shared_ptr<Process> process){
@@ -91,9 +89,17 @@ void MemoryManager::removeProcessFromMemory(std::shared_ptr<Process> process){
     }
 }
 
+void MemoryManager::doBackingStore(std::shared_ptr<Process> process){
+    std::shared_ptr<Process> lastProcess = processList.front();
+    storeToBackingStore(lastProcess);
+    removeProcessFromMemory(lastProcess);
+    allocateProcess(process);
+}
+
 void MemoryManager::storeToBackingStore(std::shared_ptr<Process> process){
     if(!checkBackingStore(process)){
         mtx.lock();
+        removeProcessFromMemory(process);
         this->backingStore.push_back(process);
         this->pagedIn += process->getFramesRequired();
         mtx.unlock();
@@ -122,8 +128,17 @@ bool MemoryManager::checkProcessList(std::shared_ptr<Process> process){
     return false;
 }
 
+std::vector<std::shared_ptr<Process>> MemoryManager::getProcessList(){
+    return this->processList;
+}
 
+size_t MemoryManager::getPagedIn(){
+    return this->pagedIn;
+}
 
+size_t MemoryManager::getPagedOut(){
+    return this->pagedOut;    
+}
 
 
 
