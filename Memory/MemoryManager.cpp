@@ -29,7 +29,8 @@ void MemoryManager::destroy() {
 	delete instance;
 }
 
-void MemoryManager::setAllocator(){
+void MemoryManager::setAllocator()
+{
     this->numFrames = floor(max_overall_mem / mem_per_frame);
     if(max_overall_mem == mem_per_frame){
         memAllocator = std::make_unique<FlatMemoryAllocator>(max_overall_mem);
@@ -38,45 +39,12 @@ void MemoryManager::setAllocator(){
     }
 }
 
-bool MemoryManager::isMemFull() const
-{
+bool MemoryManager::isMemFull() const {
     return memAllocator->isMemFull();
 }
 
-void MemoryManager::allocateProcess(std::shared_ptr<Process> process){
-    // mtx.lock();
-    // size_t processBaseAddress = memAllocator->allocate(process);
-    // mtx.unlock();
-    // if(processBaseAddress != -1){
-    //     process->setMemoryStatus(true);
-    // } else {
-    //     doBackingStore(process);
-    // }
-
-    // mtx.lock();
-    // size_t processBaseAddress = memAllocator->allocate(process);
-    // mtx.unlock();
-    
-    // std::cout << "Attempting to allocate " << process->getName() 
-    //           << " (size: " << process->getMemoryRequired() << ")" << std::endl;  // Debug log
-              
-    // if(processBaseAddress != -1) {
-    //     process->setMemoryStatus(true);
-    //     std::cout << "Allocation successful at address: " << processBaseAddress << std::endl;  // Debug log
-    // } else {
-    //     // std::cout << "Allocation failed, initiating backing store" << std::endl;  // Debug log
-    //     // doBackingStore(process);
-
-    //     // Only do backing store if memory is actually full
-    //     if (memAllocator->isMemFull()) {
-    //         std::cout << "Memory full, paging out for " << process->getName() << std::endl;
-    //         doBackingStore(process);
-    //     } else {
-    //         std::cout << "Failed to allocate " << process->getName() << std::endl;
-    //     }
-    // }
-    
-
+void MemoryManager::allocateProcess(std::shared_ptr<Process> process)
+{
     mtx.lock();
     size_t processBaseAddress = memAllocator->allocate(process);
     
@@ -137,8 +105,7 @@ void MemoryManager::addProcessToMemory(std::shared_ptr<Process> process){
             mtx.unlock();
             this->allocateProcess(process);
         }
-    }
-    
+    } 
 }
 
 void MemoryManager::removeProcessFromMemory(std::shared_ptr<Process> process){
@@ -162,13 +129,6 @@ void MemoryManager::doBackingStore(std::shared_ptr<Process> process){
 }
 
 void MemoryManager::storeToBackingStore(std::shared_ptr<Process> process){
-    // if(!checkBackingStore(process)){
-    //     mtx.lock();
-    //     removeProcessFromMemory(process);
-    //     this->backingStore.push_back(process);
-    //     this->pagedIn += process->getFramesRequired();
-    //     mtx.unlock();
-    // }
 
     if(!checkBackingStore(process)) {
         mtx.lock();
@@ -196,10 +156,6 @@ void MemoryManager::storeToBackingStore(std::shared_ptr<Process> process){
 }
 
 void MemoryManager::removeFromBackingStore(std::shared_ptr<Process> process){
-    // auto it = std::find(backingStore.begin(), backingStore.end(), process);
-    // if (it != backingStore.end())
-    //     backingStore.erase(it);
-
     auto it = std::find(backingStore.begin(), backingStore.end(), process);
     if (it != backingStore.end()) {
         // Remove backing store file

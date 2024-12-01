@@ -1,10 +1,5 @@
 #include "PagingAllocator.h"
 #include <mutex>
-// PagingAllocator::PagingAllocator(size_t maxMemSize) : maxMemSize(maxMemSize), numFrames(maxMemSize) {
-//     for(size_t i = 0; i < numFrames; i++){
-//         freeFrameList.push_back(i);
-//     }
-// }
 
 PagingAllocator::PagingAllocator(size_t maxMemSize) : maxMemSize(maxMemSize) {
     size_t frameSize = GlobalConfig::getInstance()->getMemPerFrame();
@@ -15,15 +10,6 @@ PagingAllocator::PagingAllocator(size_t maxMemSize) : maxMemSize(maxMemSize) {
         freeFrameList.push_back(i);
     }
 }
-
-// size_t PagingAllocator::allocate(std::shared_ptr<Process> process){
-//     size_t processId = process->getPID();
-//     size_t numFramesNeeded = process->getFramesRequired();
-//     if(numFramesNeeded > freeFrameList.size())
-//         return -1;
-//     size_t frameIndex = allocateFrames(numFramesNeeded, processId);
-//     return frameIndex;
-// }
 
 size_t PagingAllocator::allocate(std::shared_ptr<Process> process) {
     size_t frameSize = GlobalConfig::getInstance()->getMemPerFrame();
@@ -59,17 +45,6 @@ void PagingAllocator::deallocateFrames(std::vector<size_t> framesToBeFreed) {
     }
     mtx.unlock();
 }
-
-// size_t PagingAllocator::allocateFrames(size_t numFrames, size_t processId){
-//     size_t frameIndex = freeFrameList.back();
-//     freeFrameList.pop_back();
-// 	mtx.lock();
-// 	for(size_t i = 0; i < numFrames; ++i){
-//         frameMap[frameIndex+i] = processId;
-//     }
-// 	mtx.unlock();
-// 	return frameIndex;
-// }
 
 size_t PagingAllocator::allocateFrames(size_t framesNeeded, size_t processId) {
     if(freeFrameList.empty() || framesNeeded > freeFrameList.size()) {

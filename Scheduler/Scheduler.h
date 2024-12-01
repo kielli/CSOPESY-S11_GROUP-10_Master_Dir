@@ -11,56 +11,53 @@
 #include "../Console/ConsoleManager.h"
 #include "../Memory/MemoryManager.h"
 
-
 class Scheduler
 {
-public:
-	static Scheduler* getInstance();
-	static void initialize();
-	static void destroy();
+	public:
+		static Scheduler* getInstance();
+		static void initialize();
+		static void destroy();
 
-	void stopScheduler();
+		void stopScheduler();
 
-	void startSchedulerThread(String scheduler, int delay, int quantum);
+		void startSchedulerThread(String scheduler, int delay, int quantum);
 
-	std::shared_ptr<Process> createUniqueProcess();
-	std::shared_ptr<Process> findProcess(String name) const;
+		std::shared_ptr<Process> createUniqueProcess();
+		std::shared_ptr<Process> findProcess(String name) const;
 
-	void displaySchedulerStatus();
+		void displaySchedulerStatus();
 
-	int getAvailableCPUCount() const;
-	float getCPUUtilization() const;
+		int getAvailableCPUCount() const;
+		float getCPUUtilization() const;
 
-	int getTotalCPUTicks() const;
-	int getIdleCPUTicks() const;
-	int getActiveCPUTicks() const;
+		int getTotalCPUTicks() const;
+		int getActiveCPUTicks() const;
 
+	private:
+		Scheduler();
+		~Scheduler() = default;
+		Scheduler(Scheduler const&) = delete;
+		Scheduler& operator=(Scheduler const&) = delete;
+		static Scheduler* sharedInstance;
 
-private:
-	Scheduler();
-	~Scheduler() = default;
-	Scheduler(Scheduler const&) = delete;
-	Scheduler& operator=(Scheduler const&) = delete;
-	static Scheduler* sharedInstance;
+		int numCPU;
+		int bacthProcessFrequency;
+		int minInstructions;
+		int maxInstructions;
 
-	int numCPU;
-	int bacthProcessFrequency;
-	int minInstructions;
-	int maxInstructions;
+		bool isRunning = false;
 
-	bool isRunning = false;
+		std::vector<std::shared_ptr<Process>> readyQueue;
+		std::vector<std::shared_ptr<CPUCore>> cpuCoreList;
+		std::vector<std::shared_ptr<Process>> processList;
 
-	std::vector<std::shared_ptr<Process>> readyQueue;
-	std::vector<std::shared_ptr<CPUCore>> cpuCoreList;
-	std::vector<std::shared_ptr<Process>> processList;
+		std::thread schedulerThread;
+		std::mutex schedulerMutex;
 
-	std::thread schedulerThread;
-	std::mutex schedulerMutex;
+		String generateUniqueProcessName(int id);
+		void addProcessToReadyQueue(std::shared_ptr<Process> process);
 
-	String generateUniqueProcessName(int id);
-	void addProcessToReadyQueue(std::shared_ptr<Process> process);
-
-	void runFCFSScheduler(int delay);
-	void runRoundRobinScheduler(int delay, int quantum);
+		void runFCFSScheduler(int delay);
+		void runRoundRobinScheduler(int delay, int quantum);
 };
 

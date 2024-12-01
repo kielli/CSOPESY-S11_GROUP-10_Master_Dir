@@ -1,3 +1,6 @@
-﻿  MemoryManager.cpp
-C:\Users\Acer\OneDrive\Desktop\GitHub\CSOPESY\CSOPESY-S11_GROUP-10_Master_Dir\Memory\MemoryManager.cpp(33,28): warning C4244: '=': conversion from 'double' to 'size_t', possible loss of data
-  CSOPESY-Process-Scheduler.vcxproj -> C:\Users\Acer\OneDrive\Desktop\GitHub\CSOPESY\CSOPESY-S11_GROUP-10_Master_Dir\x64\Debug\CSOPESY-Process-Scheduler.exe
+﻿  ConsoleManager.cpp
+C:\Users\HP\Documents\GitHub\CSOPESY-S11_GROUP-10_Master_Dir\Console\ConsoleManager.cpp(123,9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\HP\Documents\GitHub\CSOPESY-S11_GROUP-10_Master_Dir\Console\ConsoleManager.cpp(141,32): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+  MainConsole.cpp
+  Generating Code...
+  CSOPESY-Process-Scheduler.vcxproj -> C:\Users\HP\Documents\GitHub\CSOPESY-S11_GROUP-10_Master_Dir\x64\Debug\CSOPESY-Process-Scheduler.exe

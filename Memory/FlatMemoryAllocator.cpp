@@ -6,21 +6,13 @@
 FlatMemoryAllocator::FlatMemoryAllocator(size_t maxMemSize) : maxMemSize(maxMemSize), allocatedMem(0), memBaseAddress(0){
     allocationMap.resize(maxMemSize, false);
 }
+
 FlatMemoryAllocator::~FlatMemoryAllocator(){
     allocationMap.clear();
 }
 
-size_t FlatMemoryAllocator::allocate(std::shared_ptr<Process> process) {
-    // if(process->getMemoryRequired() == 0 || process->getMemoryRequired() > maxMemSize)
-    //     return -1;
-    // for(size_t i = 0; i < maxMemSize - process->getMemoryRequired(); i++){
-    //     if(!allocationMap[i] && canAllocate(i, process->getMemoryRequired())){
-    //         allocateAt(i, process->getMemoryRequired());
-    //         return this->memBaseAddress+i;
-    //     }
-    // }
-    // return -1;
-
+size_t FlatMemoryAllocator::allocate(std::shared_ptr<Process> process)
+{
     if(process->getMemoryRequired() == 0 || process->getMemoryRequired() > maxMemSize)
         return -1;
         
@@ -34,7 +26,8 @@ size_t FlatMemoryAllocator::allocate(std::shared_ptr<Process> process) {
     return -1;
 }
 
-void FlatMemoryAllocator::deallocate(std::shared_ptr<Process> process) {
+void FlatMemoryAllocator::deallocate(std::shared_ptr<Process> process)
+{
     if(process->getMemBaseAddress() == -1 || process->getMemoryRequired() == 0)
         return;
     size_t index = process->getMemBaseAddress();
@@ -43,7 +36,8 @@ void FlatMemoryAllocator::deallocate(std::shared_ptr<Process> process) {
     deallocateAt(index, process->getMemoryRequired());
 }
 
-bool FlatMemoryAllocator::canAllocate(size_t index, size_t size) const {
+bool FlatMemoryAllocator::canAllocate(size_t index, size_t size) const
+{
     for (size_t i = 0; i < size; i++) {
 		if (allocationMap[index + i]) {
 			return false;
@@ -62,8 +56,7 @@ void FlatMemoryAllocator::deallocateAt(size_t index, size_t size) {
     allocatedMem-=size;
 }
 
-size_t FlatMemoryAllocator::getAllocatedMem()
-{
+size_t FlatMemoryAllocator::getAllocatedMem() {
     return allocatedMem;
 }
 

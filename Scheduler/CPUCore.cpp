@@ -4,12 +4,11 @@ using namespace std;
 
 int CPUCore::nextCPUCoreID = 0;
 
-CPUCore::CPUCore() : totalCPUTicks(0), idleCPUTicks(0), activeCPUTicks(0), quantumCounter(0)
+CPUCore::CPUCore() : totalCPUTicks(0), activeCPUTicks(0), quantumCounter(0)
 {
 	this->cpuCoreID = CPUCore::nextCPUCoreID;
 	CPUCore::nextCPUCoreID += 1;
 	
-
 	thread tickCPUThread(&CPUCore::run, this);
 	tickCPUThread.detach();
 }
@@ -54,7 +53,6 @@ shared_ptr<Process> CPUCore::getProcess() const {
 	return this->process;
 }
 
-
 void CPUCore::stop() {
 	this->stopFlag = true;
 }
@@ -67,18 +65,11 @@ void CPUCore::setAvailable(bool available) {
 	this->availableFlag = available;
 }
 
-int CPUCore::getTotalCPUTicks() const
-{
+int CPUCore::getTotalCPUTicks() const {
     return this->totalCPUTicks;
 }
 
-int CPUCore::getIdleCPUTicks() const
-{
-    return this->idleCPUTicks;
-}
-
-int CPUCore::getActiveCPUTicks() const
-{
+int CPUCore::getActiveCPUTicks() const {
     return this->activeCPUTicks;
 }
 
@@ -86,10 +77,13 @@ void CPUCore::run()
 {
 	this->stopFlag = false;
 
-	while (this->stopFlag == false) {
-		if (this->process != nullptr) {
+	while (this->stopFlag == false)
+	{
+		this->totalCPUTicks++;
+		
+		if (this->process != nullptr)
+		{
 			this->activeCPUTicks++;
-			
 			this->process->cpuCoreID = this->cpuCoreID;
 			
 			this->process->currentState = Process::ProcessState::RUNNING;
@@ -112,16 +106,11 @@ void CPUCore::run()
 					this->process->currentState = Process::ProcessState::WAITING;
 				}
 			}
-
 			std::this_thread::sleep_for(std::chrono::milliseconds(100));
 		}
-		else {
-			this->idleCPUTicks++;
-		}
 	}
-
-	this->totalCPUTicks = 0;
-	this->totalCPUTicks = this->totalCPUTicks + this->idleCPUTicks + this->activeCPUTicks;
-
 	this->availableFlag = true;
+
+	//debugger:
+	//std::cout << this->totalCPUTicks;
 }

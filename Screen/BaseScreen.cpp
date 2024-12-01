@@ -3,8 +3,7 @@
 #include "../Console/ConsoleManager.h"
 
 BaseScreen::BaseScreen(std::shared_ptr<Process> process, String processName) : AConsole(processName), attachedProcess(process)
-{
-}
+{}
 
 void BaseScreen::onEnabled()
 {
@@ -26,15 +25,10 @@ void BaseScreen::process()
 		this->refreshed = true;		// changes applied
 		system("cls");
 	}
-	//else if (command == "process-smi") {
-	//	this->printProcessInfo();
-	//	this->refreshed = true; // Update after printing
-	//}
-	//else if (command == "print") {
-	//	// Log the process print command
-	//	this->refreshed = false; // Mark for refresh after state changes
-	//	attachedProcess->manualAddCommand(command);
-	//}
+	// else if (command == "process-smi") {
+	// 	this->printProcessInfo();
+	// 	this->refreshed = true; // Update after printing
+	// }
 	else if (command == "exit") {
 		attachedProcess->manualAddCommand(command);
 		attachedProcess->moveToNextLine();

@@ -44,7 +44,7 @@ void Process::initializeMemory(){
 	uniform_int_distribution<> dis(minProc, maxProc);
 	int randomNum = dis(gen);
 
-	this->memoryRequired = minProc;
+	this->memoryRequired = randomNum;
 	this->framesRequired = ceil(randomNum/GlobalConfig::getInstance()->getMemPerFrame());
 	//std::cout << "frames : " << this->framesRequired << std::endl;
 	this->memBaseAddress = 0;

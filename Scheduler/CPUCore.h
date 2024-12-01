@@ -27,7 +27,6 @@ class CPUCore
 		void setAvailable(bool available);
 
 		int getTotalCPUTicks() const;
-		int getIdleCPUTicks() const;
 		int getActiveCPUTicks() const;
 
 	private:
@@ -38,7 +37,6 @@ class CPUCore
 		static int nextCPUCoreID;
 
 		int totalCPUTicks;
-		int idleCPUTicks;
 		int activeCPUTicks;
 		int quantumCounter;
 

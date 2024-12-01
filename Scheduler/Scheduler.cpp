@@ -1,22 +1,17 @@
 #include "Scheduler.h"
 #include <mutex>
 
-
-
 Scheduler* Scheduler::sharedInstance = nullptr;
 
-Scheduler* Scheduler::getInstance()
-{
+Scheduler* Scheduler::getInstance() {
 	return sharedInstance;
 }
 
-void Scheduler::initialize()
-{
+void Scheduler::initialize() {
 	sharedInstance = new Scheduler();
 }
 
-void Scheduler::destroy()
-{
+void Scheduler::destroy() {
 	delete sharedInstance;
 }
 
@@ -35,12 +30,9 @@ void Scheduler::startSchedulerThread(String scheduler, int delay, int quantum)
 
 		if (scheduler == "fcfs") {
 			schedulerThread = std::thread(&Scheduler::runFCFSScheduler, this, delay);
-
-			
 		}
 		else if (scheduler == "rr") {
 			schedulerThread = std::thread(&Scheduler::runRoundRobinScheduler, this, delay, quantum);
-
 		}
 
 		schedulerThread.detach();
@@ -73,24 +65,12 @@ std::shared_ptr<Process> Scheduler::createUniqueProcess()
 	}
 }
 
-std::shared_ptr<Process> Scheduler::findProcess(String name) const
-{
+std::shared_ptr<Process> Scheduler::findProcess(String name) const {
 	return ConsoleManager::getInstance()->findProcess(name);
-
 }
 
 void Scheduler::displaySchedulerStatus()
 {
-	// int availableCPUCount = 0;
-
-	// for (int i = 0; i < this->cpuCoreList.size(); i++) {
-	// 	if (this->cpuCoreList[i]->isAvailable()) {
-	// 		availableCPUCount += 1;
-	// 	}
-	// }
-
-	// float cpuUtil = (this->numCPU - static_cast<float>(availableCPUCount)) / this->numCPU * 100;
-
 	int availableCPUCount = this->getAvailableCPUCount();
 	float cpuUtil = this->getCPUUtilization();
 
@@ -128,29 +108,6 @@ void Scheduler::displaySchedulerStatus()
 			}
 		}
 	}
-	
-	// for (int i = 0; i < this->cpuCoreList.size(); i++) {
-	// 	std::shared_ptr<CPUCore> cpuCore = this->cpuCoreList[i];
-	// 	if (!cpuCore->isAvailable()) {
-	// 		String processName = cpuCore->getProcessName();
-	// 		int commandCounter = cpuCore->getCommandCounter();
-	// 		int linesOfCode = cpuCore->getLinesOfCode();
-	// 		int cpuCoreID = cpuCore->getCPUCoreID();
-
-	// 		auto arrivalTime = cpuCore->getArrivalTime();
-
-	// 		// format the arrival time : (mm/dd/yyyy, hh:mm:ss AM/PM)
-	// 		char buffer[64];
-	// 		std::strftime(buffer, sizeof(buffer), "%m/%d/%Y, %I:%M:%S %p", &arrivalTime);
-
-
-
-	// 		std::cout << processName << "\t" << "(" << buffer << ")" << "\t" << "Core: " << cpuCoreID << " " << "\t" << commandCounter << " / " << linesOfCode << std::endl;
-	// 	}
-	// 	/*else {
-	// 		std::cout << "Core " << cpuCore->getCPUCoreID() << ": " << "Idle" << std::endl;
-	// 	}*/
-	// }
 
 	std::cout << std::endl;
 	for (int i = 0; i < 62; i++) {
@@ -208,17 +165,6 @@ int Scheduler::getTotalCPUTicks() const
 	return totalCPUTicks;
 }
 
-int Scheduler::getIdleCPUTicks() const
-{
-    int idleCPUTicks = 0;
-
-	for (int i = 0; i < this->cpuCoreList.size(); i++) {
-		idleCPUTicks += this->cpuCoreList[i]->getIdleCPUTicks();
-	}
-
-	return idleCPUTicks;
-}
-
 int Scheduler::getActiveCPUTicks() const
 {
     int activeCPUTicks = 0;
@@ -272,51 +218,31 @@ void Scheduler::runFCFSScheduler(int delay)
 					this->readyQueue.push_back(this->readyQueue.front());
 				}
 			}
-//MemoryManager::getInstance()->addProcessToMemory(this->readyQueue.front());
-
-
-			/*if (this->readyQueue.size() > 0) {
-				std::shared_ptr<Process> process = this->readyQueue.front();
-				this->readyQueue.pop();
-
-				int cpuCoreID = process->getCPUCoreID();
-				this->cpuCoreList[cpuCoreID]->assignProcess(process);
-
-				ConsoleManager::getInstance()->addProcess(process);
-				ConsoleManager::getInstance()->switchConsole(SCHEDULING_CONSOLE_NAME);
-
-				while (!process->isFinished()) {
-					process->executeCurrentCommand();
-					process->moveToNextLine();
-
-					ConsoleManager::getInstance()->drawConsole();
-					Sleep(delay);
-				}
-
-				this->cpuCoreList[cpuCoreID]->removeProcess();
-			}*/
 		}
 	}
 }
-
 
 void Scheduler::runRoundRobinScheduler(int delay, int quantum)
 {
 	int quantumCounter = 0;
 
-    while(this->isRunning) {
-		for (int i = 0; i < this->cpuCoreList.size(); i++) {
+    while(this->isRunning)
+	{
+		for (int i = 0; i < this->cpuCoreList.size(); i++)
+		{
 			std::shared_ptr<CPUCore> cpuCore = this->cpuCoreList[i];
 			
-			if (!this->readyQueue.empty() && this->readyQueue.front() != nullptr) {
+			if (!this->readyQueue.empty() && this->readyQueue.front() != nullptr)
+			{
 				std::shared_ptr<Process> process = this->readyQueue.front();
-				if (cpuCore->isAvailable()) {
-					
+				if (cpuCore->isAvailable())
+				{	
 					// add process to memory
 					MemoryManager::getInstance()->addProcessToMemory(process);
 					
 					// after adding process to memory, check if process is in memory
-					if (process->getMemoryStatus()) {
+					if (process->getMemoryStatus())
+					{
 						this->readyQueue.erase(this->readyQueue.begin());
 						cpuCore->assignProcess(process);
 
@@ -339,9 +265,6 @@ void Scheduler::runRoundRobinScheduler(int delay, int quantum)
 		}
 	}
 }
-
-
-
 
 Scheduler::Scheduler()
 {

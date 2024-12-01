@@ -1,12 +1,5 @@
 #include "ConsoleManager.h"
-
-
-
 #include "MainConsole.h"
-#include "MarqueeConsole.h"
-//#include "SchedulingConsole.h"
-//#include "MemorySimulationConsole.h"
-
 
 ConsoleManager* ConsoleManager::sharedInstance = nullptr;
 ConsoleManager* ConsoleManager::getInstance()
@@ -17,13 +10,11 @@ ConsoleManager* ConsoleManager::getInstance()
 	return sharedInstance;
 }
 
-void ConsoleManager::initialize()
-{
+void ConsoleManager::initialize() {
 	sharedInstance = new ConsoleManager();
 }
 
-void ConsoleManager::destroy()
-{
+void ConsoleManager::destroy() {
 	delete sharedInstance;
 }
 
@@ -107,18 +98,15 @@ void ConsoleManager::returnToPreviousConsole()
 	}
 }
 
-void ConsoleManager::exitApplication()
-{
+void ConsoleManager::exitApplication() {
 	this->running = false;
 }
 
-bool ConsoleManager::isRunning() const
-{
+bool ConsoleManager::isRunning() const {
 	return this->running;
 }
 
-HANDLE ConsoleManager::getConsoleHandle() const
-{
+HANDLE ConsoleManager::getConsoleHandle() const {
 	return this->consoleHandle;
 }
 
@@ -133,7 +121,6 @@ void ConsoleManager::setCursorPosition(int posX, int posY) const
 void ConsoleManager::addProcess(std::shared_ptr<Process> process)
 {
 	int id = processTable.size() + 1;
-
 	this->processTable[id] = process;
 }
 
@@ -150,8 +137,7 @@ std::shared_ptr<Process> ConsoleManager::findProcess(String processName)
 	return nullptr;
 }
 
-int ConsoleManager::getProcessTableSize() const
-{
+int ConsoleManager::getProcessTableSize() const {
 	return this->processTable.size();
 }
 
@@ -171,12 +157,9 @@ bool ConsoleManager::findExistingProcess(String name)
 	return isExist;
 }
 
-ConsoleManager::ProcessTable ConsoleManager::getProcessTable() const
-{
+ConsoleManager::ProcessTable ConsoleManager::getProcessTable() const {
 	return this->processTable;
 }
-
-
 
 // Constructor
 ConsoleManager::ConsoleManager()
@@ -185,18 +168,8 @@ ConsoleManager::ConsoleManager()
 
 	// Initialize consoles
 	this->consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
-
 	const std::shared_ptr<MainConsole> mainConsole = std::make_shared<MainConsole>();
-	const std::shared_ptr<MarqueeConsole> marqueeConsole = std::make_shared<MarqueeConsole>();
-	/*const std::shared_ptr<SchedulingConsole> schedulingConsole = std::make_shared<SchedulingConsole>();
-	const std::shared_ptr<MemorySimulationConsole> memoryConsole = std::make_shared<MemorySimulationConsole>();*/
-
-
 	this->consoleTable[MAIN_CONSOLE_NAME] = mainConsole;
-	this->consoleTable[MARQUEE_CONSOLE_NAME] = marqueeConsole;
-	/*this->consoleTable[SCHEDULING_CONSOLE_NAME] = schedulingConsole;
-	this->consoleTable[MEMORY_CONSOLE_NAME] = memoryConsole;*/
-
 	this->switchConsole(MAIN_CONSOLE_NAME);
 }
 
