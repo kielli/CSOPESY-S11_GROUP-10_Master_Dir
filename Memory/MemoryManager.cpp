@@ -36,7 +36,7 @@ void MemoryManager::allocateProcess(std::shared_ptr<Process> process){
     mtx.lock();
     size_t processBaseAddress = memAllocator->allocate(process);
     mtx.unlock();
-    if(processBaseAddress != -1){
+    if(processBaseAddress != -1 && !memAllocator->isMemFull()){
         process->setMemoryStatus(true);
     } else {
         doBackingStore(process);

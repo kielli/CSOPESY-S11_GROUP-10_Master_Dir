@@ -6,6 +6,7 @@
 #include "../TypeDefRepo.h"
 #include "../Process/Process.h"
 #include "../Config/GlobalConfig.h"
+#include "../Memory/MemoryManager.h"
 
 class CPUCore
 {
