@@ -1,6 +1,5 @@
 
 # Multi-Tasking OS
---------
 This C++ Program is the implementation of the process scheduler with multiple CPU and memory management. It implements various scheduling algorithms such as First-Come-First-Serve and Round-Robin. It provides commandline interface for interating with the program. 
 
 ## CSOPESY-S11 Group 10
