@@ -184,8 +184,8 @@ int Scheduler::getAvailableCPUCount() const
 {
     int availableCPUCount = 0;
     for (int i = 0; i < this->cpuCoreList.size(); i++) {
-        if (this->cpuCoreList[i]->isAvailable()) {
-            availableCPUCount += 1;
+        if (this->cpuCoreList[i]->getProcess() == nullptr) {
+            availableCPUCount++;
         }
     }
     return availableCPUCount;
@@ -339,6 +339,7 @@ void Scheduler::runRoundRobinScheduler(int delay, int quantum)
 		}
 	}
 }
+
 
 
 

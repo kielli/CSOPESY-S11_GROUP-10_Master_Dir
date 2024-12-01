@@ -1,4 +1,5 @@
 #include "MemoryManager.h"
+#include "../TypeDefRepo.h"
 
 MemoryManager* MemoryManager::instance = nullptr;
 
@@ -83,14 +84,16 @@ void MemoryManager::allocateProcess(std::shared_ptr<Process> process){
     size_t remainingMem = max_overall_mem - this->currentMemAllocated();
     mtx.unlock();
     
-    std::cout << "\nAttempting to allocate " << process->getName() 
-              << " (size: " << process->getMemoryRequired() 
-              << "/" << remainingMem << " available)" << std::endl;
+    // debugger
+    // std::cout << "\nAttempting to allocate " << process->getName() 
+    //           << " (size: " << process->getMemoryRequired() 
+    //           << "/" << remainingMem << " available)" << std::endl;
               
     if(processBaseAddress != -1) {
         process->setMemoryStatus(true);
         process->setMemBaseAddress(processBaseAddress);
-        std::cout << "Allocation successful at address: " << processBaseAddress << std::endl;
+        // debugger
+        // std::cout << "Allocation successful at address: " << processBaseAddress << std::endl;
     } else {
         if (memAllocator->isMemFull()) {
             doBackingStore(process);
@@ -204,6 +207,7 @@ void MemoryManager::removeFromBackingStore(std::shared_ptr<Process> process){
         if(remove(filename.c_str()) != 0) {
             std::cerr << "Error: Could not delete backing store file " << filename << std::endl;
         } else {
+            this->pagedIn += process->getFramesRequired();
             std::cout << "Process " << process->getName() << " paged in from " << filename << std::endl;
         }
         backingStore.erase(it);
