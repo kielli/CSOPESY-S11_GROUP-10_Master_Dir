@@ -35,9 +35,17 @@ void Process::executeCurrentCommand() const {
 	this->commandList[this->commandCounter]->execute();
 }
 
-void Process::initializeMemory(size_t memset){
-	this->memoryRequired = memset;
-	this->framesRequired = ceil(memset / GlobalConfig::getInstance()->getMemPerFrame());
+void Process::initializeMemory(){
+	int minProc = GlobalConfig::getInstance()->getMinMemPerProcess();
+	int maxProc = GlobalConfig::getInstance()->getMaxMemPerProcess();
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<> dis(minProc, maxProc);
+	int randomNum = dis(gen);
+
+	this->memoryRequired = randomNum;
+	this->framesRequired = floor(GlobalConfig::getInstance()->getMemPerFrame()/randomNum);
+	//std::cout << "frames : " << this->framesRequired << std::endl;
 	this->memBaseAddress = 0;
 }
 
@@ -109,7 +117,7 @@ String Process::getFormattedArrivalTime() const {
 	return String(buffer);
 }
 
-char* Process::getMemBaseAddress() const {
+size_t Process::getMemBaseAddress() const {
 	return this->memBaseAddress;
 }
 
@@ -139,6 +147,6 @@ size_t Process::getFramesRequired() const {
 	return this->framesRequired;
 }
 
-void Process::setMemBaseAddress(char* address){
+void Process::setMemBaseAddress(size_t address){
 	this->memBaseAddress = address;
 }

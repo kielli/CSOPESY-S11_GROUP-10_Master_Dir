@@ -6,13 +6,13 @@ PagingAllocator::PagingAllocator(size_t maxMemSize) : maxMemSize(maxMemSize), nu
     }
 }
 
-void* PagingAllocator::allocate(std::shared_ptr<Process> process){
+size_t PagingAllocator::allocate(std::shared_ptr<Process> process){
     size_t processId = process->getPID();
     size_t numFramesNeeded = process->getFramesRequired();
     if(numFramesNeeded > freeFrameList.size())
-        return nullptr;
+        return -1;
     size_t frameIndex = allocateFrames(numFramesNeeded, processId);
-    return reinterpret_cast<void*>(frameIndex);
+    return frameIndex;
 }
 
 void PagingAllocator::deallocate(std::shared_ptr<Process> process){

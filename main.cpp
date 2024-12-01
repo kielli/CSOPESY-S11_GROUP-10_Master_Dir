@@ -16,6 +16,7 @@ int main()
 
 	Scheduler::initialize();
 	ConsoleManager::initialize();
+	MemoryManager::initialize();
 
 	bool running = true;
 	while (running) {
@@ -28,6 +29,7 @@ int main()
 	GlobalConfig::destroy();
 	ConsoleManager::destroy();
 	Scheduler::destroy();
+	MemoryManager::destroy();
 
 	return 0;
 }

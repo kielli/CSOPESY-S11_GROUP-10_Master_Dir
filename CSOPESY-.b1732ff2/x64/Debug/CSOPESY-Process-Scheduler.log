@@ -1,2 +1,13 @@
-﻿  MainConsole.cpp
-  CSOPESY-Process-Scheduler.vcxproj -> C:\Users\Acer\OneDrive\Desktop\GitHub\CSOPESY\CSOPESY-Process-Scheduler\x64\Debug\CSOPESY-Process-Scheduler.exe
+﻿  FlatMemoryAllocator.cpp
+  MemoryManager.cpp
+C:\Users\Kiel Cipriaso\OneDrive\Documents\Projects\opesy\CSOPESY-S11_GROUP-10_Master_Dir\Memory\MemoryManager.cpp(27,28): warning C4244: '=': conversion from 'double' to 'size_t', possible loss of data
+  PagingAllocator.cpp
+  Scheduler.cpp
+  MainConsole.cpp
+C:\Users\Kiel Cipriaso\OneDrive\Documents\Projects\opesy\CSOPESY-S11_GROUP-10_Master_Dir\Console\MainConsole.cpp(372,16): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  ConsoleManager.cpp
+C:\Users\Kiel Cipriaso\OneDrive\Documents\Projects\opesy\CSOPESY-S11_GROUP-10_Master_Dir\Console\ConsoleManager.cpp(135,9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Kiel Cipriaso\OneDrive\Documents\Projects\opesy\CSOPESY-S11_GROUP-10_Master_Dir\Console\ConsoleManager.cpp(155,32): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+  main.cpp
+  Generating Code...
+  CSOPESY-Process-Scheduler.vcxproj -> C:\Users\Kiel Cipriaso\OneDrive\Documents\Projects\opesy\CSOPESY-S11_GROUP-10_Master_Dir\x64\Debug\CSOPESY-Process-Scheduler.exe

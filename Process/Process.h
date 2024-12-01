@@ -23,7 +23,7 @@ class Process
 
         void addCommand(ICommand::CommandType commandType);
         void executeCurrentCommand() const;
-        void initializeMemory(size_t memoryRequired);
+        void initializeMemory();
         void moveToNextLine();
         void setMemoryStatus(bool status);
 
@@ -40,7 +40,7 @@ class Process
         String getFormattedArrivalTime() const;
         size_t getMemoryRequired() const;
         size_t getFramesRequired() const;
-        char* getMemBaseAddress() const;
+        size_t getMemBaseAddress() const;
         bool getMemoryStatus() const;
 
         void generateArrivalTime();
@@ -48,14 +48,14 @@ class Process
         void generateCommands();
 
         void setCPUCoreID(int cpuCoreID);
-        void setMemBaseAddress(char *memBaseAddress);
+        void setMemBaseAddress(size_t memBaseAddress);
 
     private:
         int pid;
         String name;
         int totalLines;
         size_t memoryRequired;
-        char* memBaseAddress;
+        size_t memBaseAddress;
         size_t framesRequired;
         bool memoryStatus;
         

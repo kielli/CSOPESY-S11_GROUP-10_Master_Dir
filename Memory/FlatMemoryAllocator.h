@@ -10,14 +10,15 @@ class FlatMemoryAllocator : public IMemoryAllocator {
         FlatMemoryAllocator(size_t maxMemSize);
         ~FlatMemoryAllocator();
 
-        void* allocate(std::shared_ptr<Process> process) override;
+        size_t allocate(std::shared_ptr<Process> process) override;
         void deallocate(std::shared_ptr<Process> process) override;
+        size_t getAllocatedMem();
 		bool isMemFull() const;
 
     private:
         size_t maxMemSize;
         size_t allocatedMem;
-        char* memBaseAddress;
+        size_t memBaseAddress;
         std::vector<bool> allocationMap;
 
         bool canAllocate(size_t index, size_t size) const;

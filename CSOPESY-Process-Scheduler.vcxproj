@@ -128,6 +128,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Memory\FlatMemoryAllocator.cpp" />
+    <ClCompile Include="Memory\MemoryManager.cpp" />
+    <ClCompile Include="Memory\PagingAllocator.cpp" />
     <ClCompile Include="Scheduler\CPUCore.cpp" />
     <ClCompile Include="Scheduler\Scheduler.cpp" />
     <ClCompile Include="Console\MainConsole.cpp" />
@@ -144,6 +147,10 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Memory\FlatMemoryAllocator.h" />
+    <ClInclude Include="Memory\IMemoryAllocator.h" />
+    <ClInclude Include="Memory\MemoryManager.h" />
+    <ClInclude Include="Memory\PagingAllocator.h" />
     <ClInclude Include="Scheduler\CPUCore.h" />
     <ClInclude Include="Scheduler\Scheduler.h" />
     <ClInclude Include="Console\MainConsole.h" />

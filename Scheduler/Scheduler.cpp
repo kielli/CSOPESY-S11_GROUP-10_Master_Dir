@@ -63,11 +63,11 @@ std::shared_ptr<Process> Scheduler::createUniqueProcess()
 	else {
 		std::shared_ptr<Process> newProcess = std::make_shared<Process>(pidCounter, name, totalLines);
 		newProcess->generateCommands();
-
+		newProcess->initializeMemory();
 		this->addProcessToReadyQueue(newProcess);
 
 		// debugger:
-		//std::cout << "Process " << newProcess->getName() << " added to ready queue" << std::endl;
+		//std::cout << "Process " << newProcess->getName() << " added to ready queue" << "Memory : " << newProcess->getMemoryRequired() << std::endl;
 
 		return newProcess;
 	}
@@ -89,7 +89,7 @@ void Scheduler::displaySchedulerStatus()
 		}
 	}
 
-	float cpuUtil = (this->numCPU - availableCPUCount) / this->numCPU * 100;
+	float cpuUtil = (this->numCPU - static_cast<float>(availableCPUCount)) / this->numCPU * 100;
 
 	std::cout << "CPU Utilization: " << cpuUtil << "%" << std::endl;
 	std::cout << "Cores used: " << this->numCPU - availableCPUCount << std::endl;
@@ -252,10 +252,10 @@ void Scheduler::runRoundRobinScheduler(int delay, int quantum)
     while(this->isRunning) {
 		for (int i = 0; i < this->cpuCoreList.size(); i++) {
 			std::shared_ptr<CPUCore> cpuCore = this->cpuCoreList[i];
-			if (!this->readyQueue.empty()) {
-				MemoryManager::getInstance()->addProcessToMemory(this->readyQueue.front());
-				if (cpuCore->isAvailable() && this->readyQueue.front()->getMemoryStatus()) {
-					std::shared_ptr<Process> process = this->readyQueue.front();
+			if (!this->readyQueue.empty() && this->readyQueue.front() != nullptr) {
+				std::shared_ptr<Process> process = this->readyQueue.front();
+				if (cpuCore->isAvailable()) {
+					MemoryManager::getInstance()->addProcessToMemory(process);
 					this->readyQueue.erase(this->readyQueue.begin());
 					cpuCore->assignProcess(process);
 
@@ -265,6 +265,7 @@ void Scheduler::runRoundRobinScheduler(int delay, int quantum)
 					}
 				}
 			}
+			std::this_thread::sleep_for(std::chrono::milliseconds(100));
 		}
 	}
 }

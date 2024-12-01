@@ -9,6 +9,7 @@ MemoryManager::MemoryManager(){
     this->min_mem_per_proc = GlobalConfig::getInstance()->getMinMemPerProcess();
     this->pagedIn = 0;
     this->pagedOut = 0;
+    setAllocator();
 }
 
 void MemoryManager::initialize()
@@ -22,11 +23,6 @@ void MemoryManager::destroy() {
 	delete instance;
 }
 
-void MemoryManager::initializeProcessMem(std::shared_ptr<Process> process) {
-    size_t randomNum = min_mem_per_proc + (rand() % (max_mem_per_proc - min_mem_per_proc + 1));
-    process->initializeMemory(randomNum);
-}
-
 void MemoryManager::setAllocator(){
     this->numFrames = floor(max_overall_mem / mem_per_frame);
     if(max_overall_mem == mem_per_frame){
@@ -38,9 +34,9 @@ void MemoryManager::setAllocator(){
 
 void MemoryManager::allocateProcess(std::shared_ptr<Process> process){
     mtx.lock();
-    char* processBaseAddress = static_cast<char*>(memAllocator->allocate(process));
+    size_t processBaseAddress = memAllocator->allocate(process);
     mtx.unlock();
-    if(processBaseAddress != nullptr){
+    if(processBaseAddress != -1){
         process->setMemoryStatus(true);
     } else {
         doBackingStore(process);
@@ -48,8 +44,8 @@ void MemoryManager::allocateProcess(std::shared_ptr<Process> process){
 }
 
 void MemoryManager::deallocateProcess(std::shared_ptr<Process> process){
-    char* procBaseAddress = process->getMemBaseAddress();
-    if(procBaseAddress != nullptr){
+    size_t procBaseAddress = process->getMemBaseAddress();
+    if(procBaseAddress != -1){
         mtx.lock();
         memAllocator->deallocate(process);
         process->setMemoryStatus(false);
@@ -68,15 +64,21 @@ size_t MemoryManager::currentMemAllocated() const{
 }
 
 void MemoryManager::addProcessToMemory(std::shared_ptr<Process> process){
-    if(checkBackingStore(process)){
-        removeFromBackingStore(process);
+    if (memAllocator->isMemFull()) {
+        doBackingStore(process);
     }
-    if(!checkProcessList(process)){
-        mtx.lock();
-        processList.push_back(process);
-        mtx.unlock();
-        allocateProcess(process);
+    else {
+        if (checkBackingStore(process)) {
+            removeFromBackingStore(process);
+        }
+        if (!checkProcessList(process)) {
+            mtx.lock();
+            processList.push_back(process);
+            mtx.unlock();
+            allocateProcess(process);
+        }
     }
+    
 }
 
 void MemoryManager::removeProcessFromMemory(std::shared_ptr<Process> process){

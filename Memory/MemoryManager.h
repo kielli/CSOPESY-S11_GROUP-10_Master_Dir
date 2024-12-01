@@ -18,8 +18,6 @@ class MemoryManager{
         }
 		static void initialize();
 		static void destroy();
-        size_t initializeProcessMem();
-        void initializeProcessMem(std::shared_ptr<Process> process);
         void setAllocator();
         bool isMemFull() const;
         size_t currentMemAllocated() const;

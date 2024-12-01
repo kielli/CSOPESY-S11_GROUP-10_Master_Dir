@@ -369,22 +369,23 @@ void MainConsole::displayMainProcessSmi()
 {
 	size_t memTotal = GlobalConfig::getInstance()->getMaxOverallMem();
 	size_t memUsed = MemoryManager::getInstance()->currentMemAllocated();
-	size_t memUtil = (memTotal - memUtil) / memTotal * 100;
+	float memUtil = round(100.0-(((memTotal - memUsed) / (float)memTotal) * 100));
+
 	std::vector<std::shared_ptr<Process>> memProcessList = MemoryManager::getInstance()->getProcessList();
 
 	std::cout << "\n---------------------------------------------------------------" << std::endl;
 	std::cout << "| PROCESS-SMI v01.00                 Driver Version: 01.00    |" << std::endl;
 	std::cout << "---------------------------------------------------------------" << std::endl;
 	std::cout << "CPU-Util: 100%" << std::endl;
-	//cout << "Memory Usage: " << memUsed << endl;
-	//cout << "Memory-Util: "<< memUtil << endl;
+	std::cout << "Memory Usage: " << memUsed << std::endl;
+	std::cout << "Memory-Util: "<< memUtil  << "%" << std::endl;
 	std::cout << "\n";
 	std::cout << "================================================================" << std::endl;
 	std::cout << "Running processes and memory usage : " << std::endl;
 	std::cout << "----------------------------------------------------------------" << std::endl;
-	//for(shared_ptr<Process> process : memProcessList){
-	//	cout << process->getName() << " : " << process->getMemoryRequired() << endl;
-	//}
+	for(std::shared_ptr<Process> process : memProcessList){
+		std::cout << process->getName() << " : " << process->getMemoryRequired() << std::endl;
+	}
 	std::cout << "----------------------------------------------------------------" << std::endl;
 }
 
