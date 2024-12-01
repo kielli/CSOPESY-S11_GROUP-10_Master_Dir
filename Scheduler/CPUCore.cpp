@@ -1,5 +1,7 @@
 #include "CPUCore.h"
 
+using namespace std;
+
 int CPUCore::nextCPUCoreID = 0;
 
 CPUCore::CPUCore()
@@ -8,11 +10,11 @@ CPUCore::CPUCore()
 	CPUCore::nextCPUCoreID += 1;
 	
 
-	std::thread tickCPUThread(&CPUCore::run, this);
+	thread tickCPUThread(&CPUCore::run, this);
 	tickCPUThread.detach();
 }
 
-void CPUCore::assignProcess(std::shared_ptr<Process> process)
+void CPUCore::assignProcess(shared_ptr<Process> process)
 {
 	this->process = process;
 
@@ -24,57 +26,45 @@ void CPUCore::assignProcess(std::shared_ptr<Process> process)
 	}
 
 	//debugger:
-	//std::cout << "Process assigned to CPU Core " << this->cpuCoreID << std::endl;
-
+	//cout << "Process assigned to CPU Core " << this->cpuCoreID << endl;
 }
 
-int CPUCore::getCPUCoreID() const
-{
+int CPUCore::getCPUCoreID() const {
 	return this->cpuCoreID;
 }
 
-String CPUCore::getProcessName() const
-{
+String CPUCore::getProcessName() const {
 	return this->process->getName();
 }
 
-int CPUCore::getCommandCounter() const
-{
+int CPUCore::getCommandCounter() const {
 	return this->process->getCommandCounter();
 }
 
-int CPUCore::getLinesOfCode() const
-{
+int CPUCore::getLinesOfCode() const {
 	return this->process->getLinesOfCode();
 }
 
-std::tm CPUCore::getArrivalTime() const
-{
+tm CPUCore::getArrivalTime() const {
 	return this->process->getArrivalTime();
 }
 
-std::shared_ptr<Process> CPUCore::getProcess() const
-{
+shared_ptr<Process> CPUCore::getProcess() const {
 	return this->process;
 }
 
-void CPUCore::stop()
-{
+
+void CPUCore::stop() {
 	this->stopFlag = true;
 }
 
-bool CPUCore::isAvailable() const
-{
+bool CPUCore::isAvailable() const {
 	return this->availableFlag;
 }
 
-void CPUCore::setAvailable(bool available)
-{
+void CPUCore::setAvailable(bool available) {
 	this->availableFlag = available;
 }
-
-
-
 
 void CPUCore::run()
 {

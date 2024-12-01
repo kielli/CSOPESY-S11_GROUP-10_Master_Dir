@@ -244,7 +244,7 @@ void MainConsole::executeScreenSwitchCommand(String command) const
 	else {
 		int newPID = ConsoleManager::getInstance()->getProcessTableSize() + 1;
 
-		std::shared_ptr<Process> newProcess = std::make_shared<Process>(newPID, processName, 0, GlobalConfig::getInstance()->getMemPerProcess());
+		std::shared_ptr<Process> newProcess = std::make_shared<Process>(newPID, processName, 0);
 		std::shared_ptr<BaseScreen> newScreen = std::make_shared<BaseScreen>(newProcess, processName);
 
 		ConsoleManager::getInstance()->addProcess(newProcess);
@@ -296,7 +296,7 @@ void MainConsole::executeSchedulerTestCommand()
 
 		while (this->isStopSchedulerTest == false) {
 			if (cpuCycleCounter % batchProcessFreq == 0) {
-				std::shared_ptr<Process> newProcess = Scheduler::getInstance()->createUniqueProcess("");
+				std::shared_ptr<Process> newProcess = Scheduler::getInstance()->createUniqueProcess();
 
 				String processName = newProcess->getName();
 				if (ConsoleManager::getInstance()->findExistingProcess(processName)) {
@@ -367,18 +367,24 @@ void MainConsole::executeMarqueeConsoleCommand() const
 // added
 void MainConsole::displayMainProcessSmi()
 {
+	size_t memTotal = GlobalConfig::getInstance()->getMaxOverallMem();
+	size_t memUsed = MemoryManager::getInstance()->currentMemAllocated();
+	size_t memUtil = (memTotal - memUtil) / memTotal * 100;
+	std::vector<std::shared_ptr<Process>> memProcessList = MemoryManager::getInstance()->getProcessList();
+
 	std::cout << "\n---------------------------------------------------------------" << std::endl;
 	std::cout << "| PROCESS-SMI v01.00                 Driver Version: 01.00    |" << std::endl;
 	std::cout << "---------------------------------------------------------------" << std::endl;
-	std::cout << "CPU-Util: " << std::endl;
-	std::cout << "Memory Usage: " << std::endl;
-	std::cout << "Memory-Util: " << std::endl;
+	std::cout << "CPU-Util: 100%" << std::endl;
+	//cout << "Memory Usage: " << memUsed << endl;
+	//cout << "Memory-Util: "<< memUtil << endl;
 	std::cout << "\n";
 	std::cout << "================================================================" << std::endl;
 	std::cout << "Running processes and memory usage : " << std::endl;
 	std::cout << "----------------------------------------------------------------" << std::endl;
-	std::cout << "process-name-holder \tmemory-usage-holder" << std::endl;
-	std::cout << "process-name-holder \tmemory-usage-holder" << std::endl;
+	//for(shared_ptr<Process> process : memProcessList){
+	//	cout << process->getName() << " : " << process->getMemoryRequired() << endl;
+	//}
 	std::cout << "----------------------------------------------------------------" << std::endl;
 }
 

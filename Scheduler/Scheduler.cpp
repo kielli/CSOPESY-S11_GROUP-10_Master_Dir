@@ -201,9 +201,9 @@ void Scheduler::runFCFSScheduler(int delay)
 
 		for (int i = 0; i < this->cpuCoreList.size(); i++) {
 			std::shared_ptr<CPUCore> cpuCore = this->cpuCoreList[i];
-
-			if (cpuCore->isAvailable()) {
-				if (!this->readyQueue.empty()) {
+			if (!this->readyQueue.empty()) {
+				MemoryManager::getInstance()->addProcessToMemory(this->readyQueue.front());
+				if (cpuCore->isAvailable() && this->readyQueue.front()->getMemoryStatus()) {
 					std::shared_ptr<Process> process = this->readyQueue.front();
 					this->readyQueue.erase(this->readyQueue.begin());
 
@@ -217,7 +217,7 @@ void Scheduler::runFCFSScheduler(int delay)
 					}*/
 				}
 			}
-
+//MemoryManager::getInstance()->addProcessToMemory(this->readyQueue.front());
 
 
 			/*if (this->readyQueue.size() > 0) {
@@ -252,23 +252,19 @@ void Scheduler::runRoundRobinScheduler(int delay, int quantum)
     while(this->isRunning) {
 		for (int i = 0; i < this->cpuCoreList.size(); i++) {
 			std::shared_ptr<CPUCore> cpuCore = this->cpuCoreList[i];
-
-			if (cpuCore->isAvailable()) {
-				if (!this->readyQueue.empty()) {
+			if (!this->readyQueue.empty()) {
+				MemoryManager::getInstance()->addProcessToMemory(this->readyQueue.front());
+				if (cpuCore->isAvailable() && this->readyQueue.front()->getMemoryStatus()) {
 					std::shared_ptr<Process> process = this->readyQueue.front();
 					this->readyQueue.erase(this->readyQueue.begin());
-
 					cpuCore->assignProcess(process);
 
 					if(cpuCore->getProcess()->getState() == Process::ProcessState::WAITING) {
 						cpuCore->getProcess()->setCPUCoreID(-1);
 						this->readyQueue.push_back(process);
 					}
-
-
 				}
 			}
-			
 		}
 	}
 }

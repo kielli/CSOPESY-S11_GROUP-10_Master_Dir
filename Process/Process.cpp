@@ -1,104 +1,122 @@
 #include "Process.h"
 #include "Process.h"
+#include <cmath>
 
-
+using namespace std;
 
 Process::Process(int pid, String name, int totalLines)
 {
 	this->pid = pid;
 	this->name = name;
 	this->totalLines = totalLines;
-	
 	this->generateArrivalTime();
-
 	this->commandCounter = 0;
 	this->currentState = ProcessState::READY;
+	this->memoryStatus = false;
 }
 
 void Process::manualAddCommand(String command)
 {
 	String toPrint = command;
-	const std::shared_ptr<ICommand> print = std::make_shared<PrintCommand>(this->pid, toPrint);
+	const shared_ptr<ICommand> print = make_shared<PrintCommand>(this->pid, toPrint);
 	this->commandList.push_back(print);
 }
 
 void Process::addCommand(ICommand::CommandType commandType)
 {
 	if (commandType == ICommand::PRINT) {
-		String toPrint = "Hello, World! From Process " + std::to_string(this->pid); // Debug output
-		const std::shared_ptr<ICommand> print = std::make_shared<PrintCommand>(this->pid, toPrint);
+		String toPrint = "Hello, World! From Process " + to_string(this->pid); // Debug output
+		const shared_ptr<ICommand> print = make_shared<PrintCommand>(this->pid, toPrint);
 		this->commandList.push_back(print);
 	}
 }
 
-void Process::executeCurrentCommand() const
-{
+void Process::executeCurrentCommand() const {
 	this->commandList[this->commandCounter]->execute();
 }
 
+void Process::initializeMemory(size_t memset){
+	this->memoryRequired = memset;
+	this->framesRequired = ceil(memset / GlobalConfig::getInstance()->getMemPerFrame());
+	this->memBaseAddress = 0;
+}
+
+void Process::setMemoryStatus(bool status) {
+	this->memoryStatus = status;
+}
+
+bool Process::getMemoryStatus() const{
+	return this->memoryStatus;
+}
+
 void Process::moveToNextLine() {
-    std::lock_guard<std::mutex> lock(this->processMutex); // Add a mutex to Process class
+    String sched = GlobalConfig::getInstance()->getScheduler();
+    int quantum = GlobalConfig::getInstance()->getQuantumCycles();
+    int elapsedTime = 0;
+
     if (this->commandCounter < this->commandList.size()) {
-        this->commandCounter++;
+        if (sched == "rr") {
+            while (elapsedTime < quantum) {
+                this->commandCounter++;
+                elapsedTime++;
+            }
+        }
+        else {
+            this->commandCounter++;
+        }
     }
 }
 
-bool Process::isFinished() const
-{
+bool Process::isFinished() const {
 	return this->commandCounter >= this->commandList.size();
 }
 
-int Process::getRemainingTime() const
-{
+int Process::getRemainingTime() const {
 	return this->commandCounter == this->commandList.size();
 }
 
-int Process::getCommandCounter() const
-{
+int Process::getCommandCounter() const {
 	return this->commandCounter;
 }
 
-int Process::getLinesOfCode() const
-{
+int Process::getLinesOfCode() const {
 	return this->commandList.size();
 }
 
-int Process::getPID() const
-{
+int Process::getPID() const {
 	return this->pid;
 }
 
-int Process::getCPUCoreID() const
-{
+int Process::getCPUCoreID() const {
 	return this->cpuCoreID;
 }
 
-Process::ProcessState Process::getState() const
-{
+Process::ProcessState Process::getState() const {
 	return this->currentState;
 }
 
-String Process::getName() const
-{
+String Process::getName() const {
 	return this->name;
 }
 
-std::tm Process::getArrivalTime() const
-{
+tm Process::getArrivalTime() const {
 	return this->localArrivalTime;
 }
 
-String Process::getFormattedArrivalTime() const
-{
+String Process::getFormattedArrivalTime() const {
 	char buffer[64]; // Buffer for formatted time
-	std::strftime(buffer, sizeof(buffer), "%m/%d/%Y, %I:%M:%S %p", &localArrivalTime);
+	strftime(buffer, sizeof(buffer), "%m/%d/%Y, %I:%M:%S %p", &localArrivalTime);
 	return String(buffer);
+}
+
+char* Process::getMemBaseAddress() const {
+	return this->memBaseAddress;
 }
 
 void Process::generateArrivalTime()
 {
-	auto now = std::chrono::system_clock::now();
-	auto currentTime = std::chrono::system_clock::to_time_t(now);
+	auto now = chrono::system_clock::now();
+	auto currentTime = chrono::system_clock::to_time_t(now);
 	localtime_s(&localArrivalTime, &currentTime); // Store the arrival time
 }
 
@@ -109,7 +127,18 @@ void Process::generateCommands()
 	}
 }
 
-void Process::setCPUCoreID(int cpuCoreID)
-{
+void Process::setCPUCoreID(int cpuCoreID) {
 	this->cpuCoreID = cpuCoreID;
+}
+
+size_t Process::getMemoryRequired() const {
+	return this->memoryRequired;
+}
+
+size_t Process::getFramesRequired() const {
+	return this->framesRequired;
+}
+
+void Process::setMemBaseAddress(char* address){
+	this->memBaseAddress = address;
 }

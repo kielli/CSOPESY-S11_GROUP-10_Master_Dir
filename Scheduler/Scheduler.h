@@ -9,6 +9,7 @@
 #include "../Process/Process.h"
 #include "../Config/GlobalConfig.h"
 #include "../Console/ConsoleManager.h"
+#include "../Memory/MemoryManager.h"
 
 
 class Scheduler
